@@ -1,0 +1,41 @@
+.header {
+  background-color: black;
+  color: #FFFFFF;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  &-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 80px;
+  }
+  &-box {
+    width: 617px;
+  }
+  &-logo {
+    margin-right: 63px;
+    line-height: 0;
+  }
+}
+
+.nav {
+  width: 526px;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  &-link {
+    text-decoration: none;
+    color: #FFFFFF;
+  }
+}
+
+h1 {
+  display: none;
+}
