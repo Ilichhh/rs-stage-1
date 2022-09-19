@@ -1,0 +1,32 @@
+@use '../abstracts/variables' as *;
+
+.pet-card {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  background: $default-state-gradient;
+  border-radius: 5px;
+  &__photo {
+    margin: 0;
+    padding: 0;
+  }
+  &__descr {
+    margin-top: -4px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px 12px;
+    background: #fff;
+  }
+  &__header {
+    margin: 0;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    text-transform: uppercase;
+  }
+  &__subheader {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 120%;
+  }
+}

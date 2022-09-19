@@ -1,0 +1,35 @@
+@use '../abstracts/variables' as *;
+@use '../components/buttons' as *;
+@use '../components/pet-card' as *;
+
+.pets {
+  &__slider {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+  }
+
+  .container {
+    padding: 100px 0;
+  }
+  .button {
+    display: block;
+    margin: 0 auto;
+  }
+  .arrow-button {
+    position: absolute;
+  }
+  .prev {
+    left: -82px;
+    top: 511px;
+  }
+  .next {
+    right: -82px;
+    top: 511px;
+  }
+}

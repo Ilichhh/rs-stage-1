@@ -1,17 +1,25 @@
 @use '../abstracts/variables' as *;
 
 .button {
-  display: block;
-  width: 298px;
-  height: 54px;
   background: $default-state-gradient;
   text-transform: uppercase;
   color: #fff;
   border: 0px;
-  border-radius: 25px;
   font-size: 16px;
   cursor: pointer;
   &:hover {
     background: $hover-state-color;
   }
+}
+
+.section-button {
+  width: 298px;
+  height: 54px;
+  border-radius: 25px;
+}
+
+.arrow-button {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
 }
