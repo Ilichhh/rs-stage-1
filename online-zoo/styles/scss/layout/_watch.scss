@@ -1,0 +1,49 @@
+@use '../abstracts/variables' as *;
+@use '../components/buttons' as *;
+
+.watch {
+  margin: -80px auto 0;
+  width: 1600px;
+  height: 780px;
+  background: url("../../assets/images/Giant_Panda.jpg") center center/cover no-repeat;
+  &__header {
+    position: relative;
+    right: 0;
+    top: -90px;
+    left: calc(50% - 500.31px/2 + 330.15px);
+    width: 500px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 107px;
+    line-height: 75%;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    z-index: 1;
+    span {
+      color: $yellow-color;
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      top: -74px;
+      right: 108px;
+      display: block;
+      width: 465px;
+      height: 465px;
+      border-radius: 50%;
+      background: $default-state-gradient;
+      z-index: -1;
+    }
+  }
+  .container {
+    height: 780px;
+    padding-top: 166px;
+  }
+}
+
+.button {
+  margin-top: -120px;
+  margin-left: calc(50% - 298px/2 + 332px);
+}

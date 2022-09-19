@@ -1,0 +1,20 @@
+@use '../abstracts/variables' as *;
+
+.button {
+  display: block;
+  width: 298px;
+  height: 54px;
+  background: $default-state-gradient;
+  text-transform: uppercase;
+  color: #fff;
+  border: 0px;
+  border-radius: 25px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    background: $hover-state-color;
+  }
+}
