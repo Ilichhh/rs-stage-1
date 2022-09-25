@@ -1,0 +1,59 @@
+@use '../abstracts/variables' as *;
+
+.testimonial-card {
+  padding: 15px 15px 19px 16px;
+  background-color: $light-gray-color;
+  border-radius: 18px;
+  &__border {
+    width: 268px;
+    height: 391px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: $pink-gradient-color;
+    border-radius: 20px;
+  }
+  &__header {
+    height: 37px;
+    margin-bottom: 11px;
+    display: flex;
+  }
+  &__icon {
+    margin-right: 10px;
+  }
+  &__name {
+    color: black;
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+  }
+  &__location, &__time {
+    color: #BDBDBD;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 120%;
+  }
+  &__location {
+    position: relative;
+    margin-right: 16px;
+    &::after {
+      content:"\A";
+      position: absolute;
+      top: 8px;
+      right: -12px;
+      width:3px;
+      height:3px;
+      border-radius:50%;
+      background: #BDBDBD;
+      display:inline-block;
+    }
+  }
+  &__content {
+    margin: 0;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 120%;
+  }
+}
