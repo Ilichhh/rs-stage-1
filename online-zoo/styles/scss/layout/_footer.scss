@@ -4,6 +4,7 @@
 .footer {
   background-color: #111115;
   &__wrapper-center {
+    margin-left: 60px;
     width: 362px;
     .menu {
       width: 100%;
@@ -23,9 +24,9 @@
       margin-bottom: 68px;
       width: 82px;
     }
-  }
-  .section-rectangular-button {
-    margin-bottom: 44px;
+    .section-rectangular-button {
+      margin-bottom: 54px;
+    }
   }
 }
 
@@ -35,7 +36,7 @@
   margin: 0;
   margin-left: 38px;
   &__element {
-    margin-bottom: 20px;
+    margin-bottom: 17px;
     width: 226px;
     &:last-child {
       margin-bottom: 0;
@@ -86,6 +87,7 @@
     width: 228px;
     height: 42px;
     margin-right: 10px;
+    padding-left: 10px;
     border: 1px solid $hover-state-color;
     border-radius: 2px;
     color: #BDBDBD;
@@ -100,7 +102,7 @@
     display: inline-block;
     width: 129px;
     height: 42px;
-    margin-bottom: 216px;
+    margin-bottom: 205px;
     border: 1px solid $mistake-color;
     border-radius: 5px;
     color: $mistake-color;
@@ -117,4 +119,5 @@
   font-weight: 100;
   font-size: 16px;
   line-height: 130%;
+  opacity: .5;
 }

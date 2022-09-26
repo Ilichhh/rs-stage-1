@@ -25,6 +25,9 @@
     text-align: center;
     color: #FE9013;
   }
+  &__donate-header {
+    margin-bottom: 20px;
+  }
   &__subheader {
     text-align: center;
     font-weight: 400;
@@ -36,6 +39,10 @@
     font-weight: 400;
     font-size: 24px;
     line-height: 120%;
+  }
+  &__donate-part1 {
+    margin-top: 0;
+    margin-bottom: 60px;
   }
   &__par2 {
     margin-bottom: 10px;
@@ -123,7 +130,7 @@
   }
   &__donate-descr {
     margin-top: 0;
-    margin-bottom: 40px;
+    margin-bottom: 46px;
     color: #fff;
     font-style: normal;
     font-weight: 400;
@@ -158,11 +165,12 @@
 .panda {
   display: flex;
   justify-content: space-between;
-  margin: 0 auto 80px;
+  margin: 0 auto 47px;
   width: 532px;
   &__descr-number {
-    margin-top: 110px;
+    margin-top: 105px;
     margin-bottom: 11px;
+    
     color: #000;
     font-style: normal;
     font-weight: 500;
@@ -171,6 +179,7 @@
     text-align: center;
   }
   &__descr-text {
+    margin-left: -10px;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -179,6 +188,9 @@
   }
   &__descr {
     position: relative;
+  }
+  &__image {
+    margin-right: 8px;
   }
   &__cross {
     position: absolute;
@@ -207,7 +219,7 @@
 .amount {
   margin-bottom: 30px;
   &__header {
-    margin-bottom: 10px;
+    margin-bottom: 17px;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -247,7 +259,7 @@
   }
   &__another-input {
     display: block;
-    margin: 25px auto 25px;
+    margin: 34px auto 25px;
     width: 268px;
     height: 54px;
     padding: 9px;
@@ -277,7 +289,7 @@
   &__regularity {
     display: flex;
     justify-content: space-between;
-    width: 197px;
+    width: 170px;
     margin: 0 auto;
   }
   &__regularity-choice {
@@ -288,22 +300,22 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 140%;
-    // input {
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   height: 25px;
-    //   width: 25px;
-    //   opacity: 0.1;
-    //   cursor: pointer;
-    //   z-index: 10;
-    //   &:checked {
-    //     background-color: #FE9013;
-    //     .amount__regularity-choice {
-    //       background-color: #FE9013;
-    //     }
-    //   }
-    // }
+    input {
+      position: absolute;
+      top: 2px;
+      left: -22px;
+      height: 16px;
+      width: 16px;
+      opacity: 0.3;
+      cursor: pointer;
+      // z-index: 10;
+      // &:checked {
+      //   background-color: #FE9013;
+      //   .amount__regularity-choice {
+      //     background-color: #FE9013;
+      //   }
+      // }
+    }
   }
 }
 

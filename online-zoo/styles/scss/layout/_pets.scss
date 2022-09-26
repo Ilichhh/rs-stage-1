@@ -16,7 +16,7 @@
   }
 
   .container {
-    padding: 100px 0;
+    padding: 94px 0 100px;
   }
   .button {
     display: block;
@@ -27,11 +27,11 @@
   }
   .prev {
     left: -82px;
-    top: 511px;
+    top: 496px;
   }
   .next {
     right: -82px;
-    top: 511px;
+    top: 496px;
   }
   &::after {
     content: '';
