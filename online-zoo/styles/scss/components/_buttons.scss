@@ -1,0 +1,43 @@
+@use '../abstracts/variables' as *;
+
+.button {
+  background-image: $default-state-gradient;
+  text-transform: uppercase;
+  color: #fff;
+  border: 0px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+  background-size: 150% 100%;
+  &:hover {
+    background-image: linear-gradient(to right, $hover-state-color, $hover-state-color);
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background: linear-gradient(to right, $active-state-color, $active-state-color);
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
+}
+}
+
+.section-button {
+  width: 298px;
+  height: 54px;
+  border-radius: 25px;
+}
+
+.section-rectangular-button {
+  width: 298px;
+  height: 54px;
+  border-radius: 5px;
+}
+
+.arrow-button {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+}

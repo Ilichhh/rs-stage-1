@@ -1,0 +1,56 @@
+@use '../abstracts/variables' as *;
+@use '../components/buttons' as *;
+@use '../components/pet-card' as *;
+
+.pets {
+  position: relative;
+  &__slider {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+  }
+
+  .container {
+    padding: 94px 0 100px;
+  }
+  .button {
+    display: block;
+    margin: 0 auto;
+  }
+  .arrow-button {
+    position: absolute;
+  }
+  .prev {
+    left: -82px;
+    top: 496px;
+  }
+  .next {
+    right: -82px;
+    top: 496px;
+  }
+  &::after {
+    content: '';
+    width: 203px;
+    height: 460px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: url('../../assets/images/palm_foto.jpg');
+    background-repeat: no-repeat;
+  }
+  &::before {
+    content: '';
+    width: 368px;
+    height: 275px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-image: url('../../assets/images/strelitzia1.jpg');
+    background-repeat: no-repeat;
+  }
+}

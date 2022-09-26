@@ -1,0 +1,127 @@
+@use '../abstracts/variables' as *;
+@use '../components/buttons' as *;
+
+.footer {
+  background-color: #111115;
+  &__wrapper-center {
+    margin-left: 60px;
+    width: 362px;
+    .menu {
+      width: 100%;
+    }
+  }
+  .container {
+    padding-top: 41px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  &__wrapper-left {
+    .logo {
+      display: block;
+      margin-right: 0;
+      margin-bottom: 68px;
+      width: 82px;
+    }
+    .section-rectangular-button {
+      margin-bottom: 54px;
+    }
+  }
+}
+
+.social {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  margin-left: 38px;
+  &__element {
+    margin-bottom: 17px;
+    width: 226px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &__logo {
+    position: absolute;
+    left: -38px;
+    top: -5px;
+    margin-right: 12px;
+    border-radius: 50%;
+    transition: .2s;
+  }
+  &__link {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    transition: .2s;
+    &:hover {
+      color: $active-state-color;
+      .social__logo {
+        background-color: $active-state-color;
+      }
+      .circle {
+        fill: $active-state-color;
+      }
+    }
+  }
+}
+
+.subscribe {
+  width: 367px;
+  display: flex;
+  &__label {
+    display: inline-block;
+    margin-bottom: 14px;
+    color: #fff;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 120%;
+  }
+  &__input {
+    display: inline-block;
+    width: 228px;
+    height: 42px;
+    margin-right: 10px;
+    padding-left: 10px;
+    border: 1px solid $hover-state-color;
+    border-radius: 2px;
+    color: #BDBDBD;
+    background-color: #111115;
+    transition: .2s;
+    &:focus {
+      outline: none !important;
+      border-color: $active-state-color;
+    }
+  }
+  &__button {
+    display: inline-block;
+    width: 129px;
+    height: 42px;
+    margin-bottom: 205px;
+    border: 1px solid $mistake-color;
+    border-radius: 5px;
+    color: $mistake-color;
+    background-color: $light-gray-color;
+    cursor: pointer;
+    transition: .2s;
+    &:active {
+      color: $active-state-color;
+    }
+  }
+}
+
+.copyright {
+  margin-top: 10px;
+  margin-left: 139px;
+  color: #fff;
+  font-style: normal;
+  font-weight: 100;
+  font-size: 16px;
+  line-height: 130%;
+  opacity: .5;
+}

@@ -1,0 +1,46 @@
+@use '../abstracts/variables' as *;
+
+.backstage {
+  padding: 140px 0 80px;
+  position: relative;
+  background-color: #fff;
+  color: $black-blue-color;
+  &__description {
+    width: 465px;
+  }
+  &__header {
+    margin: 0;
+    margin-bottom: 20px;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 120%;
+  }
+  &__subheader {
+    margin-top: 54px;
+    margin-bottom: 34px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 120%;
+  }
+
+  p {
+    line-height: 140%;
+    margin: 0px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items:flex-start;
+  }
+  &::before {
+    content: '';
+    width: 203px;
+    height: 605px;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    background-image: url('../../assets/images/flower_foto1.jpg');
+    background-repeat: no-repeat;
+  }
+}
