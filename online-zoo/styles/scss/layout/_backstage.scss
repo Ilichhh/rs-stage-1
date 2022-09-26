@@ -2,6 +2,7 @@
 
 .backstage {
   padding: 140px 0 80px;
+  position: relative;
   background-color: #fff;
   color: $black-blue-color;
   &__description {
@@ -24,11 +25,22 @@
 
   p {
     line-height: 140%;
+    margin: 0px;
   }
 
   .container {
     display: flex;
     justify-content: space-between;
     align-items:flex-start;
+  }
+  &::before {
+    content: '';
+    width: 203px;
+    height: 605px;
+    position: absolute;
+    right: 0;
+    top: 15px;
+    background-image: url('../../assets/images/flower_foto1.jpg');
+    background-repeat: no-repeat;
   }
 }

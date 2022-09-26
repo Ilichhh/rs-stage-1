@@ -5,6 +5,9 @@
   background-color: #111115;
   &__wrapper-center {
     width: 362px;
+    .menu {
+      width: 100%;
+    }
   }
   .container {
     padding-top: 41px;
@@ -13,10 +16,13 @@
     justify-content: space-between;
     align-items: flex-end;
   }
-  .header__logo {
-
-    margin-bottom: 68px;
-
+  &__wrapper-left {
+    .logo {
+      display: block;
+      margin-right: 0;
+      margin-bottom: 68px;
+      width: 82px;
+    }
   }
   .section-rectangular-button {
     margin-bottom: 44px;
@@ -24,34 +30,41 @@
 }
 
 .social {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  margin-left: 38px;
   &__element {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     width: 226px;
-    height: 26px;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
   &__logo {
+    position: absolute;
+    left: -38px;
+    top: -5px;
     margin-right: 12px;
+    border-radius: 50%;
+    transition: .2s;
   }
   &__link {
-
     position: relative;
     color: #fff;
     text-decoration: none;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 140%;
-    &::before {
-      content: '';
-      position: absolute;
-      top: -6px;
-      left: -6px;
-      display: block;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: #C4C4C4;
-      opacity: .5;
+    transition: .2s;
+    &:hover {
+      color: $active-state-color;
+      .social__logo {
+        background-color: $active-state-color;
+      }
+      .circle {
+        fill: $active-state-color;
+      }
     }
   }
 }
@@ -73,9 +86,15 @@
     width: 228px;
     height: 42px;
     margin-right: 10px;
+    border: 1px solid $hover-state-color;
     border-radius: 2px;
     color: #BDBDBD;
     background-color: #111115;
+    transition: .2s;
+    &:focus {
+      outline: none !important;
+      border-color: $active-state-color;
+    }
   }
   &__button {
     display: inline-block;
@@ -86,6 +105,7 @@
     border-radius: 5px;
     color: $mistake-color;
     background-color: $light-gray-color;
+    cursor: pointer;
   }
 }
 

@@ -3,6 +3,7 @@
 @use '../components/pet-card' as *;
 
 .pets {
+  position: relative;
   &__slider {
     display: flex;
     justify-content: space-between;
@@ -31,5 +32,25 @@
   .next {
     right: -82px;
     top: 511px;
+  }
+  &::after {
+    content: '';
+    width: 203px;
+    height: 460px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: url('../../assets/images/palm_foto.jpg');
+    background-repeat: no-repeat;
+  }
+  &::before {
+    content: '';
+    width: 368px;
+    height: 275px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-image: url('../../assets/images/strelitzia1.jpg');
+    background-repeat: no-repeat;
   }
 }

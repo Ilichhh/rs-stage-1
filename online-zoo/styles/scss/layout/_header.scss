@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 .header {
   position: relative;
   background-color: black;
@@ -6,6 +8,7 @@
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
+  z-index: 100;
   &__container {
     display: flex;
     justify-content: flex-start;
@@ -15,17 +18,39 @@
   &__box {
     width: 617px;
   }
-  &__logo {
-    margin-right: 63px;
-    line-height: 0;
+}
+
+.logo {
+  position: relative;
+  width: 92px;
+  height: 52px;
+  margin-right: 63px;
+  padding-top: 2px;
+  border: 1px solid white;
+  border-radius: 2px;
+  text-decoration: none;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19.0145px;
+  line-height: 120%;
+  text-align: center;
+  &::after {
+    content: url('../../assets/icons/bamboo.svg');
+    position: absolute;
+    top: 22px;
+    left: 9px;
   }
 }
 
 .nav {
-  width: 526px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .menu {
+  width: 472px;
   display: flex;
   justify-content: space-between;
   list-style-type: none;
@@ -34,6 +59,15 @@
   &__link {
     text-decoration: none;
     color: #FFFFFF;
+    transition: .2s;
+    &:hover {
+      color: $hover-state-color;
+    }
+  }
+  &__item:first-child .menu__link {
+    background: $default-state-gradient;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 

@@ -1,15 +1,27 @@
 @use '../abstracts/variables' as *;
 
 .button {
-  background: $default-state-gradient;
+  background-image: $default-state-gradient;
   text-transform: uppercase;
   color: #fff;
   border: 0px;
   font-size: 16px;
   cursor: pointer;
+  transition: all .2s ease-in-out;
+  background-size: 150% 100%;
   &:hover {
-    background: $hover-state-color;
+    background-image: $hover-state-color;
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
   }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background: $active-state-color;
+    background-position: 100% 0;
+    transition: all .2s ease-in-out;
+}
 }
 
 .section-button {

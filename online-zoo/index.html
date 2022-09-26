@@ -12,18 +12,16 @@
   <header class="header">
     <div class="container header__container">
       <h1>PetStory Online</h1>
-      <div class="header__logo">
-        <a href="#"><img src="assets/icons/logo_footer.png" alt="PetStory Online"></a>
-      </div>
+      <a  href="index.html" class="logo">PetStory online</a>
       <nav class="nav">
         <ul class="menu">
-          <li class="menu__item"><a href="#" class="menu__link">About</a></li>
+          <li class="menu__item"><a href="index.html" class="menu__link">About</a></li>
           <li class="menu__item"><a href="#" class="menu__link">Map</a></li>
           <li class="menu__item"><a href="#" class="menu__link">Zoos</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Donate</a></li>
+          <li class="menu__item"><a href="donate.html" class="menu__link">Donate</a></li>
           <li class="menu__item"><a href="#" class="menu__link">Contact us</a></li>
-          <li class="menu__item"><a href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online" class="menu__link">Designed by ©</a></li>
         </ul>
+        <div class="menu__item"><a href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online" class="menu__link">Designed by ©</a></div>
       </nav>
     </div>
   </header>
@@ -62,6 +60,7 @@
                 </div>
                 <img src="assets/icons/banana-bamboo_icon.svg" alt="banana-bamboo" class="pet-card__food">
               </div>
+              <div class="pet-card__hover"></div>
             </div>
             <div class="pet-card">
               <img src="assets/images/foto-card2-eagle.jpg" alt="Eagles" class="pet-card__photo">
@@ -72,6 +71,7 @@
                 </div>
                 <img src="assets/icons/meet-fish_icon.svg" alt="meet-fish" class="pet-card__food">
               </div>
+              <div class="pet-card__hover"></div>
             </div>
             <div class="pet-card">
               <img src="assets/images/foto-card3-gorilla.jpg" alt="Gorillas" class="pet-card__photo">
@@ -82,6 +82,7 @@
                 </div>
                 <img src="assets/icons/banana-bamboo_icon.svg" alt="banana-bamboo" class="pet-card__food">
               </div>
+              <div class="pet-card__hover"></div>
             </div>
             <div class="pet-card">
               <img src="assets/images/foto-card5-sloth.jpg" alt="Two-toed Sloth" class="pet-card__photo">
@@ -92,6 +93,7 @@
                 </div>
                 <img src="assets/icons/banana-bamboo_icon.svg" alt="banana-bamboo" class="pet-card__food">
               </div>
+              <div class="pet-card__hover"></div>
             </div>
             <div class="pet-card">
               <img src="assets/images/foto-card6-cheetah.jpg" alt="cheetahs" class="pet-card__photo">
@@ -102,6 +104,7 @@
                 </div>
                 <img src="assets/icons/meet-fish_icon.svg" alt="meet-fish" class="pet-card__food">
               </div>
+              <div class="pet-card__hover"></div>
             </div>
             <div class="pet-card">
               <img src="assets/images/foto-card7-penguin.jpg" alt="Penguins" class="pet-card__photo">
@@ -112,6 +115,7 @@
                 </div>
                 <img src="assets/icons/meet-fish_icon.svg" alt="meet-fish" class="pet-card__food">
               </div>
+              <div class="pet-card__hover"></div>
             </div>
           </div>
           <button class="button arrow-button next"><img src="assets/icons/next-arrow.svg" alt="next"></button>
@@ -126,7 +130,7 @@
           <h2 class="feed__header">Pick and feed a friend</h2>
           <p class="feed__par1">We know the animals bring you joy, and in these extraordinary times, we’re glad.</p>
           <p class="feed__par2">During a time when the COVID-19 epidemic is touching all of our lives, we’re proud and glad that people around the world find joy in PatStory.</p>
-          <p class="feed__par3">Even though the zoo has reopened, we need you now more than ever to help us deal with these problems. Please consider<br> a gift to our <a href="#">Emergency Support Fund</a> .</p>
+          <p class="feed__par3">Even though the zoo has reopened, we need you now more than ever to help us deal with these problems. Please consider<br> a gift to our <a href="donate.html">Emergency Support Fund</a> .</p>
           <h3 class="feed__subheader">How it works</h3>
           <div class="feed__flow">
             <div class="feed__step">
@@ -154,7 +158,7 @@
               <div class="feed__descr">Your favourite animal gets delicious dish</div>
             </div>
           </div>
-          <button class="button section-button">Feed a friend now</button>
+          <button onclick="location.href='donate.html'" class="button section-button">Feed a friend now</button>
         </div>
       </div>
     </section>
@@ -240,10 +244,8 @@
   <footer class="footer">
     <div class="container">
       <div class="footer__wrapper-left">
-        <div class="header__logo">
-          <a href="#"><img src="assets/icons/logo_footer.png" alt="PetStory Online"></a>
-        </div>
-        <button class="button section-rectangular-button">donate for volunteers</button>
+        <a  href="index.html" class="logo">PetStory online</a>
+        <button onclick="location.href='donate.html'" class="button section-rectangular-button">donate for volunteers</button>
         <ul class="social">
           <li class="social__element">
             <a href="https://www.facebook.com/" class="social__link"><img src="assets/icons/fb.svg" alt="facebook" class="social__logo">Facebook</a>
@@ -270,7 +272,7 @@
       <div class="footer__wrapper-right">
         <label class="subscribe__label" for="name">Subscribe to our news:</label><br>
         <div class="subscribe">
-          <input class="subscribe__input" type="text" id="name" name="name" placeholder="Enter your email"><br>
+          <input required class="subscribe__input" type="email" id="email" pattern=".+@globex\.com" name="email" placeholder="Enter your email"><br>
           <button class="subscribe__button">Submit</button>
         </div>
         <div class="copyright">Designed by Alisa Samborskaya</div>
