@@ -108,6 +108,10 @@
     color: $mistake-color;
     background-color: $light-gray-color;
     cursor: pointer;
+    transition: .2s;
+    &:active {
+      color: $active-state-color;
+    }
   }
 }
 

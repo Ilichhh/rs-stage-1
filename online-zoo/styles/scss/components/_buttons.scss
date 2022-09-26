@@ -10,7 +10,7 @@
   transition: all .2s ease-in-out;
   background-size: 150% 100%;
   &:hover {
-    background-image: $hover-state-color;
+    background-image: linear-gradient(to right, $hover-state-color, $hover-state-color);
     background-position: 100% 0;
     transition: all .2s ease-in-out;
   }
@@ -18,7 +18,7 @@
     outline: none;
   }
   &:active {
-    background: $active-state-color;
+    background: linear-gradient(to right, $active-state-color, $active-state-color);
     background-position: 100% 0;
     transition: all .2s ease-in-out;
 }

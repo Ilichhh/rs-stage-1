@@ -64,7 +64,7 @@
       color: $hover-state-color;
     }
   }
-  &__item:first-child .menu__link {
+  &__link_active {
     background: $default-state-gradient;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
