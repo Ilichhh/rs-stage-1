@@ -279,6 +279,9 @@
       outline: none !important;
       border-color: $active-state-color;
     }
+    &:invalid {
+      border-color: $mistake-color;
+    }
     &:after {
       content: '$';
       top: -3px; 

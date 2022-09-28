@@ -95,7 +95,19 @@
     transition: .2s;
     &:focus {
       outline: none !important;
+      border-color: $mistake-color;
+      ~ .subscribe__button {
+        color: $mistake-color;
+        border-color: $mistake-color;
+      }
+    }
+    &:valid {
       border-color: $active-state-color;
+      ~ .subscribe__button {
+        color: $active-state-color;
+        border-color: $active-state-color;
+
+      }
     }
   }
   &__button {
@@ -103,9 +115,9 @@
     width: 129px;
     height: 42px;
     margin-bottom: 205px;
-    border: 1px solid $mistake-color;
+    border: 1px solid #000;
     border-radius: 5px;
-    color: $mistake-color;
+    color: #000;
     background-color: $light-gray-color;
     cursor: pointer;
     transition: .2s;
