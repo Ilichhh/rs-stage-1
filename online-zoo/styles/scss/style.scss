@@ -17,6 +17,9 @@ html {
 
 .container {
   position: relative;
-  width: 1160px;
+  max-width: 1160px;
   margin: 0 auto;
+  @media screen and (max-width: 1200px) {
+    max-width: 940px;
+  }
 }

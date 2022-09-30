@@ -3,9 +3,11 @@
 
 .watch {
   margin: -80px auto 0;
-  width: 1600px;
   height: 780px;
   background: url("../../assets/images/Giant_Panda.jpg") center center/cover no-repeat;
+  @media screen and (max-width: 1000px) {
+    height: 584px;
+  }
   &__header {
     position: relative;
     right: 0;
@@ -19,6 +21,11 @@
     text-transform: uppercase;
     color: #FFFFFF;
     z-index: 1;
+    @media screen and (max-width: 1000px) {
+      font-size: 85px;
+      top: -115px;
+      left: calc(50% - 500.31px/2 + 210.15px);
+    }
     span {
       color: $yellow-color;
     }
@@ -33,16 +40,25 @@
       border-radius: 50%;
       background: $default-state-gradient;
       z-index: -1;
+      @media screen and (max-width: 1000px) {
+        top: -56px;
+        right: 130px;
+        width: 367px;
+        height: 367px;
+      }
     }
   }
   .container {
     height: 780px;
     padding-top: 166px;
+    @media screen and (max-width: 1000px) {
+      height: 584px;
+    }
   }
   .button {
     display: block;
-    margin-top: -120px;
-    margin-left: calc(50% - 298px/2 + 332px);
+    margin-top: -143px;
+    margin-left: calc(50% - 298px/2 + 214px);
   }
 }
 

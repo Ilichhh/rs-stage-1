@@ -42,5 +42,8 @@
     top: 15px;
     background-image: url('../../assets/images/flower_foto1.jpg');
     background-repeat: no-repeat;
+    @media screen and (max-width: 1000px) {
+      display: none;
+    }
   }
 }
