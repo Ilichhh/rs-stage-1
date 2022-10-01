@@ -7,6 +7,9 @@
   color: $black-blue-color;
   &__description {
     width: 465px;
+    @media screen and (max-width: 1000px) {
+      width: 48.4%;
+    }
   }
   &__header {
     margin: 0;
@@ -21,6 +24,14 @@
     font-weight: 400;
     font-size: 24px;
     line-height: 120%;
+  }
+  &__photo {
+    height: 403px;
+    width: 52.5%;
+    background: url("../../assets/images/bamboo-cap.jpg") center center/cover no-repeat;
+    @media screen and (max-width: 1000px) {
+      width: 48.4%;
+    }
   }
 
   p {

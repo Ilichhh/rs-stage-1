@@ -3,13 +3,18 @@
 .pet-card {
   position: relative;
   margin-bottom: 20px;
+  width: calc(100% * (1/3) - 15px);
   overflow: hidden;
   border: 1px solid transparent;
   background: $default-state-gradient;
   border-radius: 5px;
+  @media screen and (max-width: 1000px) {
+    margin-bottom: 92px;
+  }
   &__photo {
     margin: 0;
     padding: 0;
+    width: 100%;
     transition: .3s;
   }
   &__descr {
@@ -58,6 +63,9 @@
       &__text {
         transform: translateY(-360px);
         color: #fff;
+        @media screen and (max-width: 1000px) {
+          transform: translateY(-290px);
+        }
       }
       &__food {
         transform: translateY(-50px);
