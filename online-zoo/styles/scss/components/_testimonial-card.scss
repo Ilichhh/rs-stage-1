@@ -2,8 +2,13 @@
 
 .testimonial-card {
   padding: 13px 15px 19px 16px;
+  width: 268px;
   background-color: $light-gray-color;
   border-radius: 18px;
+  @media screen and (max-width: 1000px) {
+    width: 293px;
+    height: 100%;
+  }
   &__border {
     width: 268px;
     height: 391px;
@@ -11,6 +16,9 @@
     border: 2px solid transparent;
     background: $pink-gradient-color;
     border-radius: 20px;
+    @media screen and (max-width: 1000px) {
+      width: 293px;
+    }
   }
   &__header {
     height: 37px;
