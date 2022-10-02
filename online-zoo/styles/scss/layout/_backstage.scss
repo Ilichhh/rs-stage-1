@@ -10,6 +10,9 @@
     @media screen and (max-width: 1000px) {
       width: 48.4%;
     }
+    @media screen and (max-width: 1000px) {
+      width: 495px;
+    }
   }
   &__header {
     margin: 0;
@@ -28,9 +31,13 @@
   &__photo {
     height: 403px;
     width: 52.5%;
+    margin-right: 31px;
     background: url("../../assets/images/bamboo-cap.jpg") center center/cover no-repeat;
     @media screen and (max-width: 1000px) {
       width: 48.4%;
+    }
+    @media screen and (max-width: 640px) {
+      display: none;
     }
   }
 
@@ -53,8 +60,16 @@
     top: 15px;
     background-image: url('../../assets/images/flower_foto1.jpg');
     background-repeat: no-repeat;
+    @media screen and (max-width: 1598px) {
+      width: calc(203px - (1598px - 100%));
+    }
     @media screen and (max-width: 1000px) {
       display: none;
+    }
+    @media screen and (max-width: 640px) {
+      display: block;
+      width: 203px;
+      right: -40px;
     }
   }
 }

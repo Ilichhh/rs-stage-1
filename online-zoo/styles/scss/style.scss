@@ -17,9 +17,19 @@ html {
 
 .container {
   position: relative;
-  max-width: 1160px;
+  width: 1160px;
+  max-width: calc(100% - 40px);
   margin: 0 auto;
+}
+
+.last-item {
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
+}
+
+.testimonial-card__last-item {
   @media screen and (max-width: 1200px) {
-    max-width: 940px;
+    display: none;
   }
 }

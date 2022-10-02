@@ -12,6 +12,9 @@
     @media screen and (max-width: 1000px) {
       padding: 30px 48px 50px;
     }
+    @media screen and (max-width: 640px) {
+      padding: 10px 20px 60px;
+    }
   }
   &__donate-wrapper {
     padding: 40px 92px 60px;
@@ -29,6 +32,9 @@
     color: #FE9013;
     @media screen and (max-width: 1000px) {
       margin-bottom: 20px;
+    }
+    @media screen and (max-width: 640px) {
+      font-size: 42px;
     }
   }
   &__donate-header {
@@ -48,6 +54,9 @@
     @media screen and (max-width: 1000px) {
       margin-bottom: 20px;
     }
+    @media screen and (max-width: 640px) {
+      font-size: 22px;
+    }
   }
   &__donate-part1 {
     margin-top: 0;
@@ -59,7 +68,7 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 130%;
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: 1200px) {
       width: 100%;
     }
   }
@@ -70,6 +79,9 @@
     line-height: 130%;
     @media screen and (max-width: 1000px) {
       margin-bottom: 40px;
+    }
+    @media screen and (max-width: 640px) {
+      margin-bottom: 30px;
     }
     a {
       position: relative;
@@ -90,7 +102,11 @@
     display: flex;
     justify-content: space-between;
     width: 764px;
+    max-width: 100%;
     margin: 0 auto 60px;
+    @media screen and (max-width: 640px) {
+      margin-bottom: 40px;
+    }
   }
   &__step {
     position: relative;
@@ -101,6 +117,18 @@
       top: 60px; 
       left: 200px;
       content: url('../../assets/icons/feed-flow-next-step.svg');
+      @media screen and (max-width: 880px) {
+        left: 171px;
+      }
+      @media screen and (max-width: 800px) {
+        top: -16px;
+        left: 162px;
+        content: url('../../assets/icons/feed-flow-next-step-mobile.svg');
+        z-index: 1;
+      }
+      @media screen and (max-width: 640px) {
+        left: 132px;
+      }
     }
   }
   &__picture-border {
@@ -131,6 +159,12 @@
     @media screen and (max-width: 1000px) {
       padding-top: 30px;
       padding-bottom: 50px;
+    }
+    @media screen and (max-width: 640px) {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      max-width: 640px;
+      width: 100%;
     }
   }
   .button {

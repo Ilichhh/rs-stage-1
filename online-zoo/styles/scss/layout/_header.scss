@@ -9,11 +9,21 @@
   font-weight: 500;
   font-size: 16px;
   z-index: 100;
+  @media screen and (max-width: 640px) {
+    height: 34px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+  }
   &__container {
+    position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     height: 80px;
+    @media screen and (max-width: 640px) {
+      height: 34px;
+    }
   }
   &__box {
     width: 617px;
@@ -36,10 +46,27 @@
   line-height: 120%;
   text-align: center;
   &::after {
-    content: url('../../assets/icons/bamboo.svg');
+    content: '';
+    background-image: url('../../assets/icons/bamboo.svg');
     position: absolute;
+    height: 20px;
+    width: 12px;
     top: 22px;
-    left: 9px;
+    left: 5px;
+  }
+}
+.header-logo {
+  @media screen and (max-width: 640px) {
+    border: none;
+    width: 47px;
+    height: 29px;
+    font-size: 12.2899px;
+    &::after {
+      position: absolute;
+      transform: scale(0.65);
+      top: 11px;
+      left: 1px;
+    }
   }
 }
 
@@ -47,6 +74,23 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 640px) {
+    position: fixed;
+    right: -100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    top: 0;
+    width: 100%;
+    height: 329px;
+    padding: 10px 10px 40px;
+    
+    background-color: #fff;
+    transition: 0.6s all;
+    &_active {
+      right: 0;
+    }
+  }
 }
 
 .menu {
@@ -56,12 +100,23 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  @media screen and (max-width: 1000px) {
+    width: 59%;
+  }
+  @media screen and (max-width: 640px) {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+  }
   &__link {
     text-decoration: none;
     color: #FFFFFF;
     transition: .2s;
     &:hover {
       color: $hover-state-color;
+    }
+    @media screen and (max-width: 640px) {
+      color: #333B41;
     }
   }
   &__link_active {
@@ -73,4 +128,41 @@
 
 h1 {
   display: none;
+}
+
+.hamburger {
+  display: none;
+  @media screen and (max-width: 640px) {
+    width: 59%;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 10px;
+    span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background-color: #fff;
+      margin-bottom: 2px;
+      transition: 0.6s all;
+    }
+    &_active {
+      span {
+        background: $default-state-gradient;
+        margin-bottom: -2px;
+        &:nth-child(1) {
+          transform: translateY(3px) rotate(-45deg);
+        }
+        &:nth-child(2) {
+          display: none;
+        }
+        &:nth-child(3) {
+          transform: translateY(3px) rotate(45deg);
+        }
+      }
+    }
+  }
 }

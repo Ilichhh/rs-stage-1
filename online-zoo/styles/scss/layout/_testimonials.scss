@@ -11,15 +11,27 @@
     font-weight: 400;
     font-size: 36px;
     line-height: 130%;
+    @media screen and (max-width: 960px) {
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
   }
   &__content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
     color: $gray-color;
+    @media screen and (max-width: 1200px) {
+      width: 940px;
+    }
     @media screen and (max-width: 1000px) {
-      width: 1250px;
+      width: 875px;
+    }
+    @media screen and (max-width: 960px) {
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 25px;
     }
   }
   &__scroll-border {
@@ -32,6 +44,10 @@
     @media screen and (max-width: 1000px) {
       margin-bottom: 52px;
     }
+    @media screen and (max-width: 960px) {
+      display: none;
+    }
+    
   }
   &__scroll {
     -webkit-appearance: none;
@@ -62,10 +78,28 @@
     bottom: 0;
     background-image: url('../../assets/images/leav_foto.jpg');
     background-repeat: no-repeat;
+    z-index: -1;
+    @media screen and (max-width: 960px) {
+      right: -60px;
+      bottom: -70px;
+      transform: scale(.5);
+    }
   }
   .container {
     padding-top: 110px;
     padding-bottom: 180px;
     overflow: hidden;
+    @media screen and (max-width: 960px) {
+      padding-top: 60px;
+      padding-bottom: 80px;
+    }
+  }
+
+  .button {
+    @media screen and (max-width: 640px) {
+      display: block;
+      margin: 0 auto;
+      width: 240px;
+    }
   }
 }

@@ -12,7 +12,7 @@
   <header class="header">
     <div class="container header__container">
       <h1>PetStory Online</h1>
-      <a  href="index.html" class="logo">PetStory online</a>
+      <a  href="index.html" class="logo header-logo">PetStory online</a>
       <nav class="nav">
         <ul class="menu">
           <li class="menu__item"><a href="index.html" class="menu__link menu__link_active">About</a></li>
@@ -23,6 +23,11 @@
         </ul>
         <div class="menu__item"><a href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online" class="menu__link">Designed by ©</a></div>
       </nav>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </header>
 
@@ -95,7 +100,7 @@
               </div>
               <div class="pet-card__hover"></div>
             </div>
-            <div class="pet-card">
+            <div class="pet-card last-item">
               <img src="assets/images/foto-card6-cheetah.jpg" alt="cheetahs" class="pet-card__photo">
               <div class="pet-card__descr">
                 <div class="pet-card__text">
@@ -106,7 +111,7 @@
               </div>
               <div class="pet-card__hover"></div>
             </div>
-            <div class="pet-card">
+            <div class="pet-card last-item">
               <img src="assets/images/foto-card7-penguin.jpg" alt="Penguins" class="pet-card__photo">
               <div class="pet-card__descr">
                 <div class="pet-card__text">
@@ -130,7 +135,7 @@
           <h2 class="feed__header">Pick and feed a friend</h2>
           <p class="feed__par1">We know the animals bring you joy, and in these extraordinary times, we’re glad.</p>
           <p class="feed__par2">During a time when the COVID-19 epidemic is touching all of our lives, we’re proud and glad that people around the world find joy in PatStory.</p>
-          <p class="feed__par3">Even though the zoo has reopened, we need you now more than ever to help us deal with these problems. Please consider<br> a gift to our <a href="donate.html">Emergency Support Fund</a> .</p>
+          <p class="feed__par3">Even though the zoo has reopened, we need you now more than ever to help us deal with these problems. Please consider a gift to our <a href="donate.html">Emergency Support Fund</a> .</p>
           <h3 class="feed__subheader">How it works</h3>
           <div class="feed__flow">
             <div class="feed__step">
@@ -216,7 +221,7 @@
               </p>
             </div>
           </div>
-          <div class="testimonial-card__border">
+          <div class="testimonial-card__border testimonial-card__last-item">
             <div class="testimonial-card">
               <div class="testimonial-card__header">
                 <img src="assets/images/user_avatar3.png" alt="testimonial icon" class="testimonial-card__icon">
@@ -246,39 +251,38 @@
       <div class="footer__wrapper-left">
         <a  href="index.html" class="logo">PetStory online</a>
         <button onclick="location.href='donate.html'" class="button section-rectangular-button">donate for volunteers</button>
-        <ul class="social">
-          <li class="social__element">
-            <a href="https://www.facebook.com/" class="social__link"><img src="assets/icons/fb.svg" alt="facebook" class="social__logo">Facebook</a>
-          </li>
-          <li class="social__element">
-            <a href="https://www.twitter.com/" class="social__link"><img src="assets/icons/tw.svg" alt="facebook" class="social__logo">Twitter</a>
-          </li>
-          <li class="social__element">
-            <a href="https://www.instagram.com/" class="social__link"><img src="assets/icons/ig.svg" alt="facebook" class="social__logo">Instagram</a>
-          </li>
-          <li class="social__element">
-            <a href="https://www.youtube.com/" class="social__link"><img src="assets/icons/yt.svg" alt="facebook" class="social__logo">YouTube</a>
-          </li>
-        </ul>
       </div>
-      <div class="footer__wrapper-center">
-        <ul class="menu footer-menu">
-          <li class="menu__item"><a href="#" class="menu__link menu__link_active">About</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Map</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Zoos</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Contact us</a></li>
-        </ul>
-      </div>
-      <div class="footer__wrapper-right">
+      <div class="subscribe__wrapper">
         <label class="subscribe__label" for="name">Subscribe to our news:</label><br>
         <div class="subscribe">
           <input required class="subscribe__input" type="email" id="email" name="email" placeholder="Enter your email"><br>
-          <button class="subscribe__button">Submit</button>
+          <button type="submit" class="subscribe__button">Submit</button>
         </div>
-        <div class="copyright">Designed by Alisa Samborskaya</div>
-        <div class="copyright">©RSSchool & ©Yem Digital 2021</div>
       </div>
+
+      <ul class="social">
+        <li class="social__element">
+          <a href="https://www.facebook.com/" class="social__link"><img src="assets/icons/fb.svg" alt="facebook" class="social__logo">Facebook</a>
+        </li>
+        <li class="social__element">
+          <a href="https://www.twitter.com/" class="social__link"><img src="assets/icons/tw.svg" alt="facebook" class="social__logo">Twitter</a>
+        </li>
+        <li class="social__element">
+          <a href="https://www.instagram.com/" class="social__link"><img src="assets/icons/ig.svg" alt="facebook" class="social__logo">Instagram</a>
+        </li>
+        <li class="social__element">
+          <a href="https://www.youtube.com/" class="social__link"><img src="assets/icons/yt.svg" alt="facebook" class="social__logo">YouTube</a>
+        </li>
+      </ul>
+      <ul class="menu footer-menu">
+        <li class="menu__item"><a href="#" class="menu__link menu__link_active">About</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Map</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Zoos</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Contact us</a></li>
+      </ul>
+      <div class="copyright">Designed by Alisa Samborskaya <br>©RSSchool & ©Yem Digital 2021</div>
     </div>
   </footer>
+  <script src="js/script.js"></script>
 </body>
 </html>
