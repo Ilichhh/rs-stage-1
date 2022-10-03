@@ -39,6 +39,9 @@
       max-width: calc(100% - 180px);
     }
     @media screen and (max-width: 1000px) {
+      padding: 36px 0 140px;
+    }
+    @media screen and (max-width: 640px) {
       padding: 36px 0 100px;
     }
     @media screen and (max-width: 390px) {
@@ -108,7 +111,7 @@
     background: url('../../assets/images/strelitzia1.png') center center/cover no-repeat;
     z-index: -1;
     @media screen and (max-width: 1000px) {
-      width: 241px;
+      width: 240px;
       height: 180px;
     }
     @media screen and (max-width: 640px) {
