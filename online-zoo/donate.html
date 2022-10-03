@@ -12,9 +12,11 @@
   <header class="header">
     <div class="container header__container">
       <h1>PetStory Online</h1>
-      <a  href="index.html" class="logo">PetStory online</a>
-      <nav class="nav">
-        <ul class="menu">
+      <div class="bg"></div>
+      <a  href="index.html" class="logo header-logo">PetStory online</a>
+      <nav class="nav nav_header">
+        <a  href="index.html" class="logo header-logo_active">PetStory online</a>
+        <ul class="menu menu_header">
           <li class="menu__item"><a href="index.html" class="menu__link">About</a></li>
           <li class="menu__item"><a href="#" class="menu__link">Map</a></li>
           <li class="menu__item"><a href="#" class="menu__link">Zoos</a></li>
@@ -23,6 +25,11 @@
         </ul>
         <div class="menu__item"><a href="https://www.figma.com/file/jfEFwkXVj1WRq7sUHDr8os/PetStory-online" class="menu__link">Designed by ©</a></div>
       </nav>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </header>
 
@@ -50,42 +57,42 @@
             <h3 class="amount__header">Amount</h3>
             <div class="amount__choice-bg"></div>
             <div class="amount__choice">
-              <label class="choice">$5000
+              <label class="choice">
                 <input type="radio" name="radio">
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$5000</span>
               </label>
-              <label class="choice">$2000
+              <label class="choice">
                 <input type="radio" name="radio">
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$2000</span>
               </label>
-              <label class="choice">$1000
+              <label class="choice">
                 <input type="radio" name="radio" checked>
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$1000</span>
               </label>
-              <label class="choice">$500
+              <label class="choice">
                 <input type="radio" name="radio">
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$500</span>
               </label>
-              <label class="choice">$250
+              <label class="choice">
                 <input type="radio" name="radio">
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$250</span>
               </label>
-              <label class="choice">$100
+              <label class="choice">
                 <input type="radio" name="radio">
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$100</span>
               </label>
-              <label class="choice">$50
+              <label class="choice">
                 <input type="radio" name="radio">
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$50</span>
               </label>
-              <label class="choice">$25
+              <label class="choice">
                 <input type="radio" name="radio">
                 <span class="choice__checkmark"></span>
                 <span class="choice__value">$25</span>
@@ -116,39 +123,42 @@
       <div class="footer__wrapper-left">
         <a  href="index.html" class="logo">PetStory online</a>
         <button onclick="location.href='donate.html'" class="button section-rectangular-button">donate for volunteers</button>
-        <ul class="social">
-          <li class="social__element">
-            <a href="https://www.facebook.com/" class="social__link"><img src="assets/icons/fb.svg" alt="facebook" class="social__logo">Facebook</a>
-          </li>
-          <li class="social__element">
-            <a href="https://www.twitter.com/" class="social__link"><img src="assets/icons/tw.svg" alt="facebook" class="social__logo">Twitter</a>
-          </li>
-          <li class="social__element">
-            <a href="https://www.instagram.com/" class="social__link"><img src="assets/icons/ig.svg" alt="facebook" class="social__logo">Instagram</a>
-          </li>
-          <li class="social__element">
-            <a href="https://www.youtube.com/" class="social__link"><img src="assets/icons/yt.svg" alt="facebook" class="social__logo">YouTube</a>
-          </li>
-        </ul>
       </div>
-      <div class="footer__wrapper-center">
-        <ul class="menu">
-          <li class="menu__item"><a href="#" class="menu__link">About</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Map</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Zoos</a></li>
-          <li class="menu__item"><a href="#" class="menu__link">Contact us</a></li>
-        </ul>
-      </div>
-      <div class="footer__wrapper-right">
+      <div class="subscribe__wrapper">
         <label class="subscribe__label" for="name">Subscribe to our news:</label><br>
         <div class="subscribe">
           <input required class="subscribe__input" type="email" id="email" name="email" placeholder="Enter your email"><br>
-          <button class="subscribe__button">Submit</button>
+          <button type="submit" class="subscribe__button">Submit</button>
         </div>
-        <div class="copyright">Designed by Alisa Samborskaya</div>
-        <div class="copyright">©RSSchool & ©Yem Digital 2021</div>
       </div>
+
+      <ul class="social">
+        <li class="social__element">
+          <a href="https://www.facebook.com/" class="social__link"><img src="assets/icons/fb.svg" alt="facebook" class="social__logo"></a>
+          <a href="https://www.facebook.com/" class="social__link social__link-name">Facebook</a>
+        </li>
+        <li class="social__element">
+          <a href="https://www.twitter.com/" class="social__link"><img src="assets/icons/tw.svg" alt="facebook" class="social__logo"></a>
+          <a href="https://www.twitter.com/" class="social__link social__link-name">Twitter</a>
+        </li>
+        <li class="social__element">
+          <a href="https://www.instagram.com/" class="social__link"><img src="assets/icons/ig.svg" alt="facebook" class="social__logo"></a>
+          <a href="https://www.instagram.com/" class="social__link social__link-name">Instagram</a>
+        </li>
+        <li class="social__element">
+          <a href="https://www.youtube.com/" class="social__link"><img src="assets/icons/yt.svg" alt="facebook" class="social__logo"></a>
+          <a href="https://www.youtube.com/" class="social__link social__link-name">YouTube</a>
+        </li>
+      </ul>
+      <ul class="menu menu_footer">
+        <li class="menu__item"><a href="#" class="menu__link">About</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Map</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Zoos</a></li>
+        <li class="menu__item"><a href="#" class="menu__link">Contact us</a></li>
+      </ul>
+      <div class="copyright">Designed by Alisa Samborskaya <br>©RSSchool & ©Yem Digital 2021</div>
     </div>
   </footer>
+  <script src="js/script.js"></script>
 </body>
 </html>

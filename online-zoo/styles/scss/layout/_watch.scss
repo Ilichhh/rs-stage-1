@@ -127,6 +127,17 @@
 }
 
 .watch-donate {
-  height: 466px;
-  background-position: 0 -120px;
+  height: 470px;
+  background: url("../../assets/images/Giant_Panda-donate.jpg") center center/cover no-repeat;
+  @media screen and (max-width: 1000px) {
+    background-position: -300px 80px;
+  }
+  @media screen and (max-width: 640px) {
+    height: 370px;
+    background-position: -330px 33px;
+  }
+  @media screen and (max-width: 390px) {
+    height: 221px;
+    background-size: 250%;
+  }
 }

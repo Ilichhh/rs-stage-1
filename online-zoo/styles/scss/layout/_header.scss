@@ -131,6 +131,9 @@
   @media screen and (max-width: 1000px) {
     width: 55%;
   }
+  @media screen and (max-width: 800px) {
+    width: 65%;
+  }
   &_header {
     @media screen and (max-width: 640px) {
       flex-direction: column;
