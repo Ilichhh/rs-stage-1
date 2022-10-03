@@ -103,10 +103,17 @@
   @media screen and (max-width: 1000px) {
     width: 59%;
   }
-  @media screen and (max-width: 640px) {
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: left;
+  &_header {
+    @media screen and (max-width: 640px) {
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: left;
+    }
+    .menu__link {
+      @media screen and (max-width: 640px) {
+        color: #333B41;
+      }
+    }
   }
   &__link {
     text-decoration: none;
@@ -115,9 +122,7 @@
     &:hover {
       color: $hover-state-color;
     }
-    @media screen and (max-width: 640px) {
-      color: #333B41;
-    }
+
   }
   &__link_active {
     background: $default-state-gradient;
@@ -125,7 +130,6 @@
     -webkit-text-fill-color: transparent;
   }
 }
-
 h1 {
   display: none;
 }
