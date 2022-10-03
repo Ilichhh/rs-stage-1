@@ -6,6 +6,9 @@
   height: 100%;
   background-color: $light-gray-color;
   border-radius: 18px;
+  @media screen and (max-width: 390px) {
+    padding-top: 7px;
+  }
   &__border {
     width: 268px;
     height: 391px;
@@ -15,9 +18,6 @@
     border-radius: 20px;
     @media screen and (max-width: 1200px) {
       width: 293px;
-    }
-    @media screen and (max-width: 1000px) {
-      width: 268px;
     }
     @media screen and (max-width: 960px) {
       width: 100%;

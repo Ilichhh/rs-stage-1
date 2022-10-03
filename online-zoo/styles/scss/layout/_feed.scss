@@ -52,6 +52,14 @@
     font-weight: 400;
     font-size: 36px;
     line-height: 130%;
+    @media screen and (max-width: 1000px) {
+      margin-top: 0;
+      margin-bottom: 38px;
+    }
+    @media screen and (max-width: 1000px) {
+      margin-bottom: 38px;
+      margin-bottom: 18px;
+    }
     @media screen and (max-width: 390px) {
       margin-top: 0;
       margin-bottom: 20px;
@@ -98,6 +106,7 @@
     font-size: 16px;
     line-height: 130%;
     @media screen and (max-width: 1000px) {
+      margin-top: 10px;
       margin-bottom: 40px;
     }
     @media screen and (max-width: 640px) {
@@ -127,18 +136,25 @@
     width: 764px;
     max-width: 100%;
     margin: 0 auto 60px;
+    @media screen and (max-width: 1000px) {
+      margin-bottom: 70px;
+    }
     @media screen and (max-width: 640px) {
       margin-bottom: 40px;
     }
     @media screen and (max-width: 560px) {
       flex-direction: column;
       align-items: center;
+      margin-bottom: 15px;
     }
   }
   &__step {
     position: relative;
     width: 168px;
     height: 244px;
+    @media screen and (max-width: 560px) {
+      height: 246px;
+    }
     &:not(:last-child):after {
       position: absolute;
       top: 60px; 

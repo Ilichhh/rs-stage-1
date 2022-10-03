@@ -19,6 +19,10 @@
     justify-content: space-between;
     padding: 9px 14px 9px;
     background: #fff;
+    @media screen and (max-width: 640px) {
+      padding: 4px 10px 6px;
+      margin-top: 0;
+    }
   }
   &__header {
     margin: 0;
@@ -26,10 +30,17 @@
     font-size: 16px;
     line-height: 140%;
     text-transform: uppercase;
+    @media screen and (max-width: 640px) {
+      font-size: 12.5px;
+    }
   }
   &__subheader {
     font-weight: 300;
     font-size: 15px;
+    @media screen and (max-width: 640px) {
+      font-size: 11px;
+      line-height: 100%;
+    }
   }
   &__text {
     transition: .3s;
@@ -38,6 +49,11 @@
   &__food {
     transition: .3s;
     z-index: 10;
+    @media screen and (max-width: 640px) {
+      margin-right: -10px;
+      margin-top: -5px;
+      transform: scale(.8);
+    }
   }
   cursor: pointer;
   transition: .3s;

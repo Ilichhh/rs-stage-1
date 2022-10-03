@@ -5,6 +5,10 @@
   position: relative;
   background-color: #fff;
   color: $black-blue-color;
+  @media screen and (max-width: 1000px) {
+    padding-top: 100px;
+    padding-bottom: 64px;
+  }
   @media screen and (max-width: 640px) {
     padding-top: 60px;
     padding-bottom: 40px;
@@ -28,7 +32,7 @@
     font-weight: 400;
     font-size: 48px;
     line-height: 120%;
-    @media screen and (min-width: 640px) and (max-width: 980px) {
+    @media screen and (min-width: 641px) and (max-width: 980px) {
       margin-bottom: 10px;
       font-size: 32px;
     }
@@ -59,6 +63,7 @@
     margin-right: 31px;
     background: url("../../assets/images/bamboo-cap.jpg") center center/cover no-repeat;
     @media screen and (max-width: 1000px) {
+      margin-top: 10px;
       width: 48.4%;
     }
     @media screen and (max-width: 640px) {
@@ -70,6 +75,7 @@
     line-height: 140%;
     margin: 0px;
     @media screen and (max-width: 390px) {
+      line-height: 135%;
       margin-bottom: 20px;
     }
   }
@@ -96,8 +102,8 @@
     @media screen and (max-width: 640px) {
       display: block;
       right: 0;
-      top: -60px;
-      width: calc(150px - (640px - 100%));
+      top: -62px;
+      width: calc(185px - (640px - 100%));
       transform: scale(0.79);
     }
     @media screen and (max-width: 390px) {

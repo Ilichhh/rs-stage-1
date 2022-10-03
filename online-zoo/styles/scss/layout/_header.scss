@@ -55,7 +55,21 @@
     left: 5px;
   }
 }
+
 .header-logo {
+  @media screen and (max-width: 640px) {
+    border: none;
+    width: 47px;
+    height: 29px;
+    margin-top: -2px;
+    font-size: 12.2899px;
+    &::after {
+      position: absolute;
+      transform: scale(0.65);
+      top: 11px;
+      left: 1px;
+    }
+  }
   &_active {
     display: none;
     width: 65px;
@@ -75,18 +89,6 @@
       }
     }
   }
-  @media screen and (max-width: 640px) {
-    border: none;
-    width: 47px;
-    height: 29px;
-    font-size: 12.2899px;
-    &::after {
-      position: absolute;
-      transform: scale(0.65);
-      top: 11px;
-      left: 1px;
-    }
-  }
 }
 
 .nav {
@@ -102,7 +104,7 @@
   }
   @media screen and (max-width: 640px) {
     position: fixed;
-    right: -100%;
+    right: -110%;
     flex-direction: column;
     justify-content: space-between;
     align-items: left;
@@ -127,7 +129,7 @@
   margin: 0;
   padding: 0;
   @media screen and (max-width: 1000px) {
-    width: 59%;
+    width: 55%;
   }
   &_header {
     @media screen and (max-width: 640px) {
