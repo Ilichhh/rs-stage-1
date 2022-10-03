@@ -11,13 +11,34 @@
     font-weight: 400;
     font-size: 36px;
     line-height: 130%;
+    @media screen and (max-width: 1000px) {
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+    @media screen and (max-width: 320px) {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
   }
   &__content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
     color: $gray-color;
+    @media screen and (max-width: 1200px) {
+      width: 940px;
+    }
+    @media screen and (max-width: 1000px) {
+      width: 100%;
+    }
+    @media screen and (max-width: 960px) {
+      flex-direction: column;
+      margin-bottom: 25px;
+    }
+    @media screen and (max-width: 390px) {
+      margin-bottom: 13px;
+    }
   }
   &__scroll-border {
     width: 600px;
@@ -26,6 +47,14 @@
     border: 0.5px solid transparent;
     border-radius: 4px;
     background: $pink-gradient-color;
+    @media screen and (max-width: 1000px) {
+      margin-bottom: 52px;
+      width: 390px;
+    }
+    @media screen and (max-width: 960px) {
+      display: none;
+    }
+    
   }
   &__scroll {
     -webkit-appearance: none;
@@ -42,6 +71,9 @@
       border-radius: 3px;
       cursor: pointer;
       transition: .3s;
+      @media screen and (max-width: 1000px) {
+        width: 75px;
+      }
       &:hover {
         background-color: $hover-state-color;
       }
@@ -56,9 +88,46 @@
     bottom: 0;
     background-image: url('../../assets/images/leav_foto.jpg');
     background-repeat: no-repeat;
+    z-index: -1;
+    @media screen and (max-width: 1000px) {
+      right: -25px;
+      bottom: -10px;
+      transform: scale(.8);
+    }
+    @media screen and (max-width: 960px) {
+      right: -62px;
+      bottom: -70px;
+      transform: scale(.5);
+    }
+    @media screen and (max-width: 390px) {
+      right: -93px;
+      bottom: -106px;
+      transform: scale(.25);
+    }
   }
   .container {
     padding-top: 110px;
     padding-bottom: 180px;
+    overflow: hidden;
+    @media screen and (max-width: 1000px) {
+      padding-top: 100px;
+      padding-bottom: 140px;
+    }
+    @media screen and (max-width: 960px) {
+      padding-top: 60px;
+      padding-bottom: 80px;
+    }
+    @media screen and (max-width: 320px) {
+      padding-top: 30px;
+      padding-bottom: 60px;
+    }
+  }
+
+  .button {
+    @media screen and (max-width: 640px) {
+      display: block;
+      margin: 0 auto;
+      width: 240px;
+    }
   }
 }

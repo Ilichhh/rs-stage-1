@@ -3,9 +3,19 @@
 
 .watch {
   margin: -80px auto 0;
-  width: 1600px;
   height: 780px;
   background: url("../../assets/images/Giant_Panda.jpg") center center/cover no-repeat;
+  @media screen and (max-width: 1000px) {
+    height: 584px;
+  }
+  @media screen and (max-width: 640px) {
+    margin-top: 0;
+    height: 373px;
+  }
+  @media screen and (max-width: 390px) {
+    margin-top: 34px;
+    height: 187px;
+  }
   &__header {
     position: relative;
     right: 0;
@@ -19,6 +29,33 @@
     text-transform: uppercase;
     color: #FFFFFF;
     z-index: 1;
+    @media screen and (max-width: 1200px) {
+      left: calc(50% - 500.31px/2 + 230.15px);
+    }
+    @media screen and (max-width: 1000px) {
+      width: 400px;
+      top: -115px;
+      left: calc(50% - 500.31px/2 + 265.15px);
+      font-size: 85px;
+    }
+    @media screen and (max-width: 840px) {
+      top: -125px;
+      left: 35%;
+    }
+    @media screen and (max-width: 640px) {
+      position: absolute;
+      top: 40px;
+      left: auto;
+      width: 255px;
+      font-size: 54px;
+    }
+    @media screen and (max-width: 390px) {
+      position: relative;
+      top: -148px;
+      left: 56.5%;
+      width: 129px;
+      font-size: 28px;
+    }
     span {
       color: $yellow-color;
     }
@@ -33,20 +70,75 @@
       border-radius: 50%;
       background: $default-state-gradient;
       z-index: -1;
+      @media screen and (max-width: 1000px) {
+        top: -56px;
+        right: 90px;
+        width: 367px;
+        height: 367px;
+      }
+      @media screen and (max-width: 640px) {
+        top: -40px;
+        right: 50px;
+        width: 238px;
+        height: 238px;
+      }
+      @media screen and (max-width: 390px) {
+        top: -18px;
+        right: 25px;
+        width: 119px;
+        height: 119px;
+      }
     }
   }
   .container {
     height: 780px;
     padding-top: 166px;
+    @media screen and (max-width: 1000px) {
+      height: 584px;
+    }
+    @media screen and (max-width: 640px) {
+      height: 373px;
+    }
+    @media screen and (max-width: 640px) {
+      height: 187px;
+    }
   }
   .button {
     display: block;
-    margin-top: -120px;
-    margin-left: calc(50% - 298px/2 + 332px);
+    margin-top: -143px;
+    margin-left: calc(50% - 298px/2 + 214px);
+    @media screen and (max-width: 800px) {
+      margin-top: -173px;
+      margin-left: 15px;
+    }
+    @media screen and (max-width: 640px) {
+      margin-top: 113px;
+      margin-left: 0;
+    }
+    @media screen and (max-width: 568px) {
+      margin-top: 133px;
+    }
+    @media screen and (max-width: 390px) {
+      position: absolute;
+      margin: -110px auto 0;
+      z-index: 10;
+    }
   }
 }
 
 .watch-donate {
-  height: 466px;
-  background-position: 0 -120px;
+  height: 470px;
+  background: url("../../assets/images/Giant_Panda-donate.jpg") center center/cover no-repeat;
+  @media screen and (max-width: 1000px) {
+    background-position: -300px 80px;
+  }
+  @media screen and (max-width: 640px) {
+    height: 370px;
+    background-position: -330px 33px;
+  }
+  @media screen and (max-width: 390px) {
+    height: 187px;
+    background-size: 285%;
+    background-position: -200px 0;
+  }
 }

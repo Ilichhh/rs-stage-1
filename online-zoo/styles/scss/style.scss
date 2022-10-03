@@ -18,5 +18,24 @@ html {
 .container {
   position: relative;
   width: 1160px;
+  max-width: calc(100% - 60px);
   margin: 0 auto;
+  @media screen and (max-width: 640px) {
+    max-width: calc(100% - 40px);
+  }
+  @media screen and (max-width: 320px) {
+    max-width: calc(100% - 20px);
+  }
+}
+
+.last-item {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
+.testimonial-card__last-item {
+  @media screen and (max-width: 1200px) {
+    display: none;
+  }
 }
