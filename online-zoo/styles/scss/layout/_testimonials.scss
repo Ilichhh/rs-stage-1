@@ -15,6 +15,10 @@
       margin-top: 0;
       margin-bottom: 30px;
     }
+    @media screen and (max-width: 320px) {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
   }
   &__content {
     display: flex;
@@ -84,6 +88,11 @@
       bottom: -70px;
       transform: scale(.5);
     }
+    @media screen and (max-width: 320px) {
+      right: -90px;
+      bottom: -110px;
+      transform: scale(.25);
+    }
   }
   .container {
     padding-top: 110px;
@@ -92,6 +101,10 @@
     @media screen and (max-width: 960px) {
       padding-top: 60px;
       padding-bottom: 80px;
+    }
+    @media screen and (max-width: 320px) {
+      padding-top: 30px;
+      padding-bottom: 60px;
     }
   }
 

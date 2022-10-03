@@ -12,6 +12,10 @@
     margin-top: 0;
     height: 373px;
   }
+  @media screen and (max-width: 320px) {
+    margin-top: 34px;
+    height: 187px;
+  }
   &__header {
     position: relative;
     right: 0;
@@ -39,10 +43,15 @@
       left: 35%;
     }
     @media screen and (max-width: 640px) {
-      font-size: 54px;
       top: -125px;
       width: 255px;
       left: 55%;
+      font-size: 54px;
+    }
+    @media screen and (max-width: 320px) {
+      top: -150px;
+      width: 129px;
+      font-size: 28px;
     }
     span {
       color: $yellow-color;
@@ -70,6 +79,12 @@
         width: 238px;
         height: 238px;
       }
+      @media screen and (max-width: 320px) {
+        top: -18px;
+        right: 28px;
+        width: 119px;
+        height: 119px;
+      }
     }
   }
   .container {
@@ -81,6 +96,9 @@
     @media screen and (max-width: 640px) {
       height: 373px;
     }
+    @media screen and (max-width: 640px) {
+      height: 187px;
+    }
   }
   .button {
     display: block;
@@ -89,6 +107,11 @@
     @media screen and (max-width: 800px) {
       margin-top: -173px;
       margin-left: 15px;
+    }
+    @media screen and (max-width: 320px) {
+      position: absolute;
+      margin: -112px auto 0;
+      z-index: 10;
     }
   }
 }
