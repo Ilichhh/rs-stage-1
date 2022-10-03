@@ -2,9 +2,11 @@
 
 .pet-card {
   position: relative;
+  max-width: 366px;
   overflow: hidden;
   border: 1px solid #FE9013;
   border-radius: 5px;
+  justify-self: center;
   &__photo {
     margin: 0;
     padding: 0;

@@ -5,7 +5,11 @@
   position: relative;
   background-color: #fff;
   color: $black-blue-color;
-  @media screen and (max-width: 320px) {
+  @media screen and (max-width: 640px) {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+  @media screen and (max-width: 390px) {
     padding-top: 104px;
     padding-bottom: 0;
   }
@@ -14,7 +18,7 @@
     @media screen and (max-width: 1000px) {
       width: 48.4%;
     }
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: 640px) {
       width: 495px;
     }
   }
@@ -24,7 +28,11 @@
     font-weight: 400;
     font-size: 48px;
     line-height: 120%;
-    @media screen and (max-width: 320px) {
+    @media screen and (min-width: 640px) and (max-width: 980px) {
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+    @media screen and (max-width: 390px) {
       margin-bottom: 10px;
       font-size: 24px;
     }
@@ -35,7 +43,11 @@
     font-weight: 400;
     font-size: 24px;
     line-height: 120%;
-    @media screen and (max-width: 320px) {
+    @media screen and (min-width: 640px) and (max-width: 980px) {
+      margin-bottom: 20px;
+      margin-top: 30px;
+    }
+    @media screen and (max-width: 390px) {
       margin-bottom: 10px;
       margin-top: 0;
       font-size: 24px;
@@ -57,7 +69,7 @@
   p {
     line-height: 140%;
     margin: 0px;
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       margin-bottom: 20px;
     }
   }
@@ -74,8 +86,7 @@
     position: absolute;
     right: 0;
     top: 15px;
-    background-image: url('../../assets/images/flower_foto1.jpg');
-    background-repeat: no-repeat;
+    background: url('../../assets/images/flower_foto1.jpg');
     @media screen and (max-width: 1598px) {
       width: calc(203px - (1598px - 100%));
     }
@@ -84,10 +95,12 @@
     }
     @media screen and (max-width: 640px) {
       display: block;
-      width: 203px;
-      right: -40px;
+      right: 0;
+      top: -60px;
+      width: calc(150px - (640px - 100%));
+      transform: scale(0.79);
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       right: -27px;
       top: -155px;
       width: 85px;

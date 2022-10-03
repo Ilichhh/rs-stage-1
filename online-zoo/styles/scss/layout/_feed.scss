@@ -15,7 +15,7 @@
     @media screen and (max-width: 640px) {
       padding: 10px 20px 60px;
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       padding: 20px 0 40px;
     }
   }
@@ -39,7 +39,7 @@
     @media screen and (max-width: 640px) {
       font-size: 42px;
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       font-size: 24px;
       margin-bottom: 10px;
     }
@@ -52,7 +52,7 @@
     font-weight: 400;
     font-size: 36px;
     line-height: 130%;
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       margin-top: 0;
       margin-bottom: 20px;
       font-size: 24px;
@@ -69,7 +69,7 @@
     @media screen and (max-width: 640px) {
       font-size: 22px;
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       margin-top: 0;
       font-size: 18px;
       text-align: center;
@@ -88,7 +88,7 @@
     @media screen and (max-width: 1200px) {
       width: 100%;
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       display: none;
     }
   }
@@ -103,7 +103,7 @@
     @media screen and (max-width: 640px) {
       margin-bottom: 30px;
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       display: none;
     }
     a {
@@ -130,7 +130,7 @@
     @media screen and (max-width: 640px) {
       margin-bottom: 40px;
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 560px) {
       flex-direction: column;
       align-items: center;
     }
@@ -156,7 +156,7 @@
       @media screen and (max-width: 640px) {
         left: 132px;
       }
-      @media screen and (max-width: 320px) {
+      @media screen and (max-width: 560px) {
         top: 190px;
         left: 139px;
         transform: rotate(85deg);
@@ -171,7 +171,7 @@
     border: 1px solid transparent;
     background: $default-state-gradient;
     border-radius: 5px;
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 560px) {
       margin-bottom: 10px;
     }
   }
@@ -201,7 +201,7 @@
       max-width: 640px;
       width: 100%;
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 390px) {
       max-width: calc(100% - 20px);
     }
   }

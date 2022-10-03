@@ -56,6 +56,25 @@
   }
 }
 .header-logo {
+  &_active {
+    display: none;
+    width: 65px;
+    height: 41px;
+    margin-bottom: 10px;
+    font-size: 15.2116px;
+    @media screen and (max-width: 640px) {
+      display: block;
+      border-color: #FE9013;
+      color: #FE9013;
+      &::after {
+        background-image: url('../../assets/icons/bamboo-or.svg');
+        width: 10px;
+        height: 16px;
+        top: 18px;
+        left: 6px;
+      }
+    }
+  }
   @media screen and (max-width: 640px) {
     border: none;
     width: 47px;
@@ -74,17 +93,24 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  &_header {
+    .menu__link {
+      @media screen and (max-width: 640px) {
+        color: #333B41;
+      }
+    }
+  }
   @media screen and (max-width: 640px) {
     position: fixed;
     right: -100%;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: left;
     top: 0;
     width: 100%;
     height: 329px;
     padding: 10px 10px 40px;
-    
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
     background-color: #fff;
     transition: 0.6s all;
     &_active {
@@ -108,11 +134,7 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: left;
-    }
-    .menu__link {
-      @media screen and (max-width: 640px) {
-        color: #333B41;
-      }
+      height: 170px;
     }
   }
   &__link {
@@ -168,5 +190,20 @@ h1 {
         }
       }
     }
+  }
+}
+
+.bg {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' ';
+  background: rgba(0,0,0,.5);
+  z-index: -1;
+  &_active {
+    display: block;
   }
 }
