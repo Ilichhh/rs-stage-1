@@ -40,9 +40,11 @@
       padding: 36px 0 140px;
     }
     @media screen and (max-width: 640px) {
+      max-width: calc(100% - 40px);
       padding: 36px 0 100px;
     }
     @media screen and (max-width: 390px) {
+      max-width: calc(100% - 20px);
       padding: 22px 0 60px;
     }
   }
