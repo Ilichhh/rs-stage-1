@@ -45,7 +45,7 @@
     grid-template-columns: 298px 31% auto;
     grid-template-rows: 174px 134px;
     gap: 44px 7.6%;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 812px) {
       gap: 44px 0;
     }
     @media screen and (max-width: 738px) {
@@ -248,5 +248,7 @@
   }
   @media screen and (max-width: 390px) {
     bottom: 62px;
+    font-size: 15px;
+    right: -5px;
   }
 }
