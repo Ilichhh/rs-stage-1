@@ -18,7 +18,8 @@
     padding-bottom: 0;
   }
   &__description {
-    width: 465px;
+    width: 100%;
+    max-width: 465px;
     @media screen and (max-width: 1000px) {
       width: 48.4%;
     }

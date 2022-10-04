@@ -12,7 +12,7 @@
       margin-right: 0;
       margin-bottom: 68px;
       width: 82px;
-      @media screen and (max-width: 720px) {
+      @media screen and (max-width: 738px) {
         margin-bottom: 32px;
       }
       @media screen and (max-width: 390px) {
@@ -29,7 +29,7 @@
     }
     .section-rectangular-button {
       margin-bottom: 54px;
-      @media screen and (max-width: 720px) {
+      @media screen and (max-width: 738px) {
         display: block;
         margin-bottom: 0;
       }
@@ -48,7 +48,7 @@
     @media screen and (max-width: 800px) {
       gap: 44px 0;
     }
-    @media screen and (max-width: 720px) {
+    @media screen and (max-width: 738px) {
       padding-top: 12px;
       padding-bottom: 12px;
       grid-template-columns: 298px auto;
@@ -70,7 +70,7 @@
   margin: 0;
   height: 134px;
   list-style: none;
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 738px) {
     margin-top: -4px;
     margin-right: -12px;
     height: 168px;
@@ -107,7 +107,7 @@
     }
   }
   &__link-name {
-    @media screen and (max-width: 720px) {
+    @media screen and (max-width: 738px) {
       display: none;
     }
   }
@@ -125,7 +125,7 @@
 .subscribe {
   width: 367px;
   display: flex;
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 738px) {
     display: none;
   }
   &__wrapper {
@@ -137,7 +137,7 @@
     @media screen and (max-width: 1000px) {
       margin-right: 30px;
     }
-    @media screen and (max-width: 720px) {
+    @media screen and (max-width: 738px) {
       grid-column-start: 2;
       grid-row-start: 2;
     }
@@ -153,7 +153,7 @@
     font-weight: 400;
     font-size: 24px;
     line-height: 120%;
-    @media screen and (max-width: 720px) {
+    @media screen and (max-width: 738px) {
       display: none;
     }
   }
@@ -168,7 +168,7 @@
     color: #BDBDBD;
     background-color: #111115;
     transition: .2s;
-    @media screen and (max-width: 720px) {
+    @media screen and (max-width: 738px) {
       width: 160px;
     }
     &:focus {
@@ -215,9 +215,8 @@
   @media screen and (max-width: 960px) {
     width: 100%;
   }
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 738px) {
     margin-left: 0;
-    
     grid-row-start: 2;
   }
   @media screen and (max-width: 390px) {
@@ -239,7 +238,7 @@
   @media screen and (max-width: 1000px) {
     margin-left: 119px;
   }
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 738px) {
     bottom: 5px;
     margin-left: 0;
   }
