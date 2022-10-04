@@ -93,8 +93,11 @@
       height: 202px;
     }
     @media screen and (max-width: 1000px) {
-      width: 142px;
+      width: 192px;
       height: 202px;
+    }
+    @media screen and (max-width: 640px) {
+      width: 132px;
     }
     @media screen and (max-width: 520px) {
       width: 138px;

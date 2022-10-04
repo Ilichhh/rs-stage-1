@@ -128,17 +128,25 @@
 
 .watch-donate {
   height: 470px;
-  background: url("../../assets/images/Giant_Panda-donate.jpg") center center/cover no-repeat;
+  background-image: url("../../assets/images/Giant_Panda-donate.jpg") center center/cover no-repeat;
   @media screen and (max-width: 1000px) {
-    background-position: -300px 80px;
+    background-size: 160%;
+    background-position: -175px -115px;
+  }
+  @media screen and (max-width: 800px) {
+    background-position: -175px 0;
   }
   @media screen and (max-width: 640px) {
+    background-size: 220%;
     height: 370px;
-    background-position: -330px 33px;
+    background-position: -295px -135px;
+  }
+  @media screen and (max-width: 476px) {
+    background-position: -295px 0;
   }
   @media screen and (max-width: 390px) {
     height: 187px;
-    background-size: 285%;
-    background-position: -200px 0;
+    background-size: 245%;
+    background-position: -155px -95px;
   }
 }
