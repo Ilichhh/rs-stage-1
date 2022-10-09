@@ -29,13 +29,13 @@
     animation: 1s ease-in-out;
     @media screen and (max-width: 1000px) {
       gap: 92px 30px;
-      margin-bottom: 83px;
+      // margin-bottom: 83px;
     }
     @media screen and (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
     @media screen and (max-width: 640px) {
-      margin-bottom: 60px;
+      // margin-bottom: 60px;
     }
     @media screen and (max-width: 520px) {
       grid-template-columns: 1fr;
@@ -115,6 +115,7 @@
     top: 50%;
     transform: translateY(-50%);
     transition: none;
+    z-index: 1;
     @media screen and (max-width: 520px) {
       display: none;
     }

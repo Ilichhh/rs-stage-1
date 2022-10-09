@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const petsSliderItems = document.querySelectorAll(".pets__content-block");
   const prevSlide = document.querySelector(".prev");
   const nextSlide = document.querySelector(".next");
+  
 
   // Hamburger
 
@@ -51,7 +52,16 @@ window.addEventListener("DOMContentLoaded", () => {
   //     item.addEventListener("click", setAmountDonation);
   //   })
 
-  function generatePetsBlock(numOfCards, block) {
+  // Slider
+
+  let numOfCards;
+  let containerWidth = parseInt(window.innerWidth, 10);
+  let currentItem = 0;
+  let isEnabled = true;
+
+
+  function generatePetsBlock(block) {
+    containerWidth < 769 ? numOfCards = 4 : numOfCards = 6;
     let pets = petsData
       .sort(() => Math.random() - 0.5)
       .slice(petsData.length - numOfCards);
@@ -74,11 +84,6 @@ window.addEventListener("DOMContentLoaded", () => {
     petsSliderItems[block].innerHTML = displayPets;
   }
 
-  generatePetsBlock(6, 0);
-
- let currentItem = 0;
- let isEnabled = true;
-
  function changeCurrentItem(n) {
     currentItem = (n + petsSliderItems.length) % petsSliderItems.length;
  }
@@ -92,7 +97,7 @@ window.addEventListener("DOMContentLoaded", () => {
  }
 
  function showItem(direction) {
-    generatePetsBlock(6, currentItem);
+    generatePetsBlock(currentItem);
     petsSliderItems[currentItem].classList.add('pets__content-block_next', direction);
     petsSliderItems[currentItem].addEventListener('animationend', function() {
         this.classList.remove('pets__content-block_next', direction);
@@ -100,7 +105,6 @@ window.addEventListener("DOMContentLoaded", () => {
         isEnabled = true;
     })
  }
-
 
  function previousItem(n) {
     hideItem('pets__content-block_to-right');
@@ -114,6 +118,14 @@ window.addEventListener("DOMContentLoaded", () => {
     showItem('pets__content-block_from-right');
  }
 
+
+ generatePetsBlock(0);
+
+ window.addEventListener('resize', () => {
+   containerWidth = parseInt(window.innerWidth, 10);
+   if (containerWidth < 769 && numOfCards === 6) generatePetsBlock(currentItem);
+   if (containerWidth > 768 && numOfCards === 4) generatePetsBlock(currentItem);
+});
 
  prevSlide.addEventListener("click", () => {
    if (isEnabled) {
