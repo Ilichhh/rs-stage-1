@@ -26,7 +26,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 20px 30px;
-    animation: 1s ease-in-out;
+    animation: .5s ease-in-out;
     @media screen and (max-width: 1000px) {
       gap: 92px 30px;
       // margin-bottom: 83px;

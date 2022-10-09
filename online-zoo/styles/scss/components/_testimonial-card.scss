@@ -10,19 +10,23 @@
     padding-top: 7px;
   }
   &__border {
-    width: 268px;
+    width: 267.5px;
     height: 391px;
     overflow: hidden;
     border: 2px solid transparent;
     background: $pink-gradient-color;
     border-radius: 20px;
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 1240px) {
       width: 293px;
     }
-    @media screen and (max-width: 960px) {
+    @media screen and (max-width: 998px) {
       width: 100%;
+      max-width: 600px;
       height: 109px;
       margin-bottom: 15px;
+      &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11) {
+        display: none;
+      }
     }
   }
   &__header {

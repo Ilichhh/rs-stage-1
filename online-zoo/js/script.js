@@ -16,7 +16,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const petsSliderItems = document.querySelectorAll(".pets__content-block");
   const prevSlide = document.querySelector(".prev");
   const nextSlide = document.querySelector(".next");
-  
 
   // Hamburger
 
@@ -59,9 +58,8 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentItem = 0;
   let isEnabled = true;
 
-
   function generatePetsBlock(block) {
-    containerWidth < 769 ? numOfCards = 4 : numOfCards = 6;
+    containerWidth < 769 ? (numOfCards = 4) : (numOfCards = 6);
     let pets = petsData
       .sort(() => Math.random() - 0.5)
       .slice(petsData.length - numOfCards);
@@ -84,60 +82,80 @@ window.addEventListener("DOMContentLoaded", () => {
     petsSliderItems[block].innerHTML = displayPets;
   }
 
- function changeCurrentItem(n) {
+  function changeCurrentItem(n) {
     currentItem = (n + petsSliderItems.length) % petsSliderItems.length;
- }
+  }
 
- function hideItem(direction) {
+  function hideItem(direction) {
     isEnabled = false;
     petsSliderItems[currentItem].classList.add(direction);
-    petsSliderItems[currentItem].addEventListener('animationend', function() {
-        this.classList.remove('pets__content-block_active', direction);
-    })
- }
+    petsSliderItems[currentItem].addEventListener("animationend", function () {
+      this.classList.remove("pets__content-block_active", direction);
+    });
+  }
 
- function showItem(direction) {
+  function showItem(direction) {
     generatePetsBlock(currentItem);
-    petsSliderItems[currentItem].classList.add('pets__content-block_next', direction);
-    petsSliderItems[currentItem].addEventListener('animationend', function() {
-        this.classList.remove('pets__content-block_next', direction);
-        this.classList.add('pets__content-block_active');
-        isEnabled = true;
-    })
- }
+    petsSliderItems[currentItem].classList.add(
+      "pets__content-block_next",
+      direction
+    );
+    petsSliderItems[currentItem].addEventListener("animationend", function () {
+      this.classList.remove("pets__content-block_next", direction);
+      this.classList.add("pets__content-block_active");
+      isEnabled = true;
+    });
+  }
 
- function previousItem(n) {
-    hideItem('pets__content-block_to-right');
+  function previousItem(n) {
+    hideItem("pets__content-block_to-right");
     changeCurrentItem(n - 1);
-    showItem('pets__content-block_from-left');
- }
+    showItem("pets__content-block_from-left");
+  }
 
- function nextItem(n) {
-    hideItem('pets__content-block_to-left');
+  function nextItem(n) {
+    hideItem("pets__content-block_to-left");
     changeCurrentItem(n + 1);
-    showItem('pets__content-block_from-right');
- }
+    showItem("pets__content-block_from-right");
+  }
+
+  generatePetsBlock(0);
 
 
- generatePetsBlock(0);
 
- window.addEventListener('resize', () => {
-   containerWidth = parseInt(window.innerWidth, 10);
-   if (containerWidth < 769 && numOfCards === 6) generatePetsBlock(currentItem);
-   if (containerWidth > 768 && numOfCards === 4) generatePetsBlock(currentItem);
-});
+  prevSlide.addEventListener("click", () => {
+    if (isEnabled) previousItem(currentItem);
+  });
 
- prevSlide.addEventListener("click", () => {
-   if (isEnabled) {
-       previousItem(currentItem);
-   }
- });
-
- nextSlide.addEventListener("click", () => {
-   if (isEnabled) {
-       nextItem(currentItem);
-   }
- });
+  nextSlide.addEventListener("click", () => {
+    if (isEnabled) nextItem(currentItem);
+  });
 
 
+  const testimonialsCarousel = document.querySelector('.testimonials__content');
+  const testimonialsScroll = document.querySelector('.testimonials__scroll');
+
+
+  testimonialsScroll.addEventListener('input', (e) => {
+    let testShift;
+    containerWidth < 1241 ?
+    testShift = e.target.value * 323 :
+    testShift = e.target.value * 297.5;
+    testimonialsCarousel.style.transform = `translateX(-${testShift}px)`;
+  })
+
+
+
+
+  window.addEventListener("resize", () => {
+    containerWidth = parseInt(window.innerWidth, 10);
+    if (containerWidth < 769 && numOfCards === 6)
+      generatePetsBlock(currentItem);
+    if (containerWidth > 768 && numOfCards === 4)
+      generatePetsBlock(currentItem);
+
+    containerWidth < 1241 ?
+        testimonialsScroll.max = 8:
+        testimonialsScroll.max = 7;
+  });
 });
