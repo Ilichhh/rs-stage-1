@@ -19,6 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let containerWidth = parseInt(window.innerWidth, 10);
   let currentItem = 0;
   let isEnabled = true;
+  let testShift;
 
 
   function toggleMenu() {
@@ -117,7 +118,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   testimonialsScroll.addEventListener("input", (e) => {
-    let testShift;
     containerWidth < 1241 ? 
       testShift = e.target.value * 323 :
       testShift = e.target.value * 297.5;
@@ -133,6 +133,10 @@ window.addEventListener("DOMContentLoaded", () => {
     containerWidth < 1241 ? 
       testimonialsScroll.max = 8 :
       testimonialsScroll.max = 7;
+    if (containerWidth < 999) {
+      testShift = 0;
+      testimonialsCarousel.style.transform = `translateX(-${testShift}px)`;
+    } 
   });
 
   testimonialsArray.forEach((card, index) => {
