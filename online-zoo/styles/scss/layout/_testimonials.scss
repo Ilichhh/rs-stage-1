@@ -146,3 +146,28 @@
     }
   }
 }
+
+.popup-bg {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' ';
+  background: rgba(0,0,0,.5);
+  z-index: 100;
+  &_active {
+    display: block;
+  }
+  &::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    position: fixed;
+    left: calc(50% + 145px);
+    top: 25%;
+    background: url('../../assets/icons/close.svg');
+    z-index: 1000;
+  }
+}

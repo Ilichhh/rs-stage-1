@@ -16,6 +16,17 @@
     border: 2px solid transparent;
     background: $pink-gradient-color;
     border-radius: 20px;
+    &_popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 267.5px !important;
+      height: 391px !important;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+
+    }
     @media screen and (max-width: 1240px) {
       width: 293px;
     }

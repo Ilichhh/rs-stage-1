@@ -42,10 +42,10 @@ let petsData = [
     image: "assets/images/foto-card7-penguin.jpg",
   },
   {
-    name: "Gorillas",
+    name: "Programmer",
     description: "Native to Congo",
-    food: "assets/icons/banana-bamboo_icon.svg",
-    image: "assets/images/foto-card8-gorilla.jpg",
+    food: "assets/icons/beer-53-32.png",
+    image: "assets/images/foto-card8-programmer.jpg",
   },
 ];
 

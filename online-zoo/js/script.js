@@ -134,13 +134,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const testimonialsCarousel = document.querySelector('.testimonials__content');
   const testimonialsScroll = document.querySelector('.testimonials__scroll');
-
+  const testimonialsArray = document.querySelectorAll('.testimonial-card__border');
+  const popupBlocker = document.querySelector(".popup-bg");
 
   testimonialsScroll.addEventListener('input', (e) => {
     let testShift;
     containerWidth < 1241 ?
-    testShift = e.target.value * 323 :
-    testShift = e.target.value * 297.5;
+        testShift = e.target.value * 323 :
+        testShift = e.target.value * 297.5;
     testimonialsCarousel.style.transform = `translateX(-${testShift}px)`;
   })
 
@@ -158,4 +159,31 @@ window.addEventListener("DOMContentLoaded", () => {
         testimonialsScroll.max = 8:
         testimonialsScroll.max = 7;
   });
+
+
+  // Testimonials popup
+
+  
+
+  testimonialsArray.forEach((card, index) => {
+    card.addEventListener('click', () => {
+        toggleTestimonial(index);
+    })
+  })
+
+
+  function toggleTestimonial(index) {
+    containerWidth = parseInt(window.innerWidth, 10);
+    if (containerWidth <= 998) {
+        let popupCard = testimonialsArray[index].cloneNode(true);
+        popupCard.classList.add('testimonial-card__border_popup');
+        document.querySelector('.testimonials').appendChild(popupCard);
+        popupBlocker.classList.add("popup-bg_active");
+    
+        popupBlocker.addEventListener('click', () => {
+            popupCard.remove();
+            popupBlocker.classList.remove("popup-bg_active");
+        })
+    }
+  }
 });
