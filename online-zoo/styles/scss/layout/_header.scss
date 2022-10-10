@@ -128,6 +128,11 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  &__item {
+    @media screen and (max-width: 640px) {
+      max-width: 125px;
+    }
+  }
   @media screen and (max-width: 1000px) {
     width: 55%;
   }
@@ -140,6 +145,7 @@
       justify-content: space-between;
       align-items: left;
       height: 170px;
+      width: 100px;
     }
   }
   &__link {

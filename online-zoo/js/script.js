@@ -2,22 +2,24 @@ import petsData from "./petsData.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector(".nav");
-  const menu = document.querySelector(".menu");
   const menuItem = document.querySelectorAll(".menu__item");
   const hamburger = document.querySelector(".hamburger");
   const blocker = document.querySelector(".bg");
 
-  const donationOptionsChoice = document.querySelectorAll(".choice");
-  const donationOptions = document.querySelectorAll('[name="amount"]');
-  const anotherAmountForm = document.querySelector('[name="Another amount"]');
-
-  const petsSliderWrapper = document.querySelector(".pets__container");
-  const petsSlider = document.querySelector(".pets__content");
   const petsSliderItems = document.querySelectorAll(".pets__content-block");
   const prevSlide = document.querySelector(".prev");
   const nextSlide = document.querySelector(".next");
 
-  // Hamburger
+  const testimonialsCarousel = document.querySelector(".testimonials__content");
+  const testimonialsScroll = document.querySelector(".testimonials__scroll");
+  const testimonialsArray = document.querySelectorAll(".testimonial-card__border");
+  const popupBlocker = document.querySelector(".popup-bg");
+
+  let numOfCards;
+  let containerWidth = parseInt(window.innerWidth, 10);
+  let currentItem = 0;
+  let isEnabled = true;
+
 
   function toggleMenu() {
     hamburger.classList.toggle("hamburger_active");
@@ -25,41 +27,8 @@ window.addEventListener("DOMContentLoaded", () => {
     blocker.classList.toggle("bg_active");
   }
 
-  hamburger.addEventListener("click", toggleMenu);
-  blocker.addEventListener("click", toggleMenu);
-  menuItem.forEach((item) => {
-    item.addEventListener("click", toggleMenu);
-  });
-
-  //  Donation
-
-  //   function setAmountDonation() {
-  //     donationOptions.forEach((option) => {
-  //       if (option.checked) anotherAmountForm.value = option.value;
-  //     });
-  //   }
-
-  //   setAmountDonation();
-
-  //   anotherAmountForm.addEventListener("input", (e) => {
-  //     donationOptions.forEach((option) => {
-  //         option.value === e.target.value ? option.checked = true : option.checked = false;
-  //       });
-  //   })
-
-  //   donationOptionsChoice.forEach((item) => {
-  //     item.addEventListener("click", setAmountDonation);
-  //   })
-
-  // Slider
-
-  let numOfCards;
-  let containerWidth = parseInt(window.innerWidth, 10);
-  let currentItem = 0;
-  let isEnabled = true;
-
   function generatePetsBlock(block) {
-    containerWidth < 769 ? (numOfCards = 4) : (numOfCards = 6);
+    containerWidth < 769 ? numOfCards = 4 : numOfCards = 6;
     let pets = petsData
       .sort(() => Math.random() - 0.5)
       .slice(petsData.length - numOfCards);
@@ -96,10 +65,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function showItem(direction) {
     generatePetsBlock(currentItem);
-    petsSliderItems[currentItem].classList.add(
-      "pets__content-block_next",
-      direction
-    );
+    petsSliderItems[currentItem].classList.add("pets__content-block_next", direction);
     petsSliderItems[currentItem].addEventListener("animationend", function () {
       this.classList.remove("pets__content-block_next", direction);
       this.classList.add("pets__content-block_active");
@@ -119,9 +85,28 @@ window.addEventListener("DOMContentLoaded", () => {
     showItem("pets__content-block_from-right");
   }
 
+  function toggleTestimonial(index) {
+    containerWidth = parseInt(window.innerWidth, 10);
+    if (containerWidth <= 998) {
+      let popupCard = testimonialsArray[index].cloneNode(true);
+      popupCard.classList.add("testimonial-card__border_popup");
+      document.querySelector(".testimonials").appendChild(popupCard);
+      popupBlocker.classList.add("popup-bg_active");
+
+      popupBlocker.addEventListener("click", () => {
+        popupCard.remove();
+        popupBlocker.classList.remove("popup-bg_active");
+      });
+    }
+  }
+
   generatePetsBlock(0);
 
-
+  hamburger.addEventListener("click", toggleMenu);
+  blocker.addEventListener("click", toggleMenu);
+  menuItem.forEach((item) => {
+    item.addEventListener("click", toggleMenu);
+  });
 
   prevSlide.addEventListener("click", () => {
     if (isEnabled) previousItem(currentItem);
@@ -131,22 +116,13 @@ window.addEventListener("DOMContentLoaded", () => {
     if (isEnabled) nextItem(currentItem);
   });
 
-
-  const testimonialsCarousel = document.querySelector('.testimonials__content');
-  const testimonialsScroll = document.querySelector('.testimonials__scroll');
-  const testimonialsArray = document.querySelectorAll('.testimonial-card__border');
-  const popupBlocker = document.querySelector(".popup-bg");
-
-  testimonialsScroll.addEventListener('input', (e) => {
+  testimonialsScroll.addEventListener("input", (e) => {
     let testShift;
-    containerWidth < 1241 ?
-        testShift = e.target.value * 323 :
-        testShift = e.target.value * 297.5;
+    containerWidth < 1241 ? 
+      testShift = e.target.value * 323 :
+      testShift = e.target.value * 297.5;
     testimonialsCarousel.style.transform = `translateX(-${testShift}px)`;
-  })
-
-
-
+  });
 
   window.addEventListener("resize", () => {
     containerWidth = parseInt(window.innerWidth, 10);
@@ -154,36 +130,14 @@ window.addEventListener("DOMContentLoaded", () => {
       generatePetsBlock(currentItem);
     if (containerWidth > 768 && numOfCards === 4)
       generatePetsBlock(currentItem);
-
-    containerWidth < 1241 ?
-        testimonialsScroll.max = 8:
-        testimonialsScroll.max = 7;
+    containerWidth < 1241 ? 
+      testimonialsScroll.max = 8 :
+      testimonialsScroll.max = 7;
   });
 
-
-  // Testimonials popup
-
-  
-
   testimonialsArray.forEach((card, index) => {
-    card.addEventListener('click', () => {
-        toggleTestimonial(index);
-    })
-  })
-
-
-  function toggleTestimonial(index) {
-    containerWidth = parseInt(window.innerWidth, 10);
-    if (containerWidth <= 998) {
-        let popupCard = testimonialsArray[index].cloneNode(true);
-        popupCard.classList.add('testimonial-card__border_popup');
-        document.querySelector('.testimonials').appendChild(popupCard);
-        popupBlocker.classList.add("popup-bg_active");
-    
-        popupBlocker.addEventListener('click', () => {
-            popupCard.remove();
-            popupBlocker.classList.remove("popup-bg_active");
-        })
-    }
-  }
+    card.addEventListener("click", () => {
+      toggleTestimonial(index);
+    });
+  });
 });
