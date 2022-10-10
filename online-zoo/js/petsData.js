@@ -43,7 +43,7 @@ let petsData = [
   },
   {
     name: "Programmer",
-    description: "Native to Congo",
+    description: "01101000 01101001",
     food: "assets/icons/beer-53-32.png",
     image: "assets/images/foto-card8-programmer.jpg",
   },
