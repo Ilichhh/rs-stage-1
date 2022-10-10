@@ -8,20 +8,34 @@
     position: relative;
   }
   &__container {
-    display: grid;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    margin-bottom: 80px;
+  }
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    transition-duration: .5s;
+    transition-property: transform;
+    will-change: transform;
+  }
+  &__content-block {
+    position: relative;
+    display: none;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 20px 30px;
-    margin-bottom: 80px;
+    animation: .5s ease-in-out;
     @media screen and (max-width: 1000px) {
       gap: 92px 30px;
-      margin-bottom: 83px;
+      // margin-bottom: 83px;
     }
     @media screen and (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
     @media screen and (max-width: 640px) {
-      margin-bottom: 60px;
+      // margin-bottom: 60px;
     }
     @media screen and (max-width: 520px) {
       grid-template-columns: 1fr;
@@ -30,7 +44,50 @@
     @media screen and (max-width: 390px) {
       margin-bottom: 20px;
     }
+
+    &_active, &_next {
+      display: grid;
+    }
+    &_next {
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+    
+    &_to-left {
+      animation-name: left;
+    }
+    &_to-right {
+      animation-name: right;
+      animation-direction: reverse;
+    }
+
+    &_from-left {
+      animation-name: left;
+      animation-direction: reverse;
+    }
+    &_from-right {
+      animation-name: right;
+    }
+
+    @keyframes left {
+      from {
+        left: 0;
+      }
+      to {
+        left: calc(0% - 100% - 30px);
+      }
+    }
+    @keyframes right {
+      from {
+        left: calc(100% + 30px);
+      }
+      to {
+        left: 0;
+      }
+    }
   }
+
 
   .container {
     padding: 94px 0 140px;
@@ -58,6 +115,7 @@
     top: 50%;
     transform: translateY(-50%);
     transition: none;
+    z-index: 1;
     @media screen and (max-width: 520px) {
       display: none;
     }
