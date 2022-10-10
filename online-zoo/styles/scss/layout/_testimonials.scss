@@ -166,7 +166,7 @@
     height: 14px;
     position: fixed;
     left: calc(50% + 145px);
-    top: 25%;
+    top: calc(50% - 205px);
     background: url('../../assets/icons/close.svg');
     z-index: 1000;
   }

@@ -31,7 +31,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   anotherAmountForm.addEventListener("input", (e) => {
-    if (e.target.value > 9999) e.target.value = 9999;
+    if (e.target.value > 9999) e.target.value = e.target.value.slice(0, 4);
     donationOptions.forEach((option) => {
       option.value === e.target.value ?
         option.checked = true :
