@@ -1,8 +1,41 @@
 html {
-  background-color: #ddd;
-  scroll-behavior: smooth;
+  background-color: #fff;
+  user-select: none;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 420px;
+  text-align: center;
+}
+
+.field {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  margin-bottom: 50px;
+  border: 10px solid #FA7070;
+  background-color: #FBF2CF;
+}
+
+.piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25%;
+  height: 25%;
+  border: 2px solid #A1C298;
+  border-radius: 10px;
+  background-color: #C6EBC5;
+  color: #FA7070;
+  cursor: pointer;
+  transition: .3s all;
+  font-size: 32px;
+  &:last-child {
+    display: none;
+  }
 }

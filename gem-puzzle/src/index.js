@@ -1,8 +1,52 @@
 import './index.html';
 import './index.scss';
 
-console.log('hello');
-
 window.addEventListener('DOMContentLoaded', () => {
-  
+  document.body.innerHTML = `
+    <main class="container">
+      <h1 class="header">Puzzle</h1>
+      <div class="field"></div>
+      <button class="shuffle">shuffle</button>
+    </main>
+  `;
+
+  const field = document.querySelector('.field');
+  const flatArray = [];
+  let countItems = 16;
+
+  for (let i = 1; i <= countItems; i++) {
+    flatArray.push(i);
+  }
+
+  flatArray.forEach(item => {
+    field.innerHTML += `
+      <button class="piece" data-piece-id="${item}">${item}</button>
+    `;
+  });
+
+  function generateMatrix(arr) {
+    const matrix = [];
+    const sideLengt = Math.sqrt(arr.length);
+    for (let i = 1; i <= sideLengt; i++) {
+      matrix.push([]);
+      for (let j = 1; j <= sideLengt; j++) {
+        matrix[i - 1].push(j + sideLengt * (i - 1));
+      }
+    }
+    console.log(matrix);
+    setItemsPosition(matrix);
+  }
+
+  function setItemsPosition(matrix) {
+    for (let y = 0; y < matrix.length; y++) {
+      for (let x = 0; x < matrix[y].length; x++) {
+        const item = document.querySelectorAll('.piece')[matrix[y][x] - 1];
+        item.style.transform = `translate(${x * 100}%, ${y * 100}%)`;
+        item.style.width = `calc(100% / ${matrix[y].length})`;
+        item.style.height = `calc(100% / ${matrix.length})`;
+      }
+    }
+  }
+
+  generateMatrix(flatArray);
 });
