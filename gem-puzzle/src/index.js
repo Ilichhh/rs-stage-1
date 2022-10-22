@@ -3,6 +3,7 @@ import './index.html';
 import './index.scss';
 
 window.addEventListener('DOMContentLoaded', () => {
+  const sizes = [9, 16, 25, 36, 49, 64];
   const flatArray = [];
   const matrix = [];
   const buttonCoords = {};
@@ -13,9 +14,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.body.innerHTML = `
     <main class="container">
-      <h1 class="header">Puzzle</h1>
+      <h1 class="header">Gem Puzzle</h1>
+      <button class="button menu">MENU</button>
       <div class="field"></div>
-      <button class="shuffle">shuffle</button>
+      <div class="size-wrapper"></div>
+      <button class="button shuffle">NEW GAME</button>
     </main>
   `;
 
@@ -23,9 +26,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const shuffleButton = document.querySelector('.shuffle');
 
   function createFieldDom(countItems) {
+    flatArray.length = 0;
     for (let i = 1; i <= countItems; i++) {
       flatArray.push(i);
     }
+    field.innerHTML = '';
     flatArray.forEach(item => {
       field.innerHTML += `
         <button class="piece" data-piece-id="${item}">${item}</button>
@@ -33,8 +38,22 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function createChoseSizeDom() {
+    const sizeBlock = document.querySelector('.size-wrapper');
+    sizes.forEach(size => {
+      sizeBlock.innerHTML += `
+        <label class="size">
+          <input type="radio" name="size" value="${size}"${size === 16 ? ' checked' : ''}>${Math.sqrt(size)}x${Math.sqrt(size)}
+        </label>
+      `;
+    });
+  }
+
+  const sizeOptions = document.querySelector('.size-wrapper');
+
   function generateMatrix(arr) {
     const sideLengt = Math.sqrt(arr.length);
+    matrix.length = 0;
     for (let i = 1; i <= sideLengt; i++) {
       matrix.push([]);
       for (let j = 1; j <= sideLengt; j++) {
@@ -103,9 +122,15 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  createFieldDom(settings.countItems);
-  generateMatrix(flatArray);
-  setItemsPosition();
+  function generateField(size) {
+    settings.countItems = size;
+    createFieldDom(settings.countItems);
+    generateMatrix(flatArray);
+    setItemsPosition();
+  }
+
+  createChoseSizeDom();
+  generateField(16);
 
   field.addEventListener('click', e => {
     const button = e.target.closest('.piece');
@@ -113,6 +138,14 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   shuffleButton.addEventListener('click', () => shuffle(settings.countItems));
+
+  sizeOptions.addEventListener('click', (e) => {
+    const size = +e.target.value;
+    if (size) {
+      generateField(size);
+      shuffle(size);
+    }
+  });
 
   shuffle(settings.countItems);
 });

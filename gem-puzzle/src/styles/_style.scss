@@ -1,5 +1,6 @@
 html {
-  background-color: #fff;
+  height: 100%;
+  background: linear-gradient(#A1C298, #C6EBC5) center center/cover no-repeat;
   user-select: none;
   font-family: 'Roboto';
   font-style: normal;
@@ -13,11 +14,16 @@ html {
   text-align: center;
 }
 
+.header {
+  color: #FA7070;
+}
+
 .field {
   position: relative;
   width: 420px;
   height: 420px;
-  margin-bottom: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   border: 10px solid #FA7070;
   background-color: #FBF2CF;
 }
@@ -28,8 +34,7 @@ html {
   left: 0;
   width: 25%;
   height: 25%;
-  border: 2px solid #A1C298;
-  border-radius: 10px;
+  border: 1px solid #A1C298;
   background-color: #C6EBC5;
   color: #FA7070;
   cursor: pointer;
@@ -37,5 +42,32 @@ html {
   font-size: 32px;
   &:last-child {
     display: none;
+  }
+}
+
+.button {
+  width: 50%;
+  height: 35px;
+  padding-top: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #FA7070;
+  color: #FBF2CF;
+}
+
+.size-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.size {
+  cursor: pointer;
+  input {
+    // appearance: none;
+    &:checked {
+      color: #FA7070;
+    }
   }
 }
