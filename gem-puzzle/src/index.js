@@ -89,4 +89,21 @@ window.addEventListener('DOMContentLoaded', () => {
   function isPuzzleSolved(matrix, flatArray) {
     return matrix.join(',') === flatArray.join(',');
   }
+
+  function randomSwap(matrix, buttonsArr) {
+    const swapableArr = flatArray.filter(piece => isSwapable(piece, matrix));
+    const randomPiece = swapableArr[Math.floor(Math.random() * swapableArr.length)];
+    buttonsArr[randomPiece - 1].click();
+  }
+
+  function shuffle(matrix, countItems) {
+    const buttonsArr = [...document.querySelectorAll('.piece')];
+    for (let i = 0; i < countItems * 10; i++) {
+      randomSwap(matrix, buttonsArr);
+    }
+  }
+
+  const shuffleButton = document.querySelector('.shuffle');
+
+  shuffleButton.addEventListener('click', () => shuffle(matrix, countItems));
 });
