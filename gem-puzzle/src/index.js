@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import './index.html';
 import './index.scss';
 
@@ -12,7 +13,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const field = document.querySelector('.field');
   const flatArray = [];
-  let countItems = 16;
+  const matrix = [];
+  const buttonCoords = {};
+  const blankCoords = {};
+  let countItems = 25;
 
   for (let i = 1; i <= countItems; i++) {
     flatArray.push(i);
@@ -25,7 +29,6 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   function generateMatrix(arr) {
-    const matrix = [];
     const sideLengt = Math.sqrt(arr.length);
     for (let i = 1; i <= sideLengt; i++) {
       matrix.push([]);
@@ -34,7 +37,6 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
     console.log(matrix);
-    setItemsPosition(matrix);
   }
 
   function setItemsPosition(matrix) {
@@ -49,4 +51,34 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   generateMatrix(flatArray);
+  setItemsPosition(matrix);
+
+  field.addEventListener('click', e => {
+    const button = e.target.closest('.piece');
+    if (!button) return null;
+    const buttonId = +button.dataset.pieceId;
+    if (isSwapable(buttonId, matrix)) {
+      matrix[buttonCoords.y][buttonCoords.x] = flatArray.length;
+      matrix[blankCoords.y][blankCoords.x] = buttonId;
+      setItemsPosition(matrix);
+    }
+  });
+
+  function isSwapable(buttonId, matrix) {
+    for (let y = 0; y < matrix.length; y++) {
+      for (let x = 0; x < matrix[y].length; x++) {
+        if (matrix[y][x] === buttonId) {
+          buttonCoords.x = x;
+          buttonCoords.y = y;
+        }
+        if (matrix[y][x] === flatArray.length) {
+          blankCoords.x = x;
+          blankCoords.y = y;
+        }
+      }
+    }
+    const diffX = Math.abs(blankCoords.x - buttonCoords.x);
+    const diffY = Math.abs(blankCoords.y - buttonCoords.y);
+    return (blankCoords.x === buttonCoords.x && diffY === 1) || (blankCoords.y === buttonCoords.y && diffX === 1) ? true : false;
+  }
 });
