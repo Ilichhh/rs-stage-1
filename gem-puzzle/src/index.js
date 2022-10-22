@@ -62,6 +62,9 @@ window.addEventListener('DOMContentLoaded', () => {
       matrix[blankCoords.y][blankCoords.x] = buttonId;
       setItemsPosition(matrix);
     }
+    if (isPuzzleSolved(matrix, flatArray)) {
+      console.log('Solved!');
+    }
   });
 
   function isSwapable(buttonId, matrix) {
@@ -79,6 +82,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     const diffX = Math.abs(blankCoords.x - buttonCoords.x);
     const diffY = Math.abs(blankCoords.y - buttonCoords.y);
-    return (blankCoords.x === buttonCoords.x && diffY === 1) || (blankCoords.y === buttonCoords.y && diffX === 1) ? true : false;
+    return (blankCoords.x === buttonCoords.x && diffY === 1)
+      || (blankCoords.y === buttonCoords.y && diffX === 1);
+  }
+
+  function isPuzzleSolved(matrix, flatArray) {
+    return matrix.join(',') === flatArray.join(',');
   }
 });
