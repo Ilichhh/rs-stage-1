@@ -3,6 +3,14 @@ import './index.html';
 import './index.scss';
 
 window.addEventListener('DOMContentLoaded', () => {
+  const flatArray = [];
+  const matrix = [];
+  const buttonCoords = {};
+  const blankCoords = {};
+  const settings = {
+    countItems: 16,
+  };
+
   document.body.innerHTML = `
     <main class="container">
       <h1 class="header">Puzzle</h1>
@@ -12,21 +20,18 @@ window.addEventListener('DOMContentLoaded', () => {
   `;
 
   const field = document.querySelector('.field');
-  const flatArray = [];
-  const matrix = [];
-  const buttonCoords = {};
-  const blankCoords = {};
-  let countItems = 25;
+  const shuffleButton = document.querySelector('.shuffle');
 
-  for (let i = 1; i <= countItems; i++) {
-    flatArray.push(i);
+  function createFieldDom(countItems) {
+    for (let i = 1; i <= countItems; i++) {
+      flatArray.push(i);
+    }
+    flatArray.forEach(item => {
+      field.innerHTML += `
+        <button class="piece" data-piece-id="${item}">${item}</button>
+      `;
+    });
   }
-
-  flatArray.forEach(item => {
-    field.innerHTML += `
-      <button class="piece" data-piece-id="${item}">${item}</button>
-    `;
-  });
 
   function generateMatrix(arr) {
     const sideLengt = Math.sqrt(arr.length);
@@ -36,10 +41,9 @@ window.addEventListener('DOMContentLoaded', () => {
         matrix[i - 1].push(j + sideLengt * (i - 1));
       }
     }
-    console.log(matrix);
   }
 
-  function setItemsPosition(matrix) {
+  function setItemsPosition() {
     for (let y = 0; y < matrix.length; y++) {
       for (let x = 0; x < matrix[y].length; x++) {
         const item = document.querySelectorAll('.piece')[matrix[y][x] - 1];
@@ -50,24 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  generateMatrix(flatArray);
-  setItemsPosition(matrix);
-
-  field.addEventListener('click', e => {
-    const button = e.target.closest('.piece');
-    if (!button) return null;
-    const buttonId = +button.dataset.pieceId;
-    if (isSwapable(buttonId, matrix)) {
-      matrix[buttonCoords.y][buttonCoords.x] = flatArray.length;
-      matrix[blankCoords.y][blankCoords.x] = buttonId;
-      setItemsPosition(matrix);
-    }
-    if (isPuzzleSolved(matrix, flatArray)) {
-      console.log('Solved!');
-    }
-  });
-
-  function isSwapable(buttonId, matrix) {
+  function isMovable(buttonId) {
     for (let y = 0; y < matrix.length; y++) {
       for (let x = 0; x < matrix[y].length; x++) {
         if (matrix[y][x] === buttonId) {
@@ -86,24 +73,46 @@ window.addEventListener('DOMContentLoaded', () => {
       || (blankCoords.y === buttonCoords.y && diffX === 1);
   }
 
-  function isPuzzleSolved(matrix, flatArray) {
+  function isPuzzleSolved() {
     return matrix.join(',') === flatArray.join(',');
   }
 
-  function randomSwap(matrix, buttonsArr) {
-    const swapableArr = flatArray.filter(piece => isSwapable(piece, matrix));
+  function move(button) {
+    if (!button) return null;
+    const buttonId = +button.dataset.pieceId;
+    if (isMovable(buttonId, matrix)) {
+      matrix[buttonCoords.y][buttonCoords.x] = flatArray.length;
+      matrix[blankCoords.y][blankCoords.x] = buttonId;
+      setItemsPosition();
+    }
+    if (isPuzzleSolved()) {
+      console.log('Solved!');
+    }
+  }
+
+  function randomMove(buttonsArr) {
+    const swapableArr = flatArray.filter(piece => isMovable(piece));
     const randomPiece = swapableArr[Math.floor(Math.random() * swapableArr.length)];
     buttonsArr[randomPiece - 1].click();
   }
 
-  function shuffle(matrix, countItems) {
+  function shuffle(countItems) {
     const buttonsArr = [...document.querySelectorAll('.piece')];
     for (let i = 0; i < countItems * 10; i++) {
-      randomSwap(matrix, buttonsArr);
+      randomMove(buttonsArr);
     }
   }
 
-  const shuffleButton = document.querySelector('.shuffle');
+  createFieldDom(settings.countItems);
+  generateMatrix(flatArray);
+  setItemsPosition();
 
-  shuffleButton.addEventListener('click', () => shuffle(matrix, countItems));
+  field.addEventListener('click', e => {
+    const button = e.target.closest('.piece');
+    move(button);
+  });
+
+  shuffleButton.addEventListener('click', () => shuffle(settings.countItems));
+
+  shuffle(settings.countItems);
 });
