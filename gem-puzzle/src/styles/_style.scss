@@ -49,17 +49,19 @@ html {
   width: 50%;
   height: 35px;
   padding-top: 4px;
+  margin-bottom: 30px;
   border: none;
   cursor: pointer;
   background-color: #FA7070;
   color: #FBF2CF;
 }
 
-.size-wrapper {
-  width: 100%;
+.size-wrapper, .stats-wrapper {
+  width: 80%;
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 30px;
+  justify-content: space-between;
+  margin: 0 auto 30px;
+  font-size: 20px;
 }
 
 .size {

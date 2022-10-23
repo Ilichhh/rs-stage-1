@@ -11,11 +11,22 @@ window.addEventListener('DOMContentLoaded', () => {
   const settings = {
     countItems: 16,
   };
+  const state = {
+    seconds: 0,
+    minutes: 0,
+    moves: 0,
+  };
+  let shuffling = false;
+  let int = null;
 
   document.body.innerHTML = `
     <main class="container">
       <h1 class="header">Gem Puzzle</h1>
       <button class="button menu">MENU</button>
+      <div class="stats-wrapper">
+        <span class="time">00:00</span>
+        <span class="moves">Moves: ${state.moves}</span>
+      </div>
       <div class="field"></div>
       <div class="size-wrapper"></div>
       <button class="button shuffle">NEW GAME</button>
@@ -24,6 +35,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const field = document.querySelector('.field');
   const shuffleButton = document.querySelector('.shuffle');
+  const stats = document.querySelector('.stats-wrapper');
+  const movesCounter = document.querySelector('.moves');
+  const timer = document.querySelector('.time');
+  const sizeOptions = document.querySelector('.size-wrapper');
 
   function createFieldDom(countItems) {
     flatArray.length = 0;
@@ -48,8 +63,6 @@ window.addEventListener('DOMContentLoaded', () => {
       `;
     });
   }
-
-  const sizeOptions = document.querySelector('.size-wrapper');
 
   function generateMatrix(arr) {
     const sideLengt = Math.sqrt(arr.length);
@@ -104,8 +117,15 @@ window.addEventListener('DOMContentLoaded', () => {
       matrix[blankCoords.y][blankCoords.x] = buttonId;
       setItemsPosition();
     }
-    if (isPuzzleSolved()) {
-      console.log('Solved!');
+    if (!shuffling) {
+      state.moves++;
+      movesCounter.textContent = `Moves: ${state.moves}`;
+      if (isPuzzleSolved()) {
+        stats.insertAdjacentHTML('afterend', `
+          <div class="congratulation">Hooray! You solved the puzzle in ${timer.textContent} and ${state.moves} moves!</div>
+        `);
+        clearInterval(int);
+      }
     }
   }
 
@@ -116,10 +136,24 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function shuffle(countItems) {
+    shuffling = true;
     const buttonsArr = [...document.querySelectorAll('.piece')];
-    for (let i = 0; i < countItems * 10; i++) {
+    for (let i = 0; i < countItems * 1; i++) {
       randomMove(buttonsArr);
     }
+    shuffling = false;
+  }
+
+  function startNewGame(countItems) {
+    if (document.querySelector('.congratulation')) document.querySelector('.congratulation').remove();
+    clearInterval(int);
+    state.moves = 0;
+    state.minutes = 0;
+    state.seconds = 0;
+    timer.textContent = '00:00';
+    movesCounter.textContent = 'Moves: 0';
+    shuffle(countItems);
+    int = setInterval(displayTimer, 1000);
   }
 
   function generateField(size) {
@@ -127,6 +161,15 @@ window.addEventListener('DOMContentLoaded', () => {
     createFieldDom(settings.countItems);
     generateMatrix(flatArray);
     setItemsPosition();
+  }
+
+  function displayTimer() {
+    state.seconds++;
+    if (state.seconds === 60) {
+      state.minutes++;
+      state.seconds = 0;
+    }
+    timer.textContent = `${state.minutes.toString().padStart(2, 0)}:${state.seconds.toString().padStart(2, 0)}`;
   }
 
   createChoseSizeDom();
@@ -137,15 +180,15 @@ window.addEventListener('DOMContentLoaded', () => {
     move(button);
   });
 
-  shuffleButton.addEventListener('click', () => shuffle(settings.countItems));
+  shuffleButton.addEventListener('click', () => startNewGame(settings.countItems));
 
   sizeOptions.addEventListener('click', (e) => {
     const size = +e.target.value;
     if (size) {
       generateField(size);
-      shuffle(size);
+      startNewGame(settings.countItems);
     }
   });
 
-  shuffle(settings.countItems);
+  startNewGame(settings.countItems);
 });
