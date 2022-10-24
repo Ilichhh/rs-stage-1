@@ -1,0 +1,173 @@
+@use '../abstracts/variables' as *;
+@use '../components/buttons' as *;
+@use '../components/testimonial-card' as *;
+
+.testimonials {
+  position: relative;
+  &__header {
+    margin-bottom: 47px;
+    color: $black-blue-color;
+    text-align: center;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 130%;
+    @media screen and (max-width: 1000px) {
+      margin-top: 0;
+      margin-bottom: 30px;
+    }
+    @media screen and (max-width: 320px) {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+  }
+  &__wrapper {
+    width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    @media screen and (max-width: 1240px) {
+      width: 940px;
+    }
+    @media screen and (max-width: 998px) {
+      width: 100%;
+    }
+  }
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto 20px;
+    width: 3242.5px;
+    overflow: hidden;
+    color: $gray-color;
+    transition: 1s all;
+    @media screen and (max-width: 1240px) {
+      width: 3523px;
+    }
+    @media screen and (max-width: 998px) {
+      width: 100%;
+      flex-direction: column;
+      margin-bottom: 25px;
+    }
+    @media screen and (max-width: 390px) {
+      margin-bottom: 13px;
+    }
+  }
+  &__scroll-border {
+    width: 600px;
+    height: 8px;
+    margin: 0 auto 30px;
+    border: 0.5px solid transparent;
+    border-radius: 4px;
+    background: $pink-gradient-color;
+    @media screen and (max-width: 1000px) {
+      margin-bottom: 52px;
+      width: 390px;
+    }
+    @media screen and (max-width: 998px) {
+      display: none;
+    }
+    
+  }
+  &__scroll {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 3.5px;
+    background: $light-gray-color;
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12.5%;
+      height: 6px;
+      background-color: #FE9013;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: .3s;
+      @media screen and (max-width: 1000px) {
+        width: 11.1%;
+      }
+      &:hover {
+        background-color: $hover-state-color;
+      }
+    }
+  }
+  &::before {
+    content: '';
+    width: 247px;
+    height: 275px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-image: url('../../assets/images/leav_foto.jpg');
+    background-repeat: no-repeat;
+    z-index: -1;
+    @media screen and (max-width: 1000px) {
+      right: -25px;
+      bottom: -10px;
+      transform: scale(.8);
+    }
+    @media screen and (max-width: 960px) {
+      right: -62px;
+      bottom: -70px;
+      transform: scale(.5);
+    }
+    @media screen and (max-width: 390px) {
+      right: -92px;
+      bottom: -106px;
+      transform: scale(.25);
+    }
+  }
+  .container {
+    padding-top: 110px;
+    padding-bottom: 180px;
+    overflow: hidden;
+    @media screen and (max-width: 1240px) {
+      width: 940px;
+      padding-top: 100px;
+      padding-bottom: 140px;
+    }
+    @media screen and (max-width: 998px) {
+      max-width: calc(100% - 40px);
+      padding-top: 60px;
+      padding-bottom: 80px;
+    }
+    @media screen and (max-width: 320px) {
+      max-width: calc(100% - 20px);
+      padding-top: 30px;
+      padding-bottom: 60px;
+    }
+  }
+
+  .button {
+    @media screen and (max-width: 640px) {
+      display: block;
+      margin: 0 auto;
+      width: 240px;
+    }
+  }
+}
+
+.popup-bg {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' ';
+  background: rgba(0,0,0,.5);
+  z-index: 100;
+  &_active {
+    display: block;
+  }
+  &::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    position: fixed;
+    left: calc(50% + 145px);
+    top: calc(50% - 205px);
+    background: url('../../assets/icons/close.svg');
+    z-index: 1000;
+  }
+}

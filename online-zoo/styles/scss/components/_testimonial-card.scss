@@ -1,0 +1,87 @@
+@use '../abstracts/variables' as *;
+
+.testimonial-card {
+  padding: 13px 15px 19px 16px;
+  width: 100%;
+  height: 100%;
+  background-color: $light-gray-color;
+  border-radius: 18px;
+  @media screen and (max-width: 390px) {
+    padding-top: 7px;
+  }
+  &__border {
+    width: 267.5px;
+    height: 391px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background: $pink-gradient-color;
+    border-radius: 20px;
+    &_popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 267.5px !important;
+      height: 391px !important;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+
+    }
+    @media screen and (max-width: 1240px) {
+      width: 293px;
+    }
+    @media screen and (max-width: 998px) {
+      width: 100%;
+      max-width: 600px;
+      height: 109px;
+      margin-bottom: 15px;
+      &:nth-child(4), &:nth-child(5), &:nth-child(6), &:nth-child(7), &:nth-child(8), &:nth-child(9), &:nth-child(10), &:nth-child(11) {
+        display: none;
+      }
+    }
+  }
+  &__header {
+    height: 37px;
+    margin-bottom: 11px;
+    display: flex;
+  }
+  &__icon {
+    margin-right: 10px;
+  }
+  &__name {
+    color: black;
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+  }
+  &__location, &__time {
+    color: #BDBDBD;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 120%;
+  }
+  &__location {
+    position: relative;
+    margin-right: 16px;
+    &::after {
+      content:"\A";
+      position: absolute;
+      top: 8px;
+      right: -12px;
+      width:3px;
+      height:3px;
+      border-radius:50%;
+      background: #BDBDBD;
+      display:inline-block;
+    }
+  }
+  &__content {
+    margin: 0;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 120%;
+  }
+}

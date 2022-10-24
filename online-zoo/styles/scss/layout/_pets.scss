@@ -1,0 +1,189 @@
+@use '../abstracts/variables' as *;
+@use '../components/buttons' as *;
+@use '../components/pet-card' as *;
+
+.pets {
+  position: relative;
+  &__slider {
+    position: relative;
+  }
+  &__container {
+    overflow: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    margin-bottom: 80px;
+  }
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    transition-duration: .5s;
+    transition-property: transform;
+    will-change: transform;
+  }
+  &__content-block {
+    position: relative;
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px 30px;
+    animation: .5s ease-in-out;
+    @media screen and (max-width: 1000px) {
+      gap: 92px 30px;
+      // margin-bottom: 83px;
+    }
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (max-width: 640px) {
+      // margin-bottom: 60px;
+    }
+    @media screen and (max-width: 520px) {
+      grid-template-columns: 1fr;
+      gap: 20px 30px;
+    }
+    @media screen and (max-width: 390px) {
+      margin-bottom: 20px;
+    }
+
+    &_active, &_next {
+      display: grid;
+    }
+    &_next {
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+    
+    &_to-left {
+      animation-name: left;
+    }
+    &_to-right {
+      animation-name: right;
+      animation-direction: reverse;
+    }
+
+    &_from-left {
+      animation-name: left;
+      animation-direction: reverse;
+    }
+    &_from-right {
+      animation-name: right;
+    }
+
+    @keyframes left {
+      from {
+        left: 0;
+      }
+      to {
+        left: calc(0% - 100% - 30px);
+      }
+    }
+    @keyframes right {
+      from {
+        left: calc(100% + 30px);
+      }
+      to {
+        left: 0;
+      }
+    }
+  }
+
+
+  .container {
+    padding: 94px 0 140px;
+    max-width: calc(100% - 180px);
+    @media screen and (max-width: 1000px) {
+      max-width: calc(100% - 60px);
+      padding: 36px 0 140px;
+    }
+    @media screen and (max-width: 640px) {
+      max-width: calc(100% - 40px);
+      padding: 36px 0 100px;
+    }
+    @media screen and (max-width: 390px) {
+      max-width: calc(100% - 20px);
+      padding: 22px 0 60px;
+    }
+  }
+  .button {
+    display: block;
+    margin: 0 auto;
+
+  }
+  .arrow-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: none;
+    z-index: 1;
+    @media screen and (max-width: 520px) {
+      display: none;
+    }
+  }
+  .prev {
+    left: -82px;
+    @media screen and (max-width: 1000px) {
+      left: 34%;
+    }
+    @media screen and (max-width: 640px) {
+      left: 37%;
+    }
+  }
+  .next {
+    right: -82px;
+    @media screen and (max-width: 1000px) {
+      right: 34%;
+    }
+    @media screen and (max-width: 640px) {
+      right: 37%;
+    }
+  }
+  &::before {
+    content: '';
+    width: 292px;
+    height: 460px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: url('../../assets/images/palm_foto.png') right center/cover no-repeat;
+    @media screen and (max-width: 1598px) {
+      width: 192px;
+      height: 202px;
+    }
+    @media screen and (max-width: 1000px) {
+      width: 192px;
+      height: 202px;
+    }
+    @media screen and (max-width: 640px) {
+      width: 132px;
+    }
+    @media screen and (max-width: 520px) {
+      width: 138px;
+      height: 72px;
+      left: -81px;
+    }
+  }
+  &::after {
+    content: '';
+    width: 368px;
+    height: 275px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: url('../../assets/images/strelitzia1.png') center center/cover no-repeat;
+    z-index: -1;
+    @media screen and (max-width: 1000px) {
+      width: 240px;
+      height: 180px;
+    }
+    @media screen and (max-width: 640px) {
+      width: 175px;
+      height: 131px;
+    }
+    @media screen and (max-width: 520px) {
+      width: 55px;
+      height: 71px;
+      bottom: -5px;
+    }
+  }
+}
