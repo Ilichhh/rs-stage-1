@@ -1,6 +1,7 @@
 html {
   height: 100%;
-  background: linear-gradient(#A1C298, #C6EBC5) center center/cover no-repeat;
+  background: linear-gradient(#FCF8E8, #FCF8E8) center center/cover no-repeat;
+  color: #DF7861;
   user-select: none;
   font-family: 'Roboto';
   font-style: normal;
@@ -15,17 +16,17 @@ html {
 }
 
 .header {
-  color: #FA7070;
 }
 
 .field {
   position: relative;
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   height: 420px;
   margin-top: 30px;
   margin-bottom: 30px;
-  border: 10px solid #FA7070;
-  background-color: #FBF2CF;
+  border: 10px solid #DF7861;
+  background-color: #FCF8E8;
 }
 
 .piece {
@@ -34,9 +35,9 @@ html {
   left: 0;
   width: 25%;
   height: 25%;
-  border: 1px solid #A1C298;
-  background-color: #C6EBC5;
-  color: #FA7070;
+  border: 1px solid #DF7861;
+  background-color: #94B49F;
+  color: #DF7861;
   cursor: pointer;
   transition: .3s all;
   font-size: 32px;
@@ -52,8 +53,8 @@ html {
   margin-bottom: 30px;
   border: none;
   cursor: pointer;
-  background-color: #FA7070;
-  color: #FBF2CF;
+  background-color: #94B49F;
+  color: #FCF8E8;
 }
 
 .size-wrapper, .stats-wrapper {

@@ -5,13 +5,11 @@ import './index.scss';
 window.addEventListener('DOMContentLoaded', () => {
   const sizes = [9, 16, 25, 36, 49, 64];
   const flatArray = [];
-  const matrix = [];
+  let matrix = [];
   const buttonCoords = {};
   const blankCoords = {};
-  const settings = {
+  let state = {
     countItems: 16,
-  };
-  const state = {
     seconds: 0,
     minutes: 0,
     moves: 0,
@@ -22,7 +20,8 @@ window.addEventListener('DOMContentLoaded', () => {
   document.body.innerHTML = `
     <main class="container">
       <h1 class="header">Gem Puzzle</h1>
-      <button class="button menu">MENU</button>
+      <button class="button save">SAVE</button>
+      <button class="button load">LOAD</button>
       <div class="stats-wrapper">
         <span class="time">00:00</span>
         <span class="moves">Moves: ${state.moves}</span>
@@ -35,6 +34,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const field = document.querySelector('.field');
   const shuffleButton = document.querySelector('.shuffle');
+  const saveButton = document.querySelector('.save');
+  const loadButton = document.querySelector('.load');
   const stats = document.querySelector('.stats-wrapper');
   const movesCounter = document.querySelector('.moves');
   const timer = document.querySelector('.time');
@@ -55,10 +56,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function createChoseSizeDom() {
     const sizeBlock = document.querySelector('.size-wrapper');
+    sizeBlock.innerHTML = '';
     sizes.forEach(size => {
       sizeBlock.innerHTML += `
         <label class="size">
-          <input type="radio" name="size" value="${size}"${size === 16 ? ' checked' : ''}>${Math.sqrt(size)}x${Math.sqrt(size)}
+          <input type="radio" name="size" value="${size}"${size === state.countItems ? ' checked' : ''}>${Math.sqrt(size)}x${Math.sqrt(size)}
         </label>
       `;
     });
@@ -138,7 +140,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function shuffle(countItems) {
     shuffling = true;
     const buttonsArr = [...document.querySelectorAll('.piece')];
-    for (let i = 0; i < countItems * 1; i++) {
+    for (let i = 0; i < countItems * 20; i++) {
       randomMove(buttonsArr);
     }
     shuffling = false;
@@ -156,9 +158,24 @@ window.addEventListener('DOMContentLoaded', () => {
     int = setInterval(displayTimer, 1000);
   }
 
+  function loadGame() {
+    if (localStorage.getItem('savedState')) {
+      state = JSON.parse(localStorage.getItem('savedState'));
+      matrix = JSON.parse(localStorage.getItem('savedMatrix'));
+      if (document.querySelector('.congratulation')) document.querySelector('.congratulation').remove();
+      clearInterval(int);
+      createFieldDom(state.countItems);
+      setItemsPosition();
+      timer.textContent = `${state.minutes.toString().padStart(2, 0)}:${state.seconds.toString().padStart(2, 0)}`;
+      movesCounter.textContent = `Moves: ${state.moves}`;
+      int = setInterval(displayTimer, 1000);
+      createChoseSizeDom();
+    }
+  }
+
   function generateField(size) {
-    settings.countItems = size;
-    createFieldDom(settings.countItems);
+    state.countItems = size;
+    createFieldDom(state.countItems);
     generateMatrix(flatArray);
     setItemsPosition();
   }
@@ -180,15 +197,61 @@ window.addEventListener('DOMContentLoaded', () => {
     move(button);
   });
 
-  shuffleButton.addEventListener('click', () => startNewGame(settings.countItems));
+  // field.onmousedown = function(e) {
+  //   e.preventDefault();
+  //   const button = e.target.closest('.piece');
+  //   if (!button) return null;
+  //   let basePos = e.clientX;
+  //   const baseXTransform = button.style.transform.match(/\d+/g)[0];
+  //   const baseYTransform = button.style.transform.match(/\d+/g)[1];
+  //   console.log(baseX, baseY);
+
+  //   function onMouseMove(e) {
+  //     let shiftX = e.clientX - basePos;
+  //     let newXTransform = baseXTransform + shiftX;
+  //     button.style.transform = `translate(${newXTransform}%, ${100}%)`;
+  //     if ((shiftX) > 50) move(button);
+  //   }
+
+  //   function onMouseUp() {
+  //     field.removeEventListener('mousemove', onMouseMove);
+  //     field.removeEventListener('mouseup', onMouseUp);
+  //   }
+
+  //   field.addEventListener('mousemove', onMouseMove);
+  //   field.addEventListener('mouseup', onMouseUp);
+  // };
+
+  // field.ondragstart = function() {
+  //   return false;
+  // };
+
+
+  shuffleButton.addEventListener('click', () => startNewGame(state.countItems));
 
   sizeOptions.addEventListener('click', (e) => {
     const size = +e.target.value;
     if (size) {
       generateField(size);
-      startNewGame(settings.countItems);
+      startNewGame(state.countItems);
     }
   });
 
-  startNewGame(settings.countItems);
+  startNewGame(state.countItems);
+
+  function setLocalStorage() {
+    localStorage.setItem('savedState', JSON.stringify(state));
+    localStorage.setItem('savedMatrix', JSON.stringify(matrix));
+  }
+
+  function getLocalStorage() {
+    if (localStorage.getItem('savedState')) {
+      state = JSON.parse(localStorage.getItem('savedState'));
+      matrix = JSON.parse(localStorage.getItem('savedMatrix'));
+    }
+  }
+
+  saveButton.addEventListener('click', setLocalStorage);
+  // window.addEventListener('beforeunload', setLocalStorage);
+  loadButton.addEventListener('click', loadGame);
 });
