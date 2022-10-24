@@ -57,6 +57,15 @@ html {
   color: #FCF8E8;
 }
 
+.sound-button {
+  position: absolute;
+  right: 30px;
+  top: 20px;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+}
+
 .size-wrapper, .stats-wrapper {
   width: 80%;
   display: flex;
@@ -73,4 +82,9 @@ html {
       color: #FA7070;
     }
   }
+}
+
+svg {
+  width: 30px;
+  height: 30px;
 }

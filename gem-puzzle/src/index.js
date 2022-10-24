@@ -1,8 +1,12 @@
 /* eslint-disable arrow-parens */
 import './index.html';
 import './index.scss';
+import sound from './audio/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_70840.mp3';
+import volumeOn from './img/volume_on.svg';
+import volumeOff from './img/volume_off.svg';
 
 window.addEventListener('DOMContentLoaded', () => {
+  const audio = new Audio('./assets/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_70840.mp3');
   const sizes = [9, 16, 25, 36, 49, 64];
   const flatArray = [];
   let matrix = [];
@@ -16,10 +20,12 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   let shuffling = false;
   let int = null;
+  let volume = true;
 
   document.body.innerHTML = `
     <main class="container">
       <h1 class="header">Gem Puzzle</h1>
+      <button class="button sound-button">${volumeOn}</button>
       <button class="button save">SAVE</button>
       <button class="button load">LOAD</button>
       <div class="stats-wrapper">
@@ -36,6 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const shuffleButton = document.querySelector('.shuffle');
   const saveButton = document.querySelector('.save');
   const loadButton = document.querySelector('.load');
+  const soundButton = document.querySelector('.sound-button');
   const stats = document.querySelector('.stats-wrapper');
   const movesCounter = document.querySelector('.moves');
   const timer = document.querySelector('.time');
@@ -118,15 +125,18 @@ window.addEventListener('DOMContentLoaded', () => {
       matrix[buttonCoords.y][buttonCoords.x] = flatArray.length;
       matrix[blankCoords.y][blankCoords.x] = buttonId;
       setItemsPosition();
-    }
-    if (!shuffling) {
-      state.moves++;
-      movesCounter.textContent = `Moves: ${state.moves}`;
-      if (isPuzzleSolved()) {
-        stats.insertAdjacentHTML('afterend', `
-          <div class="congratulation">Hooray! You solved the puzzle in ${timer.textContent} and ${state.moves} moves!</div>
-        `);
-        clearInterval(int);
+      if (!shuffling) {
+        state.moves++;
+        movesCounter.textContent = `Moves: ${state.moves}`;
+        if (volume) {
+          audio.play();
+        }
+        if (isPuzzleSolved()) {
+          stats.insertAdjacentHTML('afterend', `
+            <div class="congratulation">Hooray! You solved the puzzle in ${timer.textContent} and ${state.moves} moves!</div>
+          `);
+          clearInterval(int);
+        }
       }
     }
   }
@@ -187,6 +197,13 @@ window.addEventListener('DOMContentLoaded', () => {
       state.seconds = 0;
     }
     timer.textContent = `${state.minutes.toString().padStart(2, 0)}:${state.seconds.toString().padStart(2, 0)}`;
+  }
+
+  function toggleSound() {
+    volume = !volume;
+    soundButton.innerHTML === volumeOn ?
+      soundButton.innerHTML = volumeOff : 
+      soundButton.innerHTML = volumeOn;
   }
 
   createChoseSizeDom();
@@ -254,4 +271,5 @@ window.addEventListener('DOMContentLoaded', () => {
   saveButton.addEventListener('click', setLocalStorage);
   // window.addEventListener('beforeunload', setLocalStorage);
   loadButton.addEventListener('click', loadGame);
+  soundButton.addEventListener('click', toggleSound);
 });
