@@ -26,8 +26,11 @@ window.addEventListener('DOMContentLoaded', () => {
     <main class="container">
       <h1 class="header">Gem Puzzle</h1>
       <button class="button sound-button">${volumeOn}</button>
-      <button class="button save">SAVE</button>
-      <button class="button load">LOAD</button>
+      <div class="buttons-wrapper">
+        <button class="button save">SAVE</button>
+        <button class="button load">LOAD</button>
+        <button class="button load">RESULTS</button>
+      </div>
       <div class="stats-wrapper">
         <span class="time">00:00</span>
         <span class="moves">Moves: ${state.moves}</span>
@@ -248,6 +251,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   sizeOptions.addEventListener('click', (e) => {
     const size = +e.target.value;
+    // console.log(e.target)
+    // e.target.label.classlist.add('.size_checked');
     if (size) {
       generateField(size);
       startNewGame(state.countItems);

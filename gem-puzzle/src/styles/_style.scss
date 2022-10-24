@@ -1,7 +1,7 @@
 html {
   height: 100%;
-  background: linear-gradient(#FCF8E8, #FCF8E8) center center/cover no-repeat;
-  color: #DF7861;
+  background: #F8F5F1;
+  color: #343F56;
   user-select: none;
   font-family: 'Roboto';
   font-style: normal;
@@ -9,24 +9,33 @@ html {
   font-size: 16px;
 }
 
-.container {
-  margin: 0 auto;
-  max-width: 420px;
-  text-align: center;
+svg {
+  width: 30px;
+  height: 30px;
 }
 
-.header {
+.container {
+  margin: 0 auto;
+  max-width: 414px;
+  text-align: center;
+  @media (max-width: 420px) {
+    max-width: 320px;
+  }
 }
 
 .field {
   position: relative;
   width: 100%;
-  max-width: 420px;
-  height: 420px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  border: 10px solid #DF7861;
-  background-color: #FCF8E8;
+  max-width: 414px;
+  height: 414px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 7px solid #343F56;
+  background-color: #F8F5F1;
+  @media (max-width: 420px) {
+    max-width: 320px;
+    height: 320px;
+  }
 }
 
 .piece {
@@ -35,26 +44,37 @@ html {
   left: 0;
   width: 25%;
   height: 25%;
-  border: 1px solid #DF7861;
-  background-color: #94B49F;
-  color: #DF7861;
+  border: 1px solid #F8F5F1;
+  background-color: #387C6D;
+  color: #F8F5F1;
   cursor: pointer;
   transition: .3s all;
   font-size: 32px;
   &:last-child {
     display: none;
   }
+  @media (max-width: 420px) {
+    font-size: 24px;
+  }
+}
+
+.buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .button {
-  width: 50%;
+  width: 30%;
   height: 35px;
   padding-top: 4px;
-  margin-bottom: 30px;
   border: none;
   cursor: pointer;
-  background-color: #94B49F;
-  color: #FCF8E8;
+  background-color: #E9896A;
+  color: #F8F5F1;
+  &:hover {
+    background-color: #387C6D;
+  }
 }
 
 .sound-button {
@@ -64,27 +84,39 @@ html {
   width: 30px;
   height: 30px;
   background-color: transparent;
+  &:hover {
+    background-color: #F8F5F1;
+  }
+}
+
+.shuffle {
+  width: 50%;
+  height: 40px;
 }
 
 .size-wrapper, .stats-wrapper {
-  width: 80%;
+  width: 90%;
   display: flex;
   justify-content: space-between;
-  margin: 0 auto 30px;
+  margin: 0 auto 20px;
   font-size: 20px;
 }
 
 .size {
   cursor: pointer;
+  &:hover {
+    color: #FA7070;
+  }
+  &_checked {
+    color: #FA7070;
+  }
   input {
-    // appearance: none;
+    appearance: none;
     &:checked {
-      color: #FA7070;
+      ~ .size {
+        color: #FA7070;
+      }
     }
   }
 }
 
-svg {
-  width: 30px;
-  height: 30px;
-}
