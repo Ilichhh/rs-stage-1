@@ -120,3 +120,44 @@ svg {
   }
 }
 
+.results {
+  display: none;
+  position: absolute;
+  width: 410px;
+  height: 410px;
+  padding: 20px;
+  margin: 0 auto;
+  background-color: #343f56de;
+  color: #F8F5F1;
+  z-index: 1000;
+  @media (max-width: 420px) {
+    max-width: 320px;
+    height: 320px;
+  }
+  &_active {
+    display: block;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #F8F5F1;
+  }
+  &__values {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+}
+
+.congratulation {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding-top: 35%;
+  color: #F8F5F1;
+  background-color: #343f56b2;
+  font-size: 36px;
+  z-index: 10;
+}

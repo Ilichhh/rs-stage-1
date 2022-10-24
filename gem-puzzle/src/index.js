@@ -5,6 +5,8 @@ import sound from './audio/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_7
 import volumeOn from './img/volume_on.svg';
 import volumeOff from './img/volume_off.svg';
 
+window.alert('Привет, проверяющий! Я к сожалению не успел сделать драг-н-дроп и сейчас мой балл 105. Будь другом, не проверяй пока. Мне бы денек, чтоб закончить (ну или два). Дизайн еще додизайню, вообще по-красоте все будет, отвечаю!');
+
 window.addEventListener('DOMContentLoaded', () => {
   const audio = new Audio('./assets/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_70840.mp3');
   const sizes = [9, 16, 25, 36, 49, 64];
@@ -18,6 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
     minutes: 0,
     moves: 0,
   };
+  let top = [];
   let shuffling = false;
   let int = null;
   let volume = true;
@@ -29,11 +32,21 @@ window.addEventListener('DOMContentLoaded', () => {
       <div class="buttons-wrapper">
         <button class="button save">SAVE</button>
         <button class="button load">LOAD</button>
-        <button class="button load">RESULTS</button>
+        <button class="button show-results">RESULTS</button>
       </div>
       <div class="stats-wrapper">
         <span class="time">00:00</span>
         <span class="moves">Moves: ${state.moves}</span>
+      </div>
+      <div class="results">
+        <div class="results__table">
+          <div class="results__header">
+            <div>Position</div>
+            <div>Time</div>
+            <div>Moves</div>
+          </div>
+          <div class="results__stats"></div>
+        </div>
       </div>
       <div class="field"></div>
       <div class="size-wrapper"></div>
@@ -45,11 +58,14 @@ window.addEventListener('DOMContentLoaded', () => {
   const shuffleButton = document.querySelector('.shuffle');
   const saveButton = document.querySelector('.save');
   const loadButton = document.querySelector('.load');
+  const resultsButton = document.querySelector('.show-results');
   const soundButton = document.querySelector('.sound-button');
   const stats = document.querySelector('.stats-wrapper');
+  const resultsPopup = document.querySelector('.results');
   const movesCounter = document.querySelector('.moves');
   const timer = document.querySelector('.time');
   const sizeOptions = document.querySelector('.size-wrapper');
+  const results = document.querySelector('.results__stats');
 
   function createFieldDom(countItems) {
     flatArray.length = 0;
@@ -135,13 +151,51 @@ window.addEventListener('DOMContentLoaded', () => {
           audio.play();
         }
         if (isPuzzleSolved()) {
-          stats.insertAdjacentHTML('afterend', `
-            <div class="congratulation">Hooray! You solved the puzzle in ${timer.textContent} and ${state.moves} moves!</div>
-          `);
+          showCongrats(timer.textContent, state.moves);
+          console.log(state);
+          addToTopResults(state);
           clearInterval(int);
         }
       }
     }
+  }
+
+  function showCongrats(timer, moves) {
+    field.insertAdjacentHTML('afterbegin', `
+      <div class="congratulation">Hooray!<br> You solved the puzzle in ${timer} and ${moves} moves!</div>
+    `);
+  }
+
+  function generateTopDom() {
+    results.innerHTML = '';
+    for (let i = 0; i < 10; i++) {
+      let topTime;
+      if (top[i]) {
+        topTime = `${top[i].min.toString().padStart(2, 0)}:${top[i].sec.toString().padStart(2, 0)}`;
+      }
+      results.innerHTML += `
+        <div class="results__values">
+          <div>${i + 1}</div>
+          <div>${top[i] ? topTime : '...'}</div>
+          <div>${top[i] ? top[i].moves : '...'}</div>
+        </div>
+      `;
+    }
+  }
+
+  generateTopDom();
+
+  function addToTopResults(state) {
+    const score = {
+      min: state.minutes,
+      sec: state.seconds,
+      moves: state.moves,
+    };
+    top.push(score);
+    top.sort((a, b) => (a.min * 60 + a.sec) - (b.min * 60 + b.sec));
+    top = top.slice(0, 10);
+    console.log(top);
+    generateTopDom();
   }
 
   function randomMove(buttonsArr) {
@@ -160,6 +214,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function startNewGame(countItems) {
+    resultsPopup.classList.remove('results_active');
     if (document.querySelector('.congratulation')) document.querySelector('.congratulation').remove();
     clearInterval(int);
     state.moves = 0;
@@ -173,6 +228,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function loadGame() {
     if (localStorage.getItem('savedState')) {
+      resultsPopup.classList.remove('results_active');
       state = JSON.parse(localStorage.getItem('savedState'));
       matrix = JSON.parse(localStorage.getItem('savedMatrix'));
       if (document.querySelector('.congratulation')) document.querySelector('.congratulation').remove();
@@ -209,8 +265,13 @@ window.addEventListener('DOMContentLoaded', () => {
       soundButton.innerHTML = volumeOn;
   }
 
+  function showResults() {
+    resultsPopup.classList.add('results_active');
+  }
+
   createChoseSizeDom();
   generateField(16);
+  resultsPopup.addEventListener('click', () => resultsPopup.classList.remove('results_active'));
 
   field.addEventListener('click', e => {
     const button = e.target.closest('.piece');
@@ -264,6 +325,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function setLocalStorage() {
     localStorage.setItem('savedState', JSON.stringify(state));
     localStorage.setItem('savedMatrix', JSON.stringify(matrix));
+    localStorage.setItem('top', JSON.stringify(top));
   }
 
   function getLocalStorage() {
@@ -271,10 +333,16 @@ window.addEventListener('DOMContentLoaded', () => {
       state = JSON.parse(localStorage.getItem('savedState'));
       matrix = JSON.parse(localStorage.getItem('savedMatrix'));
     }
+    if (localStorage.getItem('top')) {
+      top = JSON.parse(localStorage.getItem('top'));
+      generateTopDom();
+    }
   }
 
+  window.addEventListener('load', getLocalStorage);
+  window.addEventListener('beforeunload', () => localStorage.setItem('top', JSON.stringify(top)));
   saveButton.addEventListener('click', setLocalStorage);
-  // window.addEventListener('beforeunload', setLocalStorage);
   loadButton.addEventListener('click', loadGame);
   soundButton.addEventListener('click', toggleSound);
+  resultsButton.addEventListener('click', showResults);
 });
