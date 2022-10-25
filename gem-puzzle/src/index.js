@@ -279,28 +279,54 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // field.onmousedown = function(e) {
-  //   e.preventDefault();
-  //   const button = e.target.closest('.piece');
-  //   if (!button) return null;
-  //   let basePos = e.clientX;
-  //   const baseXTransform = button.style.transform.match(/\d+/g)[0];
-  //   const baseYTransform = button.style.transform.match(/\d+/g)[1];
-  //   console.log(baseX, baseY);
+    // e.preventDefault();
+    // const button = e.target.closest('.piece');
+    // if (!button) return null;
+    // const buttonId = +button.dataset.pieceId;
+    // if (isMovable(buttonId)) {
+    //   console.dir(button);
+    //   let shiftX = (window.innerWidth - 410 + button.clientWidth) / 2;
+    //   let shiftY = 198 + button.clientWidth / 2;
+    //   console.log(button.getBoundingClientRect().left);
 
-  //   function onMouseMove(e) {
-  //     let shiftX = e.clientX - basePos;
-  //     let newXTransform = baseXTransform + shiftX;
-  //     button.style.transform = `translate(${newXTransform}%, ${100}%)`;
-  //     if ((shiftX) > 50) move(button);
-  //   }
+    //   button.style.zIndex = 1000;
 
-  //   function onMouseUp() {
-  //     field.removeEventListener('mousemove', onMouseMove);
-  //     field.removeEventListener('mouseup', onMouseUp);
-  //   }
+    //   function moveAt(pageX, pageY) {
+    //     button.style.transform = `translate(${pageX - shiftX}%, ${pageY - shiftY}%)`;
+    //   }
+    
+    //   function onMouseMove(event) {
+    //     moveAt(event.pageX, event.pageY);
+    //   }
 
-  //   field.addEventListener('mousemove', onMouseMove);
-  //   field.addEventListener('mouseup', onMouseUp);
+    //   document.addEventListener('mousemove', onMouseMove);
+    // }
+
+
+
+
+
+
+
+    // let basePos = e.clientX;
+    // const baseXTransform = button.style.transform.match(/\d+/g)[0];
+    // const baseYTransform = button.style.transform.match(/\d+/g)[1];
+    // console.log(baseX, baseY);
+
+    // function onMouseMove(e) {
+    //   let shiftX = e.clientX - basePos;
+    //   let newXTransform = baseXTransform + shiftX;
+    //   button.style.transform = `translate(${newXTransform}%, ${100}%)`;
+    //   if ((shiftX) > 50) move(button);
+    // }
+
+    // function onMouseUp() {
+    //   field.removeEventListener('mousemove', onMouseMove);
+    //   field.removeEventListener('mouseup', onMouseUp);
+    // }
+
+    // field.addEventListener('mousemove', onMouseMove);
+    // field.addEventListener('mouseup', onMouseUp);
   // };
 
   // field.ondragstart = function() {
@@ -345,7 +371,9 @@ window.addEventListener('DOMContentLoaded', () => {
       generateTopDom();
     }
   });
-  window.addEventListener('beforeunload', () => localStorage.setItem('top', JSON.stringify(top)));
+  window.addEventListener('beforeunload', () => {
+    localStorage.setItem('top', JSON.stringify(top));
+  });
   saveButton.addEventListener('click', setLocalStorage);
   loadButton.addEventListener('click', loadGame);
   soundButton.addEventListener('click', toggleSound);
