@@ -5,7 +5,7 @@ import sound from './audio/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_7
 import volumeOn from './img/volume_on.svg';
 import volumeOff from './img/volume_off.svg';
 
-// window.alert('Привет, проверяющий! Я к сожалению не успел сделать драг-н-дроп и сейчас мой балл 105. Будь другом, не проверяй пока. Мне бы денек, чтоб закончить (ну или два). Дизайн еще додизайню, вообще по-красоте все будет, отвечаю!');
+window.alert('Привет, проверяющий! Я к сожалению не успел сделать драг-н-дроп и сейчас мой балл 105. Будь другом, не проверяй пока. Мне бы денек, чтоб закончить (ну или два). Дизайн еще додизайню, вообще по-красоте все будет, отвечаю!');
 
 window.addEventListener('DOMContentLoaded', () => {
   const audio = new Audio('./assets/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_70840.mp3');
