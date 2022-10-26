@@ -290,15 +290,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
   field.addEventListener('mousedown', (e) => {
     e.preventDefault();
-    
     const button = e.target.closest('.piece');
     if (!button) return null;
     const buttonId = +button.dataset.pieceId;
     if (isMovable(buttonId)) {
-      const shiftX = (window.innerWidth - 400 + button.clientWidth) / 2;
-      const shiftY = 188 + button.clientWidth / 2;
       const currentXTransform = +button.style.transform.match(/\d+/g)[0];
       const currentYTransform = +button.style.transform.match(/\d+/g)[1];
+      const shiftX = e.clientX - currentXTransform;
+      const shiftY = e.clientY - currentYTransform;
       let currentShiftX;
       let currentShiftY;
 
