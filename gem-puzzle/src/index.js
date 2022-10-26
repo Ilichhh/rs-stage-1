@@ -6,7 +6,7 @@ import sound from './audio/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_7
 import volumeOn from './img/volume_on.svg';
 import volumeOff from './img/volume_off.svg';
 
-// window.alert('Привет, проверяющий! Я к сожалению не успел сделать драг-н-дроп и сейчас мой балл 105. Будь другом, не проверяй пока. Мне бы денек, чтоб закончить (ну или два). Дизайн еще додизайню, вообще по-красоте все будет, отвечаю!');
+console.log('Сделал весь функционал, заморочился с драг-н-дропом, вроде все заработало как надо.\nДизайн еще буду допиливать скорее всего, много чего мне не нравится. Но в принципе можно проверять)');
 
 window.addEventListener('DOMContentLoaded', () => {
   const audio = new Audio('./assets/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_70840.mp3');
@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let top = [];
   let shuffling = false;
   let int = null;
-  let volume = false;
+  let volume = true;
   let direction;
   let movable;
 
