@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 /* eslint-disable arrow-parens */
 import './index.html';
 import './index.scss';
@@ -5,7 +6,7 @@ import sound from './audio/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_7
 import volumeOn from './img/volume_on.svg';
 import volumeOff from './img/volume_off.svg';
 
-window.alert('Привет, проверяющий! Я к сожалению не успел сделать драг-н-дроп и сейчас мой балл 105. Будь другом, не проверяй пока. Мне бы денек, чтоб закончить (ну или два). Дизайн еще додизайню, вообще по-красоте все будет, отвечаю!');
+// window.alert('Привет, проверяющий! Я к сожалению не успел сделать драг-н-дроп и сейчас мой балл 105. Будь другом, не проверяй пока. Мне бы денек, чтоб закончить (ну или два). Дизайн еще додизайню, вообще по-красоте все будет, отвечаю!');
 
 window.addEventListener('DOMContentLoaded', () => {
   const audio = new Audio('./assets/zapsplat_foley_brick_or_tile_scrape_on_concrete_001_70840.mp3');
@@ -23,7 +24,9 @@ window.addEventListener('DOMContentLoaded', () => {
   let top = [];
   let shuffling = false;
   let int = null;
-  let volume = true;
+  let volume = false;
+  let direction;
+  let movable;
 
   document.body.innerHTML = `
     <main class="container">
@@ -127,6 +130,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
+    if (buttonCoords.x > blankCoords.x) direction = 'left';
+    if (buttonCoords.x < blankCoords.x) direction = 'right';
+    if (buttonCoords.y > blankCoords.y) direction = 'up';
+    if (buttonCoords.y < blankCoords.y) direction = 'down';
+
     const diffX = Math.abs(blankCoords.x - buttonCoords.x);
     const diffY = Math.abs(blankCoords.y - buttonCoords.y);
     return (blankCoords.x === buttonCoords.x && diffY === 1)
@@ -137,10 +145,11 @@ window.addEventListener('DOMContentLoaded', () => {
     return matrix.join(',') === flatArray.join(',');
   }
 
-  function move(button) {
-    if (!button) return null;
+  function move(e) {
+    const button = e.target.closest('.piece');
+    if (!button || button.classList.contains('prevent-move')) return null;
     const buttonId = +button.dataset.pieceId;
-    if (isMovable(buttonId, matrix)) {
+    if (isMovable(buttonId, matrix) && movable) {
       matrix[buttonCoords.y][buttonCoords.x] = flatArray.length;
       matrix[blankCoords.y][blankCoords.x] = buttonId;
       setItemsPosition();
@@ -152,12 +161,13 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         if (isPuzzleSolved()) {
           showCongrats(timer.textContent, state.moves);
-          console.log(state);
           addToTopResults(state);
           clearInterval(int);
         }
       }
     }
+    button.classList.remove('prevent-move');
+    movable = true;
   }
 
   function showCongrats(timer, moves) {
@@ -194,7 +204,6 @@ window.addEventListener('DOMContentLoaded', () => {
     top.push(score);
     top.sort((a, b) => (a.min * 60 + a.sec) - (b.min * 60 + b.sec));
     top = top.slice(0, 10);
-    console.log(top);
     generateTopDom();
   }
 
@@ -274,72 +283,89 @@ window.addEventListener('DOMContentLoaded', () => {
   resultsPopup.addEventListener('click', () => resultsPopup.classList.remove('results_active'));
 
   field.addEventListener('click', e => {
-    const button = e.target.closest('.piece');
-    move(button);
+    move(e);
+    setItemsPosition();
   });
 
-  // field.onmousedown = function(e) {
-    // e.preventDefault();
-    // const button = e.target.closest('.piece');
-    // if (!button) return null;
-    // const buttonId = +button.dataset.pieceId;
-    // if (isMovable(buttonId)) {
-    //   console.dir(button);
-    //   let shiftX = (window.innerWidth - 410 + button.clientWidth) / 2;
-    //   let shiftY = 198 + button.clientWidth / 2;
-    //   console.log(button.getBoundingClientRect().left);
 
-    //   button.style.zIndex = 1000;
-
-    //   function moveAt(pageX, pageY) {
-    //     button.style.transform = `translate(${pageX - shiftX}%, ${pageY - shiftY}%)`;
-    //   }
+  field.addEventListener('mousedown', (e) => {
+    e.preventDefault();
     
-    //   function onMouseMove(event) {
-    //     moveAt(event.pageX, event.pageY);
-    //   }
+    const button = e.target.closest('.piece');
+    if (!button) return null;
+    const buttonId = +button.dataset.pieceId;
+    if (isMovable(buttonId)) {
+      const shiftX = (window.innerWidth - 400 + button.clientWidth) / 2;
+      const shiftY = 188 + button.clientWidth / 2;
+      const currentXTransform = +button.style.transform.match(/\d+/g)[0];
+      const currentYTransform = +button.style.transform.match(/\d+/g)[1];
+      let currentShiftX;
+      let currentShiftY;
 
-    //   document.addEventListener('mousemove', onMouseMove);
-    // }
+      button.classList.add('piece_dragged');
+      button.classList.add('prevent-move');
 
+      function dragLeft(pageX) {
+        currentShiftX = pageX - shiftX;
+        if (currentShiftX < currentXTransform && currentShiftX > (currentXTransform - 100)) {
+          button.style.transform = `translate(${currentShiftX}%, ${currentYTransform}%)`;
+        }
+      }
 
+      function dragRight(pageX) {
+        currentShiftX = pageX - shiftX;
+        if (currentShiftX > currentXTransform && currentShiftX < (currentXTransform + 100)) {
+          button.style.transform = `translate(${currentShiftX}%, ${currentYTransform}%)`;
+        }
+      }
 
+      function dragUp(pageY) {
+        currentShiftY = pageY - shiftY;
+        if (currentShiftY < currentYTransform && currentShiftY > (currentYTransform - 100)) {
+          button.style.transform = `translate(${currentXTransform}%, ${currentShiftY}%)`;
+        }
+      }
 
+      function dragDown(pageY) {
+        currentShiftY = pageY - shiftY;
+        if (currentShiftY > currentYTransform && currentShiftY < (currentYTransform + 100)) {
+          button.style.transform = `translate(${currentXTransform}%, ${currentShiftY}%)`;
+        }
+      }
 
+      function onMouseMove(event) {
+        if (direction === 'left') dragLeft(event.pageX);
+        if (direction === 'right') dragRight(event.pageX);
+        if (direction === 'up') dragUp(event.pageY);
+        if (direction === 'down') dragDown(event.pageY);
+      }
 
+      document.addEventListener('mousemove', onMouseMove);
 
-    // let basePos = e.clientX;
-    // const baseXTransform = button.style.transform.match(/\d+/g)[0];
-    // const baseYTransform = button.style.transform.match(/\d+/g)[1];
-    // console.log(baseX, baseY);
+      document.onmouseup = function() {
+        button.classList.remove('piece_dragged');
+        if ((Math.abs(currentShiftX - currentXTransform) > 50 || Math.abs(currentShiftY - currentYTransform) > 50)) {
+          button.classList.remove('prevent-move');
+        } else {
+          button.style.transform = `translate(${currentXTransform}%, ${currentYTransform}%)`;
+          if (currentShiftX || currentShiftY) movable = false;
+        }
+        document.removeEventListener('mousemove', onMouseMove);
+        button.onmouseup = null;
+        button.classList.remove('prevent-move');
+      };
+    }
+    setItemsPosition();
+  });
 
-    // function onMouseMove(e) {
-    //   let shiftX = e.clientX - basePos;
-    //   let newXTransform = baseXTransform + shiftX;
-    //   button.style.transform = `translate(${newXTransform}%, ${100}%)`;
-    //   if ((shiftX) > 50) move(button);
-    // }
-
-    // function onMouseUp() {
-    //   field.removeEventListener('mousemove', onMouseMove);
-    //   field.removeEventListener('mouseup', onMouseUp);
-    // }
-
-    // field.addEventListener('mousemove', onMouseMove);
-    // field.addEventListener('mouseup', onMouseUp);
-  // };
-
-  // field.ondragstart = function() {
-  //   return false;
-  // };
-
+  field.ondragstart = function() {
+    return false;
+  };
 
   shuffleButton.addEventListener('click', () => startNewGame(state.countItems));
 
   sizeOptions.addEventListener('click', (e) => {
     const size = +e.target.value;
-    // console.log(e.target)
-    // e.target.label.classlist.add('.size_checked');
     if (size) {
       generateField(size);
       startNewGame(state.countItems);
@@ -374,6 +400,7 @@ window.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('beforeunload', () => {
     localStorage.setItem('top', JSON.stringify(top));
   });
+
   saveButton.addEventListener('click', setLocalStorage);
   loadButton.addEventListener('click', loadGame);
   soundButton.addEventListener('click', toggleSound);

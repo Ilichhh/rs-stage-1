@@ -50,6 +50,9 @@ svg {
   cursor: pointer;
   transition: .3s all;
   font-size: 32px;
+  &_dragged {
+    transition: none;
+  }
   &:last-child {
     display: none;
   }
@@ -160,4 +163,8 @@ svg {
   background-color: #343f56b2;
   font-size: 36px;
   z-index: 10;
+}
+
+.prevent-move {
+  // pointer-events:none;
 }
