@@ -282,13 +282,13 @@ window.addEventListener('DOMContentLoaded', () => {
   generateField(16);
   resultsPopup.addEventListener('click', () => resultsPopup.classList.remove('results_active'));
 
-  field.addEventListener('click', e => {
+  document.addEventListener('click', e => {
     move(e);
     setItemsPosition();
   });
 
 
-  field.addEventListener('mousedown', (e) => {
+  document.addEventListener('mousedown', (e) => {
     e.preventDefault();
     const button = e.target.closest('.piece');
     if (!button) return null;
