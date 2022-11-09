@@ -25,7 +25,16 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: 'index.html',
       template: path.resolve(__dirname, 'src', 'index.html'),
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'quiz.html',
+      template: path.resolve(__dirname, 'src', 'quiz.html'),
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'results.html',
+      template: path.resolve(__dirname, 'src', 'results.html'),
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
@@ -71,6 +80,15 @@ module.exports = {
           outputPath: 'assets',
         },
       },
+      // {
+      //   test: /\.html$/i,
+      //   exclude: path.resolve(__dirname, 'src', 'index.html'),
+      //   loader: 'file-loader',
+      //   options: {
+      //     name: '[name].[ext]',
+      //     outputPath: '/',
+      //   },
+      // },
       {
         test: /\.svg$/,
         loader: 'svg-inline-loader',
