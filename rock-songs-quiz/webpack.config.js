@@ -73,7 +73,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(ogg|mp3|wav|mpe?g)$/i,
+        test: /\.(ogg|mp3|wav|mp4|mpe?g)$/i,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',

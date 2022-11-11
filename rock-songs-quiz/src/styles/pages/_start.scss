@@ -1,0 +1,32 @@
+@import '../components/buttons';
+
+.start-page {
+  color: azure;
+  &__header {
+    margin: 0 auto 1rem;
+    text-align: center;
+    font-size: 72px;
+  }
+  &__subheader {
+    margin: 0 auto 2rem;
+    width: 50%;
+    text-align: center;
+  }
+  &__button {
+    display: block;
+    margin: 0 auto;
+    height: 50px;
+    width: 200px;
+    opacity: 0.8;
+    font-size: 24px;
+  }
+}
+
+video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}

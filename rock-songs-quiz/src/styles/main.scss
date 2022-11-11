@@ -2,8 +2,19 @@
 @import 'base/fonts';
 @import 'abstracts/variables';
 
-@import 'layout/header';
+@import 'pages/start';
+@import 'pages/quiz';
+@import 'pages/results';
 
+@import 'layout/header';
+@import 'layout/footer';
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
 
 .container {
   padding: 10px;
