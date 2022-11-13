@@ -6,7 +6,7 @@ const songsData = [
       artist: 'Chuck Berry',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Chuck_Berry_1957.jpg/800px-Chuck_Berry_1957.jpg',
-      audio: './assets/audio/Chuck_Berry_Johnny_B_Goode.mp3',
+      path: './assets/Chuck_Berry_Johnny_B_Goode.mp3',
     },
     {
       id: 2,
@@ -14,7 +14,7 @@ const songsData = [
       artist: 'Elvis Presley',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Elvis_Presley_promoting_Jailhouse_Rock.jpg',
-      audio: './assets/audio/Elvis_Presley_Jailhouse_Rock.mp3',
+      path: './assets/Elvis_Presley_Jailhouse_Rock.mp3',
     },
     {
       id: 3,
@@ -22,7 +22,7 @@ const songsData = [
       artist: 'Ray Charles',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Ray_Charles_classic_piano_pose.jpg',
-      audio: './assets/audio/Ray_Charles_What\'d_I_Say.mp3',
+      path: './assets/Ray_Charles_What\'d_I_Say.mp3',
     },
     {
       id: 4,
@@ -30,7 +30,7 @@ const songsData = [
       artist: 'Jerry Lee Lewis',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Jerry_Lee_Lewis_1950s_publicity_photo_cropped_retouched.jpg',
-      audio: './assets/audio/Jerry_Lee_Lewis_Whole_Lot_Of_Shakin\'_Going_On.mp3',
+      path: './assets/Jerry_Lee_Lewis_Whole_Lot_Of_Shakin\'_Going_On.mp3',
     },
     {
       id: 5,
@@ -38,7 +38,7 @@ const songsData = [
       artist: 'Eddie Cochran',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Eddie_Cochran.jpg',
-      audio: './assets/audio/Eddie_Cochran_Summertime_Blues.mp3',
+      path: './assets/Eddie_Cochran_Summertime_Blues.mp3',
     },
     {
       id: 6,
@@ -46,7 +46,7 @@ const songsData = [
       artist: 'Lloyd Price',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/Publicity_photo_of_Lloyd_Price_-_ht24wk00x_files_046435e7-3a2b-42be-b859-88a492e9b836_%28cropped%29.jpg',
-      audio: './assets/audio/Lloyd_Price_Lawdy_Miss_Clawdy.mp3',
+      path: './assets/Lloyd_Price_Lawdy_Miss_Clawdy.mp3',
     },
   ],
   [
@@ -56,7 +56,7 @@ const songsData = [
       artist: 'The Doors',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/en/9/98/TheDoorsTheDoorsalbumcover.jpg',
-      audio: './assets/audio/The_Doors_Light_My_Fire.mp3',
+      path: './assets/The_Doors_Light_My_Fire.mp3',
     },
     {
       id: 2,
@@ -64,7 +64,7 @@ const songsData = [
       artist: 'Rolling Stones',
       description: '',
       image: 'https://upload.wikimedia.org/wikipedia/en/7/7f/Satisfaction-us.jpg',
-      audio: './assets/audio/The_Rolling_Stones_(I_Can\'t_Get_No)_Satisfaction.mp3',
+      path: './assets/The_Rolling_Stones_(I_Can\'t_Get_No)_Satisfaction.mp3',
     },
     {
       id: 3,
@@ -72,7 +72,7 @@ const songsData = [
       artist: 'Jimi Hendrix',
       description: '',
       image: 'https://www.castlerock.ru/upload/medialibrary/d43/d43027437204542a51db378dc36f7b7f.jpg',
-      audio: './assets/audio/Jimi_Hendrix_Purple_Haze.mp3',
+      path: './assets/Jimi_Hendrix_Purple_Haze.mp3',
     },
     {
       id: 4,
@@ -80,7 +80,7 @@ const songsData = [
       artist: 'Led Zeppelin',
       description: '',
       image: 'https://lastfm.freetls.fastly.net/i/u/770x0/31ba4e5450b869d226bfabee25cda087.jpg#31ba4e5450b869d226bfabee25cda087',
-      audio: './assets/audio/Led_Zeppelin_Whole_Lotta_Love.mp3',
+      path: './assets/Led_Zeppelin_Whole_Lotta_Love.mp3',
     },
     {
       id: 5,
@@ -88,7 +88,7 @@ const songsData = [
       artist: 'The Beatles',
       description: '',
       image: 'https://cdnn21.img.ria.ru/images/15010/18/150101870_0:139:600:479_600x0_80_0_0_e34e6f610f59685d3b51f79887075077.jpg.webp',
-      audio: './assets/audio/The_Beatles_I_Want_To_Hold_Your_Hand.mp3',
+      path: './assets/The_Beatles_I_Want_To_Hold_Your_Hand.mp3',
     },
     {
       id: 6,
@@ -96,7 +96,7 @@ const songsData = [
       artist: 'Cream',
       description: '',
       image: 'https://www.kursivom.ru/wp-content/uploads/2017/01/cream_00.jpg',
-      audio: './assets/audio/Cream_Sunshine_Of_Your_Love.mp3',
+      path: './assets/Cream_Sunshine_Of_Your_Love.mp3',
     },
   ],
   [
@@ -106,7 +106,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 2,
@@ -114,7 +114,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 3,
@@ -122,7 +122,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 4,
@@ -130,7 +130,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 5,
@@ -138,7 +138,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 6,
@@ -146,7 +146,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
   ],
   [
@@ -156,7 +156,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 2,
@@ -164,7 +164,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 3,
@@ -172,7 +172,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 4,
@@ -180,7 +180,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 5,
@@ -188,7 +188,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 6,
@@ -196,7 +196,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
   ],
   [
@@ -206,7 +206,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 2,
@@ -214,7 +214,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 3,
@@ -222,7 +222,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 4,
@@ -230,7 +230,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 5,
@@ -238,7 +238,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 6,
@@ -246,7 +246,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
   ],
   [
@@ -256,7 +256,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 2,
@@ -264,7 +264,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 3,
@@ -272,7 +272,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 4,
@@ -280,7 +280,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 5,
@@ -288,7 +288,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
     {
       id: 6,
@@ -296,7 +296,7 @@ const songsData = [
       artist: '',
       description: '',
       image: '',
-      audio: '',
+      path: '',
     },
   ],
 ];
