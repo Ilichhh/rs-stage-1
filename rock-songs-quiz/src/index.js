@@ -11,11 +11,16 @@ import rsLogo from './assets/svg/rsschooljs.svg';
 import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
 
-const importAll = (r) => r.keys().forEach(r);
-importAll(require.context('./assets/audio/', true, /\.mp3$/));
+const importAllmusic = (r) => r.keys().forEach(r);
+importAllmusic(require.context('./assets/audio/', true, /\.mp3$/));
 
 
 window.addEventListener('DOMContentLoaded', () => {
+  const gameData = {
+    timeToGuess: 36,
+    stage: 1,
+  };
+
   function addBackgroundVideo(source) {
     const background = document.querySelector('.background');
     const videoElement = document.createElement('video');
@@ -47,13 +52,12 @@ window.addEventListener('DOMContentLoaded', () => {
   playButton.innerHTML = playButtonImg;
 
   let isPlay = false;
-  const timeToGuess = 6;
 
 
   const audio = new Audio(songsData[0][1].path);
 
   function playAudio() {
-    if (audio.currentTime >= timeToGuess) {
+    if (audio.currentTime >= gameData.timeToGuess) {
       audio.currentTime = 0;
     }
     audio.play();
@@ -82,18 +86,18 @@ window.addEventListener('DOMContentLoaded', () => {
     if (isPlay) {
       currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
       playerTimeline.value = audio.currentTime.toFixed(2) * 100;
-      if (audio.currentTime >= timeToGuess) {
+      if (audio.currentTime >= gameData.timeToGuess) {
         pauseAudio();
       }
     }
   }
 
   function displayTotalTime(time) {
-    playerTimeline.max = timeToGuess * 100;
+    playerTimeline.max = gameData.timeToGuess * 100;
     totalTimeElement.textContent = convertTimeFormat(time);
   }
 
-  displayTotalTime(timeToGuess);
+  displayTotalTime(gameData.timeToGuess);
 
   playButton.addEventListener('click', toggleAudio);
 
@@ -102,4 +106,21 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   setInterval(updateTimeline, 10);
+
+  //Generation of answer options
+  function generateAnswerOptionsBlock(stage) {
+    const answerOptionsBlock = document.querySelector('.answer-options');
+
+    songsData[stage].forEach(song => {
+      const answerOptionElement = document.createElement('li');
+      answerOptionElement.classList = 'answer-options__option';
+      answerOptionsBlock.appendChild(answerOptionElement);
+      const answerOptionLabel = document.createElement('span');
+      answerOptionLabel.classList = 'answer-options__indicator';
+      answerOptionElement.appendChild(answerOptionLabel);
+      answerOptionElement.insertAdjacentHTML('beforeend', `${song.artist} - ${song.song}`);
+    });
+  }
+
+  generateAnswerOptionsBlock(gameData.stage);
 });
