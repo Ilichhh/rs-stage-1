@@ -11,14 +11,14 @@ import rsLogo from './assets/svg/rsschooljs.svg';
 import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
 
-const importAllmusic = (r) => r.keys().forEach(r);
-importAllmusic(require.context('./assets/audio/', true, /\.mp3$/));
+const importAllMusic = (r) => r.keys().forEach(r);
+importAllMusic(require.context('./assets/audio/', true, /\.mp3$/));
 
 
 window.addEventListener('DOMContentLoaded', () => {
   const gameData = {
-    timeToGuess: 36,
-    stage: 1,
+    timeToGuess: 6,
+    stage: 2,
   };
 
   function addBackgroundVideo(source) {
@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let isPlay = false;
 
 
-  const audio = new Audio(songsData[0][1].path);
+  const audio = new Audio(songsData[2][5].path);
 
   function playAudio() {
     if (audio.currentTime >= gameData.timeToGuess) {
