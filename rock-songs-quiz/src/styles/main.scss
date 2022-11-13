@@ -9,13 +9,14 @@
 @import 'layout/header';
 @import 'layout/footer';
 
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
 .container {
   padding: 10px;
+}
+
+html {
+  background-color: black;
+}
+
+.bg-video {
+  opacity: .5;
 }

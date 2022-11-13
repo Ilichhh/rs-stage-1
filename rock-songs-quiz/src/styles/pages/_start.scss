@@ -1,6 +1,10 @@
 @import '../components/buttons';
 
 .start-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   color: azure;
   &__header {
     margin: 0 auto 1rem;
