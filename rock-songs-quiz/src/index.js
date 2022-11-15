@@ -18,7 +18,8 @@ importAllMusic(require.context('./assets/audio/', true, /\.mp3$/));
 window.addEventListener('DOMContentLoaded', () => {
   const gameData = {
     timeToGuess: 6,
-    stage: 2,
+    stage: 3,
+    score: 0,
   };
 
   function addBackgroundVideo(source) {
@@ -54,7 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let isPlay = false;
 
 
-  const audio = new Audio(songsData[2][5].path);
+  const audio = new Audio();
 
   function playAudio() {
     if (audio.currentTime >= gameData.timeToGuess) {
@@ -122,5 +123,16 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  generateAnswerOptionsBlock(gameData.stage);
+  function choseRAandomTrack(stage) {
+    const randomNum = Math.floor(Math.random() * 6);
+    console.log(randomNum);
+    audio.src = songsData[stage][randomNum].path;
+  }
+
+  function startStage(stage) {
+    generateAnswerOptionsBlock(stage);
+    choseRAandomTrack(stage);
+  }
+
+  startStage(gameData.stage);
 });
