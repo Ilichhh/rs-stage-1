@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  color: azure;
+  color: $text-color;
   &__header {
     margin: 0 auto 1rem;
     text-align: center;

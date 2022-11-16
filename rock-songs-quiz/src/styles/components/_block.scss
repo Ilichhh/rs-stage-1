@@ -1,6 +1,8 @@
+@import '../abstracts/variables';
+
 .block {
   padding: 15px;
-  border: 1px solid rgb(99, 99, 99);
+  border: 1px solid $secondary-bg-color;
   border-radius: 5px;
-  background-color: rgba(60, 60, 60, 0.95);
+  background-color: $main-bg-color;
 }
