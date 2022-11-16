@@ -134,13 +134,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   //Check answer
   const nextButton = document.querySelector('.button_next');
+  const songNameElement = document.querySelector('.question-block__song-name');
+  const bandImageElement = document.querySelector('.question-block__band-image');
 
   function checkAnswer(e) {
     const selectedAnswer = e.target.closest('.answer-options__option');
     const selectedAnswerLabel = selectedAnswer.children[0];
     if (+selectedAnswer.dataset.id === randomTrack.id) {
-      const songNameElement = document.querySelector('.question-block__song-name');
       songNameElement.textContent = `${randomTrack.artist} - ${randomTrack.song}`;
+      bandImageElement.src = randomTrack.image;
       selectedAnswerLabel.classList.add('answer-options__indicator_correct');
       nextButton.classList.add('button_next_active');
       gameData.stage++;
@@ -151,16 +153,23 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // Start Stage
+  function disableNextButton() {
+    nextButton.removeEventListener('click', startStage);
+    nextButton.classList.remove('button_next_active');
+  }
+
+  function resetQuestionBlock() {
+    songNameElement.textContent = '******';
+    bandImageElement.src = 'assets/band_placeholder.png';
+    playerTimeline.value = 0;
+  }
+
   function startStage() {
     console.log(gameData.stage);
     generateAnswerOptionsBlock(gameData.stage);
     choseRandomTrack(gameData.stage);
     disableNextButton();
-  }
-
-  function disableNextButton() {
-    nextButton.removeEventListener('click', startStage);
-    nextButton.classList.remove('button_next_active');
+    resetQuestionBlock();
   }
 
   startStage(gameData.stage);
