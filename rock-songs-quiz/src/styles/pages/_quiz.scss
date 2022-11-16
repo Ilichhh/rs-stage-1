@@ -93,5 +93,11 @@
     margin-right: 15px;
     border-radius: 50%;
     background-color: rgb(195, 194, 194);
+    &_correct {
+      background-color: rgb(0, 255, 13);
+    }
+    &_wrong {
+      background-color: rgb(255, 77, 0);
+    }
   }
 }
