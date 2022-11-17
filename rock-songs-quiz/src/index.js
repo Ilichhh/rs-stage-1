@@ -231,6 +231,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const playerWrapper = createDomElement('div', wrapper, 'description-block__player-wrapper');
     createDomElement('h2', playerWrapper, 'description-block__song-name', null, track.song);
     createDomElement('h3', playerWrapper, 'description-block__band-name', null, track.artist);
-    createDomElement('div', playerWrapper, 'player', null, 'this is player');
+    const player = createDomElement('div', playerWrapper, 'player', null, 'this is player');
+    // createPlayer(choseRandomTrack(gameData.stage), player);
+    createDomElement('div', block, 'description-block__band-descr', null, track.description);
   }
 });
