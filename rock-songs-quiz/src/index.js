@@ -1,3 +1,4 @@
+/* eslint-disable no-multiple-empty-lines */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-inner-declarations */
 /* eslint-disable arrow-parens */
@@ -12,12 +13,12 @@ import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
 
 import createDomElement from './js/create_element';
-import player from './js/player';
 
 const importAllMedia = (r) => r.keys().forEach(r);
 importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
 importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
 
+const audio = new Audio();
 
 const gameData = {
   timeToGuess: 6,
@@ -26,12 +27,20 @@ const gameData = {
   attempts: 0,
 };
 
-const audio = new Audio();
+
 let randomTrack;
 let isPlay = false;
+let activePlayButton;
 
 
 window.addEventListener('DOMContentLoaded', () => {
+  const nextButton = document.querySelector('.button_next');
+  const songNameElement = document.querySelector('.question-block__song-name');
+  const bandImageElement = document.querySelector('.question-block__band-image');
+  const descriptionBlock = document.querySelector('.description-block');
+
+
+  // Background Video
   function addBackgroundVideo(source) {
     const bgVideoAttributes = {
       autoplay: true,
@@ -50,33 +59,10 @@ window.addEventListener('DOMContentLoaded', () => {
   const rsLogoElement = document.querySelector('.rs-logo');
   rsLogoElement.innerHTML = rsLogo;
 
+  const questionBlock = document.querySelector('.question-block__info');
+
+
   // Player
-  const playButton = document.querySelector('.player__play-btn');
-  const playerTimeline = document.querySelector('.player__timeline');
-  const currentTimeElement = document.querySelector('.player__time-current');
-  const totalTimeElement = document.querySelector('.player__time-length');
-
-  playButton.innerHTML = playButtonImg;
-
-  function playAudio() {
-    if (audio.currentTime >= gameData.timeToGuess) {
-      audio.currentTime = 0;
-    }
-    audio.play();
-    playButton.innerHTML = pauseButtonImg;
-    isPlay = true;
-  }
-
-  function pauseAudio() {
-    audio.pause();
-    playButton.innerHTML = playButtonImg;
-    isPlay = false;
-  }
-
-  function toggleAudio() {
-    isPlay ? pauseAudio() : playAudio();
-  }
-
   function convertTimeFormat(time) {
     const totalSeconds = Math.floor(time);
     const minutes = Math.floor(totalSeconds / 60);
@@ -84,32 +70,72 @@ window.addEventListener('DOMContentLoaded', () => {
     return `${minutes.toString().padStart(2, 0)}:${seconds.toString().padStart(2, 0)}`;
   }
 
-  function updateTimeline() {
+  function choseRandomTrack(stage) {
+    const randomNum = Math.floor(Math.random() * 6);
+    randomTrack = songsData[stage][randomNum];
+    return randomTrack;
+  }
+
+  function playAudio() {
+    if (audio.currentTime >= gameData.timeToGuess) {
+      audio.currentTime = 0;
+    }
+    audio.play();
+    activePlayButton.innerHTML = pauseButtonImg;
+    isPlay = true;
+  }
+
+  function pauseAudio() {
+    audio.pause();
+    activePlayButton.innerHTML = playButtonImg;
+    isPlay = false;
+  }
+
+  function toggleAudio(e) {
+    console.log(e.target.closest('.player__play-btn').dataset.id);
+    activePlayButton = e.target.closest('.player__play-btn');
+    isPlay ? pauseAudio() : playAudio();
+  }
+
+  function updateTimeline(currentTimeElement, playerTimeline, playButton) {
     if (isPlay) {
       currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
       playerTimeline.value = audio.currentTime.toFixed(2) * 100;
       if (audio.currentTime >= gameData.timeToGuess) {
-        pauseAudio();
+        pauseAudio(playButton);
       }
     }
   }
 
-  function displayTotalTime(time) {
+  const player = createDomElement('div', questionBlock, 'player');
+
+  function createPlayer(track, player) {
+    player.innerHTML = '';
+    const playButton = createDomElement('button', player, 'player__play-btn', { 'data-id': track.id });
+    const timelineWrapper = createDomElement('div', player, 'player__timeline-wrapper');
+    const playerTimeline = createDomElement('input', timelineWrapper, 'player__timeline', { type: 'range', min: 0, value: 0 });
+    const timeWrapper = createDomElement('div', timelineWrapper, 'player__time');
+    const currentTimeElement = createDomElement('div', timeWrapper, 'player__time-current', null, '00:00');
+    const totalTimeElement = createDomElement('div', timeWrapper, 'player__time-length');
+
+    playButton.innerHTML = playButtonImg;
+    playButton.addEventListener('click', toggleAudio);
+
+    playerTimeline.addEventListener('input', e => {
+      audio.currentTime = e.target.value / 100;
+    });
+
+    audio.src = track.path;
+    console.log(audio.src);
+
     playerTimeline.max = gameData.timeToGuess * 100;
-    totalTimeElement.textContent = convertTimeFormat(time);
+    totalTimeElement.textContent = convertTimeFormat(gameData.timeToGuess);
+
+    setInterval(() => updateTimeline(currentTimeElement, playerTimeline), 10);
   }
 
-  displayTotalTime(gameData.timeToGuess);
 
-  playButton.addEventListener('click', toggleAudio);
-
-  playerTimeline.addEventListener('input', e => {
-    audio.currentTime = e.target.value / 100;
-  });
-
-  setInterval(updateTimeline, 10);
-
-  //Generation of answer options
+  // Generation of answer options
   function generateAnswerOptionsBlock(stage) {
     const answerOptionsBlock = document.querySelector('.answer-options');
     answerOptionsBlock.innerHTML = '';
@@ -123,18 +149,8 @@ window.addEventListener('DOMContentLoaded', () => {
     answerOptionsBlock.addEventListener('click', checkAnswer);
   }
 
-  function choseRandomTrack(stage) {
-    const randomNum = Math.floor(Math.random() * 6);
-    randomTrack = songsData[stage][randomNum];
-    audio.src = randomTrack.path;
-  }
 
-  //Check answer
-  const nextButton = document.querySelector('.button_next');
-  const songNameElement = document.querySelector('.question-block__song-name');
-  const bandImageElement = document.querySelector('.question-block__band-image');
-  const descriptionBlock = document.querySelector('.description-block');
-
+  // Check answer
   function checkAnswer(e) {
     const selectedAnswer = e.target.closest('.answer-options__option');
     const selectedAnswerID = +selectedAnswer.dataset.id;
@@ -155,6 +171,7 @@ window.addEventListener('DOMContentLoaded', () => {
     gameData.attempts++;
   }
 
+
   // Start Stage
   function disableNextButton() {
     nextButton.removeEventListener('click', nextStage);
@@ -164,7 +181,6 @@ window.addEventListener('DOMContentLoaded', () => {
   function resetQuestionBlock() {
     songNameElement.textContent = '******';
     bandImageElement.src = 'assets/band_placeholder.png';
-    playerTimeline.value = 0;
   }
 
   const scoreElement = document.querySelector('.score');
@@ -172,29 +188,29 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     gameData.stage = 0;
-    console.log(gameData.stage);
     generateAnswerOptionsBlock(gameData.stage);
     choseRandomTrack(gameData.stage);
     disableNextButton();
     resetQuestionBlock();
     updateStagesBlockStatus();
+    createPlayer(choseRandomTrack(gameData.stage), player);
   }
 
   function nextStage() {
     gameData.stage++;
-    console.log(gameData.stage);
     generateAnswerOptionsBlock(gameData.stage);
     choseRandomTrack(gameData.stage);
     disableNextButton();
     resetQuestionBlock();
     updateStagesBlockStatus();
     updateScore();
+    createPlayer(choseRandomTrack(gameData.stage), player);
   }
 
   startGame(gameData.stage);
 
 
-  //Update Score
+  // Update Score
   function updateScore() {
     gameData.score += 6 - gameData.attempts;
     gameData.attempts = 0;
