@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-inner-declarations */
 /* eslint-disable arrow-parens */
 import './index.html';
@@ -6,13 +7,14 @@ import './results.html';
 import './styles/main.scss';
 import songsData from './data';
 
-import introMetallica from './assets/video/Metallica.mp4';
 import rsLogo from './assets/svg/rsschooljs.svg';
 import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
 
-const importAllMusic = (r) => r.keys().forEach(r);
-importAllMusic(require.context('./assets/audio/', true, /\.mp3$/));
+const importAllMedia = (r) => r.keys().forEach(r);
+importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
+importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
+
 
 const gameData = {
   timeToGuess: 6,
@@ -25,25 +27,36 @@ let randomTrack;
 let isPlay = false;
 
 
+function createDomElement(tag, parent, classlist, attributes, content) {
+  const element = document.createElement(tag);
+  if (classlist) element.classList = classlist;
+  parent.appendChild(element);
+  if (attributes) {
+    for (const [key, value] of Object.entries(attributes)) {
+      element[key] = value;
+      element.setAttribute(key, value);
+    }
+  }
+  element.textContent = content;
+  return element;
+}
+
+
 window.addEventListener('DOMContentLoaded', () => {
   function addBackgroundVideo(source) {
+    const bgVideoAttributes = {
+      autoplay: true,
+      muted: true,
+      loop: true,
+      id: 'video',
+    };
+
     const background = document.querySelector('.background');
-    const videoElement = document.createElement('video');
-    const sourceElement = document.createElement('source');
-    videoElement.setAttribute('id', 'video');
-
-    sourceElement.src = source;
-
-    videoElement.appendChild(sourceElement);
-    videoElement.classList.add('bg-video');
-    background.appendChild(videoElement);
-
-    videoElement.autoplay = true;
-    videoElement.muted = true;
-    videoElement.loop = true;
+    const videoElement = createDomElement('video', background, 'bg-video', bgVideoAttributes);
+    const sourceElement = createDomElement('source', videoElement, null, { src: source });
   }
 
-  addBackgroundVideo(introMetallica);
+  addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
 
   const rsLogoElement = document.querySelector('.rs-logo');
   rsLogoElement.innerHTML = rsLogo;
@@ -113,13 +126,8 @@ window.addEventListener('DOMContentLoaded', () => {
     answerOptionsBlock.innerHTML = '';
 
     songsData[stage].forEach(song => {
-      const answerOptionElement = document.createElement('li');
-      answerOptionElement.classList = 'answer-options__option';
-      answerOptionElement.setAttribute('data-id', song.id);
-      answerOptionsBlock.appendChild(answerOptionElement);
-      const answerOptionLabel = document.createElement('span');
-      answerOptionLabel.classList = 'answer-options__indicator';
-      answerOptionElement.appendChild(answerOptionLabel);
+      const answerOptionElement = createDomElement('li', answerOptionsBlock, 'answer-options__option', { 'data-id': song.id });
+      const answerOptionLabel = createDomElement('span', answerOptionElement, 'answer-options__indicator');
       answerOptionElement.insertAdjacentHTML('beforeend', `${song.artist} - ${song.song}`);
     });
 
