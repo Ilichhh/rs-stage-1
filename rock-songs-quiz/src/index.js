@@ -11,6 +11,9 @@ import rsLogo from './assets/svg/rsschooljs.svg';
 import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
 
+import createDomElement from './js/create_element';
+import player from './js/player';
+
 const importAllMedia = (r) => r.keys().forEach(r);
 importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
 importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
@@ -26,21 +29,6 @@ const gameData = {
 const audio = new Audio();
 let randomTrack;
 let isPlay = false;
-
-
-function createDomElement(tag, parent, classlist, attributes, content) {
-  const element = document.createElement(tag);
-  if (classlist) element.classList = classlist;
-  parent.appendChild(element);
-  if (attributes) {
-    for (const [key, value] of Object.entries(attributes)) {
-      element[key] = value;
-      element.setAttribute(key, value);
-    }
-  }
-  element.textContent = content;
-  return element;
-}
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -145,17 +133,22 @@ window.addEventListener('DOMContentLoaded', () => {
   const nextButton = document.querySelector('.button_next');
   const songNameElement = document.querySelector('.question-block__song-name');
   const bandImageElement = document.querySelector('.question-block__band-image');
+  const descriptionBlock = document.querySelector('.description-block');
 
   function checkAnswer(e) {
     const selectedAnswer = e.target.closest('.answer-options__option');
+    const selectedAnswerID = +selectedAnswer.dataset.id;
     const selectedAnswerLabel = selectedAnswer.children[0];
-    if (+selectedAnswer.dataset.id === randomTrack.id) {
+
+    showFullTrackInfo(songsData[gameData.stage][selectedAnswerID - 1], descriptionBlock);
+
+    if (selectedAnswerID === randomTrack.id) {
       songNameElement.textContent = `${randomTrack.artist} - ${randomTrack.song}`;
       bandImageElement.src = randomTrack.image;
       selectedAnswerLabel.classList.add('answer-options__indicator_correct');
       nextButton.classList.add('button_next_active');
-      gameData.stage++;
-      nextButton.addEventListener('click', startStage);
+
+      nextButton.addEventListener('click', nextStage);
     } else {
       selectedAnswerLabel.classList.add('answer-options__indicator_wrong');
     }
@@ -164,7 +157,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Start Stage
   function disableNextButton() {
-    nextButton.removeEventListener('click', startStage);
+    nextButton.removeEventListener('click', nextStage);
     nextButton.classList.remove('button_next_active');
   }
 
@@ -177,17 +170,28 @@ window.addEventListener('DOMContentLoaded', () => {
   const scoreElement = document.querySelector('.score');
   const stagesElements = document.querySelectorAll('.stage');
 
-  function startStage() {
+  function startGame() {
+    gameData.stage = 0;
     console.log(gameData.stage);
     generateAnswerOptionsBlock(gameData.stage);
     choseRandomTrack(gameData.stage);
     disableNextButton();
     resetQuestionBlock();
     updateStagesBlockStatus();
-    gameData.stage && updateScore();
   }
 
-  startStage(gameData.stage);
+  function nextStage() {
+    gameData.stage++;
+    console.log(gameData.stage);
+    generateAnswerOptionsBlock(gameData.stage);
+    choseRandomTrack(gameData.stage);
+    disableNextButton();
+    resetQuestionBlock();
+    updateStagesBlockStatus();
+    updateScore();
+  }
+
+  startGame(gameData.stage);
 
 
   //Update Score
@@ -197,13 +201,20 @@ window.addEventListener('DOMContentLoaded', () => {
     scoreElement.textContent = `Score: ${gameData.score}`;
   }
 
-
-
   function updateStagesBlockStatus() {
     stagesElements.forEach((element, index) => {
-      console.log(element);
       element.classList = 'stage';
       if (index === gameData.stage) element.classList.add('stage_current');
     });
+  }
+
+  function showFullTrackInfo(track, block) {
+    block.innerHTML = '';
+    const wrapper = createDomElement('div', block, 'description-block__wrapper');
+    createDomElement('img', wrapper, 'description-block__band-image', { src: track.image, height: 200 });
+    const playerWrapper = createDomElement('div', wrapper, 'description-block__player-wrapper');
+    createDomElement('h2', playerWrapper, 'description-block__song-name', null, track.song);
+    createDomElement('h3', playerWrapper, 'description-block__band-name', null, track.artist);
+    createDomElement('div', playerWrapper, 'player', null, 'this is player');
   }
 });
