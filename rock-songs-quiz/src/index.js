@@ -20,6 +20,7 @@ const gameData = {
   timeToGuess: 6,
   stage: 0,
   score: 0,
+  attempts: 0,
 };
 
 const audio = new Audio();
@@ -158,6 +159,7 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
       selectedAnswerLabel.classList.add('answer-options__indicator_wrong');
     }
+    gameData.attempts++;
   }
 
   // Start Stage
@@ -172,13 +174,36 @@ window.addEventListener('DOMContentLoaded', () => {
     playerTimeline.value = 0;
   }
 
+  const scoreElement = document.querySelector('.score');
+  const stagesElements = document.querySelectorAll('.stage');
+
   function startStage() {
     console.log(gameData.stage);
     generateAnswerOptionsBlock(gameData.stage);
     choseRandomTrack(gameData.stage);
     disableNextButton();
     resetQuestionBlock();
+    updateStagesBlockStatus();
+    gameData.stage && updateScore();
   }
 
   startStage(gameData.stage);
+
+
+  //Update Score
+  function updateScore() {
+    gameData.score += 6 - gameData.attempts;
+    gameData.attempts = 0;
+    scoreElement.textContent = `Score: ${gameData.score}`;
+  }
+
+
+
+  function updateStagesBlockStatus() {
+    stagesElements.forEach((element, index) => {
+      console.log(element);
+      element.classList = 'stage';
+      if (index === gameData.stage) element.classList.add('stage_current');
+    });
+  }
 });
