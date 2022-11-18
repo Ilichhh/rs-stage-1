@@ -41,10 +41,18 @@ let nextButton, songNameElement, bandImageElement, descriptionBlock, questionBlo
 
 window.addEventListener('DOMContentLoaded', () => {
   // Create Pages
-  function showStartPage() {
+  function init() {
     renderHeader(header);
-    renderStartPage(main);
+    showStartPage();
     renderFooter(footer);
+
+    const logo = document.querySelector('.logo');
+    logo.addEventListener('click', showStartPage);
+  }
+
+
+  function showStartPage() {
+    renderStartPage(main);
     addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
 
     startButton = document.querySelector('.start-page__button');
@@ -64,11 +72,11 @@ window.addEventListener('DOMContentLoaded', () => {
     stagesElements = document.querySelectorAll('.stage');
     player = createDomElement('div', questionBlock, 'player');
 
-    startGame(gameData.stage);
+    startGame();
   }
 
 
-  showStartPage();
+  init();
 
   // Background Video
   function addBackgroundVideo(source) {
@@ -92,9 +100,9 @@ window.addEventListener('DOMContentLoaded', () => {
     return `${minutes.toString().padStart(2, 0)}:${seconds.toString().padStart(2, 0)}`;
   }
 
-  function choseRandomTrack(stage) {
+  function choseRandomTrack() {
     const randomNum = Math.floor(Math.random() * 6);
-    randomTrack = songsData[stage][randomNum];
+    randomTrack = songsData[gameData.stage][randomNum];
     return randomTrack;
   }
 
@@ -168,11 +176,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   // Generation of answer options
-  function generateAnswerOptionsBlock(stage) {
+  function generateAnswerOptionsBlock() {
     const answerOptionsBlock = document.querySelector('.answer-options');
     answerOptionsBlock.innerHTML = '';
 
-    songsData[stage].forEach(song => {
+    songsData[gameData.stage].forEach(song => {
       const answerOptionElement = createDomElement('li', answerOptionsBlock, 'answer-options__option', { 'data-id': song.id });
       const answerOptionLabel = createDomElement('span', answerOptionElement, 'answer-options__indicator');
       answerOptionElement.insertAdjacentHTML('beforeend', `${song.artist} - ${song.song}`);
@@ -218,27 +226,25 @@ window.addEventListener('DOMContentLoaded', () => {
     bandImageElement.src = 'assets/band_placeholder.png';
   }
 
-
-  function startGame() {
-    gameData.stage = 0;
-    generateAnswerOptionsBlock(gameData.stage);
-    choseRandomTrack(gameData.stage);
+  function generateStage() {
+    generateAnswerOptionsBlock();
+    choseRandomTrack();
     disableNextButton();
     resetQuestionBlock();
     updateStagesBlockStatus();
-    createPlayer(choseRandomTrack(gameData.stage), player);
+    createPlayer(choseRandomTrack(), player);
+  }
+
+  function startGame() {
+    gameData.stage = 0;
+    generateStage();
   }
 
   function nextStage() {
     gameData.stage++;
     isGuessed = false;
-    generateAnswerOptionsBlock(gameData.stage);
-    choseRandomTrack(gameData.stage);
-    disableNextButton();
-    resetQuestionBlock();
-    updateStagesBlockStatus();
     updateScore();
-    createPlayer(choseRandomTrack(gameData.stage), player);
+    generateStage();
   }
 
 
