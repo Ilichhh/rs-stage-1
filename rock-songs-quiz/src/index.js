@@ -12,7 +12,7 @@ import pauseButtonImg from './assets/svg/pause.svg';
 import bandPlaceholder from './assets/icons/GitHub-Mark-Light-32px.png';
 
 import createDomElement from './js/create_element';
-import { renderHeader, renderFooter, renderQuizPage, renderStartPage } from './js/render_page_elements';
+import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResultsPage } from './js/render_page_elements';
 
 
 const importAllMedia = (r) => r.keys().forEach(r);
@@ -237,6 +237,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function startGame() {
     gameData.stage = 0;
+    gameData.score = 0;
     generateStage();
   }
 
@@ -244,7 +245,16 @@ window.addEventListener('DOMContentLoaded', () => {
     gameData.stage++;
     isGuessed = false;
     updateScore();
-    generateStage();
+    gameData.stage > 1 ? finishGame() : generateStage();
+  }
+
+  function finishGame() {
+    console.log(gameData.score);
+    renderResultsPage(main, gameData.score);
+    addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
+
+    startButton = document.querySelector('.results-page__button');
+    startButton.addEventListener('click', showQuizPage);
   }
 
 
