@@ -4,22 +4,20 @@
 /* eslint-disable no-inner-declarations */
 /* eslint-disable arrow-parens */
 import './index.html';
-import './quiz.html';
-import './results.html';
 import './styles/main.scss';
 import songsData from './data';
 
-import rsLogo from './assets/svg/rsschooljs.svg';
 import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
+import bandPlaceholder from './assets/icons/GitHub-Mark-Light-32px.png';
 
 import createDomElement from './js/create_element';
+import { renderHeader, renderFooter, renderQuizPage, renderStartPage } from './js/render_page_elements';
+
 
 const importAllMedia = (r) => r.keys().forEach(r);
 importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
 importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
-
-
 
 const gameData = {
   timeToGuess: 15,
@@ -28,19 +26,49 @@ const gameData = {
   attempts: 0,
 };
 
-
 let randomTrack;
 let isPlay = false;
 let isGuessed = false;
 let activePlayButton;
 
+const root = document.querySelector('.body');
+const header = createDomElement('header', root, 'header');
+const main = createDomElement('main', root, 'main');
+const footer = createDomElement('footer', root, 'footer');
+
+let nextButton, songNameElement, bandImageElement, descriptionBlock, questionBlock, scoreElement, stagesElements, startButton, player;
+
 
 window.addEventListener('DOMContentLoaded', () => {
-  const nextButton = document.querySelector('.button_next');
-  const songNameElement = document.querySelector('.question-block__song-name');
-  const bandImageElement = document.querySelector('.question-block__band-image');
-  const descriptionBlock = document.querySelector('.description-block');
+  // Create Pages
+  function showStartPage() {
+    renderHeader(header);
+    renderStartPage(main);
+    renderFooter(footer);
+    addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
 
+    startButton = document.querySelector('.start-page__button');
+    startButton.addEventListener('click', showQuizPage);
+  }
+
+
+  function showQuizPage() {
+    renderQuizPage(main);
+
+    nextButton = document.querySelector('.button_next');
+    songNameElement = document.querySelector('.question-block__song-name');
+    bandImageElement = document.querySelector('.question-block__band-image');
+    descriptionBlock = document.querySelector('.description-block');
+    questionBlock = document.querySelector('.question-block__info');
+    scoreElement = document.querySelector('.score');
+    stagesElements = document.querySelectorAll('.stage');
+    player = createDomElement('div', questionBlock, 'player');
+
+    startGame(gameData.stage);
+  }
+
+
+  showStartPage();
 
   // Background Video
   function addBackgroundVideo(source) {
@@ -55,14 +83,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const videoElement = createDomElement('video', background, 'bg-video', bgVideoAttributes);
     const sourceElement = createDomElement('source', videoElement, null, { src: source });
   }
-
-  addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
-
-  const rsLogoElement = document.querySelector('.rs-logo');
-  rsLogoElement.innerHTML = rsLogo;
-
-  const questionBlock = document.querySelector('.question-block__info');
-
 
   // Player
   function convertTimeFormat(time) {
@@ -96,7 +116,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function toggleAudio(audio, isShort, e) {
-    console.log(e.target.closest('.player__play-btn').dataset.id);
     activePlayButton = e.target.closest('.player__play-btn');
     isPlay ? pauseAudio(audio) : playAudio(audio, isShort);
   }
@@ -117,8 +136,6 @@ window.addEventListener('DOMContentLoaded', () => {
     timeline.max = duration * 100;
     totalTimeElement.textContent = convertTimeFormat(duration);
   }
-
-  const player = createDomElement('div', questionBlock, 'player');
 
   function createPlayer(track, player, isShort=true) {
     const audio = new Audio();
@@ -197,11 +214,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function resetQuestionBlock() {
     songNameElement.textContent = '******';
+    descriptionBlock.textContent = `Listen to the first ${gameData.timeToGuess} seconds of the song and try to guess the artist.`;
     bandImageElement.src = 'assets/band_placeholder.png';
   }
 
-  const scoreElement = document.querySelector('.score');
-  const stagesElements = document.querySelectorAll('.stage');
 
   function startGame() {
     gameData.stage = 0;
@@ -224,8 +240,6 @@ window.addEventListener('DOMContentLoaded', () => {
     updateScore();
     createPlayer(choseRandomTrack(gameData.stage), player);
   }
-
-  startGame(gameData.stage);
 
 
   // Update Score
