@@ -30,6 +30,7 @@ const gameData = {
 
 let randomTrack;
 let isPlay = false;
+let isGuessed = false;
 let activePlayButton;
 
 
@@ -158,17 +159,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     showFullTrackInfo(songsData[gameData.stage][selectedAnswerID - 1], descriptionBlock);
 
-    if (selectedAnswerID === randomTrack.id) {
-      songNameElement.textContent = `${randomTrack.artist} - ${randomTrack.song}`;
-      bandImageElement.src = randomTrack.image;
-      selectedAnswerLabel.classList.add('answer-options__indicator_correct');
-      nextButton.classList.add('button_next_active');
-
-      nextButton.addEventListener('click', nextStage);
-    } else {
-      selectedAnswerLabel.classList.add('answer-options__indicator_wrong');
+    if (!isGuessed) {
+      if (selectedAnswerID === randomTrack.id) {
+        isGuessed = true;
+        songNameElement.textContent = `${randomTrack.artist} - ${randomTrack.song}`;
+        bandImageElement.src = randomTrack.image;
+        selectedAnswerLabel.classList.add('answer-options__indicator_correct');
+        nextButton.classList.add('button_next_active');
+        nextButton.addEventListener('click', nextStage);
+      } else {
+        selectedAnswerLabel.classList.add('answer-options__indicator_wrong');
+      }
+      gameData.attempts++;
     }
-    gameData.attempts++;
   }
 
 
@@ -198,6 +201,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function nextStage() {
     gameData.stage++;
+    isGuessed = false;
     generateAnswerOptionsBlock(gameData.stage);
     choseRandomTrack(gameData.stage);
     disableNextButton();
