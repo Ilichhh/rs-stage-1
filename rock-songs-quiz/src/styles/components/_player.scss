@@ -3,9 +3,8 @@
 .player {
   display: flex;
 
-  &__play-btn,
-  &__volume-btn {
-    margin-right: 25px;
+  &__play-btn {
+    margin-right: 15px;
     padding: 0;
     display: flex;
     justify-content: space-around;
@@ -30,21 +29,24 @@
     height: 6px;
     display: block;
     border-radius: 3px;
-    background: $secondary-bg-color;
+    // background: $secondary-bg-color;
+    background: $hover-state-bright-color;
+    cursor: pointer;
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 20px;
       height: 20px;
-      background-color: $main-bright-color;
+      background-color: $hover-state-bright-color;
       border-radius: 50%;
       cursor: pointer;
-      transition: .3s;
-      &:hover {
-        background-color: $hover-state-bright-color;
-      }
+      transition: .2s;
+    }
+    &:active::-webkit-slider-thumb {
+      width: 20px;
+      height: 20px;
+      background: $hover-state-bright-color;
     }
   }
-
   &__time {
     display: flex;
     justify-content: space-between;

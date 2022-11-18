@@ -58,6 +58,7 @@
     margin-right: 25px;
   }
   &__song-name {
+    padding-bottom: 5px;
     border-bottom: 1px solid $secondary-bg-color;
   }
 }
@@ -103,6 +104,27 @@
   }
 }
 
-.description-block__wrapper {
-  display: flex;
+.description-block {
+  &__wrapper {
+    display: flex;
+  }
+  &__band-image {
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+  &__player-wrapper {
+    margin-top: 5px;
+    width: 100%;
+  }
+  &__band-name {
+    margin: 0;
+    padding: 5px 0px 5px;
+    border-bottom: 1px solid $secondary-bg-color;
+  }
+  &__song-name {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 10px 0px 5px;
+    border-bottom: 1px solid $secondary-bg-color;
+  }
 }
