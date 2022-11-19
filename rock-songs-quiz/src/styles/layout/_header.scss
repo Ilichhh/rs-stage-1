@@ -6,6 +6,7 @@
 
 .logo {
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .nav {
@@ -22,5 +23,9 @@
     color: $text-color;
     font-size: 20px;
     text-decoration: none;
+    transition: .2s all;
+    &:hover {
+      color: $hover-state-bright-color;
+    }
   }
 }

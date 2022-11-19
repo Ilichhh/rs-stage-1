@@ -1,6 +1,13 @@
 @import '../components/buttons';
 
 .start-page {
+  margin: 0 auto;
+  max-width: 1200px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  color: $text-color;
   &__header {
     margin: 0 auto 1rem;
     text-align: center;
@@ -11,14 +18,11 @@
     width: 50%;
     text-align: center;
   }
-  &__button {
-    display: block;
-    margin: 0 auto;
-    height: 50px;
-    width: 200px;
-    opacity: 0.8;
-    font-size: 24px;
-  }
+}
+
+.container_start {
+  flex: 10;
+  flex-shrink: 1
 }
 
 video {

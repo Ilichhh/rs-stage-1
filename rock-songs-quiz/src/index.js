@@ -57,6 +57,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     startButton = document.querySelector('.start-page__button');
     startButton.addEventListener('click', showQuizPage);
+
+    root.classList = 'body start-page';
+    footer.classList.remove('footer_quiz');
   }
 
 
@@ -71,6 +74,8 @@ window.addEventListener('DOMContentLoaded', () => {
     scoreElement = document.querySelector('.score');
     stagesElements = document.querySelectorAll('.stage');
     player = createDomElement('div', questionBlock, 'player');
+    root.classList = 'body quiz-page';
+    footer.classList.add('footer_quiz');
 
     startGame();
   }
@@ -199,7 +204,9 @@ window.addEventListener('DOMContentLoaded', () => {
     showFullTrackInfo(songsData[gameData.stage][selectedAnswerID - 1], descriptionBlock);
 
     if (!isGuessed) {
+      gameData.attempts++;
       if (selectedAnswerID === randomTrack.id) {
+        updateScore();
         isGuessed = true;
         songNameElement.textContent = `${randomTrack.artist} - ${randomTrack.song}`;
         bandImageElement.src = randomTrack.image;
@@ -209,7 +216,6 @@ window.addEventListener('DOMContentLoaded', () => {
       } else {
         selectedAnswerLabel.classList.add('answer-options__indicator_wrong');
       }
-      gameData.attempts++;
     }
   }
 
@@ -222,7 +228,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function resetQuestionBlock() {
     songNameElement.textContent = '******';
-    descriptionBlock.textContent = `Listen to the first ${gameData.timeToGuess} seconds of the song and try to guess the artist.`;
+    descriptionBlock.innerHTML = '';
+    createDomElement('div', descriptionBlock, 'description-block__placeholder', null, `Listen to the first ${gameData.timeToGuess} seconds of the song and try to guess the artist.`);
     bandImageElement.src = 'assets/band_placeholder.png';
   }
 
@@ -238,14 +245,15 @@ window.addEventListener('DOMContentLoaded', () => {
   function startGame() {
     gameData.stage = 0;
     gameData.score = 0;
+    isGuessed = false;
     generateStage();
   }
 
   function nextStage() {
     gameData.stage++;
     isGuessed = false;
-    updateScore();
-    gameData.stage > 1 ? finishGame() : generateStage();
+    if (gameData.stage > 4) nextButton.textContent = 'Show Results';
+    gameData.stage > 5 ? finishGame() : generateStage();
   }
 
   function finishGame() {
@@ -255,6 +263,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     startButton = document.querySelector('.results-page__button');
     startButton.addEventListener('click', showQuizPage);
+    footer.classList.remove('footer_quiz');
   }
 
 

@@ -28,23 +28,33 @@
 }
 
 .stages {
+  width: 100%;
   display: flex;
+  justify-content: space-between;
   margin: 0;
   padding: 0;
   height: 35px;
   list-style: none;
   border-radius: 5px;
+  background-color: $main-bright-color;
 }
 
 .stage {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100px;
+  width: 100%;
+  border-radius: 5px;
   background-color: $main-bright-color;
   &_current {
     background-color: $hover-state-bright-color;
   }
+}
+
+.score {
+  width: 90px;
+  padding-right: 15px;
+  margin-left: 25px;
 }
 
 .question-block {
@@ -65,6 +75,7 @@
 
 .answer-options-block {
   padding: 0;
+  height: 300px;
 }
 
 .description-block {
@@ -85,6 +96,9 @@
     border-bottom: 1px solid $secondary-bg-color;
     cursor: pointer;
     transition: .2s all;
+    &:last-child {
+      border-bottom: none;
+    }
     &:hover {
       background-color: $hover-state-bg-color;
     }
@@ -105,12 +119,19 @@
 }
 
 .description-block {
+  grid-row: 3 / 5;
+  grid-column: 2 / 3;
+  &__placeholder {
+    margin-top: 125px;
+    text-align: center;
+    font-size: 24px;
+  }
   &__wrapper {
     display: flex;
   }
   &__band-image {
     margin-right: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   &__player-wrapper {
     margin-top: 5px;
@@ -126,5 +147,8 @@
     margin-bottom: 10px;
     padding: 10px 0px 5px;
     border-bottom: 1px solid $secondary-bg-color;
+  }
+  &__band-descr {
+    font-weight: 200;
   }
 }

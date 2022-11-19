@@ -63,7 +63,7 @@ export function renderStartPage(main) {
   main.innerHTML = '';
   const container = createDomElement('div', main, 'container container_start');
   createDomElement('h1', container, 'start-page__header', null, 'Rock Songs Quiz');
-  createDomElement('h2', container, 'start-page__subheader', null, 'Do you want to guess rock songs of the 50s-00s, listen to your favorite music and have a good time?')
+  createDomElement('h2', container, 'start-page__subheader', null, 'Test your knowledge of classic rock from the 1950s-2000s. Listen to a short piece of the song and try to guess the artist.');
   const startButton = createDomElement('button', container, 'button start-page__button', null, 'Start game');
   createDomElement('div', container, 'background');
 }
