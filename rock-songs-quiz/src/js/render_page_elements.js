@@ -4,7 +4,7 @@ import logo from '../assets/images/Logo.png';
 import ghLogo from '../assets/images/band_placeholder.png';
 
 
-export function renderHeader(header) {
+export function renderHeader(header, main) {
   const container = createDomElement('div', header, 'container container_header');
   const logo = createDomElement('a', container, 'logo');
   createDomElement('img', logo, 'logo', { src: './assets/Logo.png', alt: 'logo', width: 70 });
@@ -14,7 +14,7 @@ export function renderHeader(header) {
   const menuItems = ['Quiz', 'Results', 'Gallery'];
   for (let item of menuItems) {
     const li = createDomElement('li', menu, 'menu__item');
-    createDomElement('a', li, 'menu__link', { href: '#' }, item);
+    const link = createDomElement('a', li, 'menu__link', { href: '#' }, item);
   }
 }
 

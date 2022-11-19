@@ -27,7 +27,7 @@ importAllMedia(require.context('./assets/background/', true, /\.jpg$/));
 const backgrounds = ['./assets/bg-50.jpg', './assets/bg-60.jpg', './assets/bg-70.jpg', './assets/bg-80.jpg', './assets/bg-90.jpg', './assets/bg-00.jpg'];
 
 const gameData = {
-  timeToGuess: 36,
+  timeToGuess: 4,
   stage: 0,
   score: 0,
   attempts: 0,
@@ -51,12 +51,14 @@ let nextButton, songNameElement, bandImageElement, descriptionBlock, questionBlo
 window.addEventListener('DOMContentLoaded', () => {
   // Create Pages
   function init() {
-    renderHeader(header);
+    renderHeader(header, main);
     showStartPage();
     renderFooter(footer);
 
     const logo = document.querySelector('.logo');
     logo.addEventListener('click', showStartPage);
+    const menu = document.querySelector('.menu');
+    menu.addEventListener('click', showPage)
   }
 
 
@@ -89,6 +91,12 @@ window.addEventListener('DOMContentLoaded', () => {
     startGame();
   }
 
+  function showPage(e) {
+    const page = e.target.textContent;
+    if (page === 'Quiz') showQuizPage();
+    if (page === 'Results') showResultsPage();
+    if (page === 'Gallery') showGalleryPage();
+  }
 
   init();
 
@@ -289,10 +297,10 @@ window.addEventListener('DOMContentLoaded', () => {
     gameData.stage++;
     isGuessed = false;
     if (gameData.stage > 4) nextButton.textContent = 'Show Results';
-    gameData.stage > 5 ? finishGame() : generateStage();
+    gameData.stage > 5 ? showResultsPage() : generateStage();
   }
 
-  function finishGame() {
+  function showResultsPage() {
     renderResultsPage(main, gameData.score);
     addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
 
