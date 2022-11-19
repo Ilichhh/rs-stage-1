@@ -18,6 +18,9 @@ import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResu
 const importAllMedia = (r) => r.keys().forEach(r);
 importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
 importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
+importAllMedia(require.context('./assets/background/', true, /\.jpg$/));
+
+const backgrounds = ['./assets/bg-50.jpg', './assets/bg-60.jpg', './assets/bg-70.jpg', './assets/bg-80.jpg', './assets/bg-90.jpg', './assets/bg-00.jpg'];
 
 const gameData = {
   timeToGuess: 15,
@@ -53,7 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function showStartPage() {
     renderStartPage(main);
-    addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
+    addBackgroundVideo('./assets/Metallica.mp4');
 
     startButton = document.querySelector('.start-page__button');
     startButton.addEventListener('click', showQuizPage);
@@ -77,6 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
     root.classList = 'body quiz-page';
     footer.classList.add('footer_quiz');
 
+
     startGame();
   }
 
@@ -95,6 +99,13 @@ window.addEventListener('DOMContentLoaded', () => {
     const background = document.querySelector('.background');
     const videoElement = createDomElement('video', background, 'bg-video', bgVideoAttributes);
     const sourceElement = createDomElement('source', videoElement, null, { src: source });
+  }
+
+  function setBackgroundImg(source) {
+    const background = document.querySelector('.background');
+    background.innerHTML = '';
+    const backgroundImage = createDomElement('div', background, 'bg-img');
+    backgroundImage.style.background = `url(${source}) center center/cover no-repeat`;
   }
 
   // Player
@@ -240,6 +251,7 @@ window.addEventListener('DOMContentLoaded', () => {
     resetQuestionBlock();
     updateStagesBlockStatus();
     createPlayer(choseRandomTrack(), player);
+    setBackgroundImg(backgrounds[gameData.stage]);
   }
 
   function startGame() {
