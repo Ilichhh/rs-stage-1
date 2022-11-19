@@ -3,8 +3,8 @@
 .player {
   display: flex;
 
-  &__play-btn {
-    margin-right: 15px;
+  &__play-btn,
+  &__volume-btn {
     padding: 0;
     display: flex;
     justify-content: space-around;
@@ -17,12 +17,25 @@
     cursor: pointer;
   }
 
+  &__play-btn {
+    margin-right: 15px;
+  }
+
+  &__volume-btn {
+    margin-left: 15px;
+  }
+
+  &__volume {
+    margin-left: 15px;
+    width: 85px;
+  }
+
   &__timeline-wrapper {
     width: 100%;
   }
   
-  &__timeline {
-    width: 100%;
+  &__timeline,
+  &__volume {
     margin-top: 22px;
     margin-bottom: 8px;
     -webkit-appearance: none;
@@ -47,12 +60,14 @@
       background: $hover-state-bright-color;
     }
   }
+
+  &__timeline {
+    width: 100%;
+  }
+
   &__time {
     display: flex;
     justify-content: space-between;
   }
 
-  &__volume {
-    margin-top: 0;
-  }
 }

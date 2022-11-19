@@ -11,6 +11,10 @@ import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
 import bandPlaceholder from './assets/icons/GitHub-Mark-Light-32px.png';
 
+import playIcon from './assets/icons/play.png';
+import pauseIcon from './assets/icons/pause.png';
+import volumeIcon from './assets/icons/volume.png';
+
 import createDomElement from './js/create_element';
 import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResultsPage } from './js/render_page_elements';
 
@@ -41,6 +45,8 @@ const main = createDomElement('main', root, 'main');
 const footer = createDomElement('footer', root, 'footer');
 
 let nextButton, songNameElement, bandImageElement, descriptionBlock, questionBlock, scoreElement, stagesElements, startButton, player;
+
+
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -164,6 +170,7 @@ window.addEventListener('DOMContentLoaded', () => {
     totalTimeElement.textContent = convertTimeFormat(duration);
   }
 
+
   function createPlayer(track, player, isShort=true) {
     player.innerHTML = '';
     const playButton = createDomElement('button', player, 'player__play-btn', { 'data-id': track.id });
@@ -173,6 +180,15 @@ window.addEventListener('DOMContentLoaded', () => {
     const currentTimeElement = createDomElement('div', timeWrapper, 'player__time-current', null, '00:00');
     const totalTimeElement = createDomElement('div', timeWrapper, 'player__time-length');
     const audio = createDomElement('audio', player, 'audio', { src: track.path });
+
+    const volumeInput = createDomElement('input', player, 'player__volume', { type: 'range', min: 0, max: 100, value: 50 });
+    volumeInput.addEventListener('input', e => {
+      audio.volume = e.target.value / 100;
+    });
+
+    const volumeButton = createDomElement('button', player, 'player__volume-btn');
+    createDomElement('img', volumeButton, 'player__volume-icon', { src: volumeIcon });
+
 
     playButton.innerHTML = playButtonImg;
     playButton.addEventListener('click', e => toggleAudio(audio, isShort, e));
