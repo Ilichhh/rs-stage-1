@@ -38,6 +38,7 @@ let isGuessed = false;
 let activePlayButton;
 let prevAudio;
 let prevPlayButton;
+let sampleAudio;
 
 const root = document.querySelector('.body');
 const header = createDomElement('header', root, 'header');
@@ -45,8 +46,6 @@ const main = createDomElement('main', root, 'main');
 const footer = createDomElement('footer', root, 'footer');
 
 let nextButton, songNameElement, bandImageElement, descriptionBlock, questionBlock, scoreElement, stagesElements, startButton, player;
-
-
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -154,14 +153,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateTimeline(audio, currentTimeElement, playerTimeline, isShort) {
-    if (!audio.paused) {
-      currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
-      playerTimeline.value = audio.currentTime.toFixed(2) * 100;
-      if (isShort && audio.currentTime >= gameData.timeToGuess) {
-        pauseAudio(audio);
-      } else if (audio.currentTime >= audio.duration) {
-        pauseAudio(audio);
-      }
+    currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
+    playerTimeline.value = audio.currentTime.toFixed(2) * 100;
+    if (isShort && audio.currentTime >= gameData.timeToGuess) {
+      pauseAudio(audio);
+    } else if (audio.currentTime >= audio.duration) {
+      pauseAudio(audio);
     }
   }
 
@@ -181,20 +178,25 @@ window.addEventListener('DOMContentLoaded', () => {
     const totalTimeElement = createDomElement('div', timeWrapper, 'player__time-length');
     const audio = createDomElement('audio', player, 'audio', { src: track.path });
 
+    if (isShort) sampleAudio = audio;
+
     const volumeInput = createDomElement('input', player, 'player__volume', { type: 'range', min: 0, max: 100, value: 50 });
     volumeInput.addEventListener('input', e => {
       audio.volume = e.target.value / 100;
     });
 
-    const volumeButton = createDomElement('button', player, 'player__volume-btn');
-    createDomElement('img', volumeButton, 'player__volume-icon', { src: volumeIcon });
-
+    // const volumeButton = createDomElement('button', player, 'player__volume-btn');
+    // createDomElement('img', volumeButton, 'player__volume-icon', { src: volumeIcon });
+    console.log(playerTimeline.style.background);
 
     playButton.innerHTML = playButtonImg;
     playButton.addEventListener('click', e => toggleAudio(audio, isShort, e));
 
     playerTimeline.addEventListener('input', e => {
       audio.currentTime = e.target.value / 100;
+      playerTimeline.style.background = `linear-gradient(to right, $main-bright-color 0%, $main-bright-color ${40}%, $secondary-bg-color ${40}%, $secondary-bg-color 100%)`;
+
+      console.dir(playerTimeline.style.background);
     });
 
     audio.onloadedmetadata = () => {
@@ -232,7 +234,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (!isGuessed) {
       gameData.attempts++;
+      let sound = new Audio();
       if (selectedAnswerID === randomTrack.id) {
+        if (!sampleAudio.paused) pauseAudio(sampleAudio);
         updateScore();
         isGuessed = true;
         songNameElement.textContent = `${randomTrack.artist} - ${randomTrack.song}`;
@@ -240,9 +244,13 @@ window.addEventListener('DOMContentLoaded', () => {
         selectedAnswerLabel.classList.add('answer-options__indicator_correct');
         nextButton.classList.add('button_next_active');
         nextButton.addEventListener('click', nextStage);
+        sound.src = './assets/correct.mp3';
       } else {
         selectedAnswerLabel.classList.add('answer-options__indicator_wrong');
+        sound.src = './assets/wrong.mp3';
+        sound.volume = 0.15;
       }
+      sound.play();
     }
   }
 
