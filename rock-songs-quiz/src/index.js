@@ -23,16 +23,17 @@ importAllMedia(require.context('./assets/background/', true, /\.jpg$/));
 const backgrounds = ['./assets/bg-50.jpg', './assets/bg-60.jpg', './assets/bg-70.jpg', './assets/bg-80.jpg', './assets/bg-90.jpg', './assets/bg-00.jpg'];
 
 const gameData = {
-  timeToGuess: 15,
+  timeToGuess: 36,
   stage: 0,
   score: 0,
   attempts: 0,
 };
 
 let randomTrack;
-let isPlay = false;
 let isGuessed = false;
 let activePlayButton;
+let prevAudio;
+let prevPlayButton;
 
 const root = document.querySelector('.body');
 const header = createDomElement('header', root, 'header');
@@ -80,14 +81,14 @@ window.addEventListener('DOMContentLoaded', () => {
     root.classList = 'body quiz-page';
     footer.classList.add('footer_quiz');
 
-
     startGame();
   }
 
 
   init();
 
-  // Background Video
+
+  // Background
   function addBackgroundVideo(source) {
     const bgVideoAttributes = {
       autoplay: true,
@@ -123,6 +124,9 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function playAudio(audio, isShort) {
+    if (prevAudio) pauseAudio(prevAudio);
+    if (prevPlayButton) prevPlayButton.innerHTML = playButtonImg;
+    prevAudio = audio;
     if (isShort && audio.currentTime >= gameData.timeToGuess) {
       audio.currentTime = 0;
     } else if (audio.currentTime >= audio.duration) {
@@ -130,22 +134,21 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     audio.play();
     activePlayButton.innerHTML = pauseButtonImg;
-    isPlay = true;
   }
 
   function pauseAudio(audio) {
     audio.pause();
     activePlayButton.innerHTML = playButtonImg;
-    isPlay = false;
   }
 
   function toggleAudio(audio, isShort, e) {
+    prevPlayButton = activePlayButton;
     activePlayButton = e.target.closest('.player__play-btn');
-    isPlay ? pauseAudio(audio) : playAudio(audio, isShort);
+    !audio.paused ? pauseAudio(audio) : playAudio(audio, isShort);
   }
 
   function updateTimeline(audio, currentTimeElement, playerTimeline, isShort) {
-    if (isPlay) {
+    if (!audio.paused) {
       currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
       playerTimeline.value = audio.currentTime.toFixed(2) * 100;
       if (isShort && audio.currentTime >= gameData.timeToGuess) {
@@ -162,8 +165,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function createPlayer(track, player, isShort=true) {
-    const audio = new Audio();
-
     player.innerHTML = '';
     const playButton = createDomElement('button', player, 'player__play-btn', { 'data-id': track.id });
     const timelineWrapper = createDomElement('div', player, 'player__timeline-wrapper');
@@ -171,6 +172,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const timeWrapper = createDomElement('div', timelineWrapper, 'player__time');
     const currentTimeElement = createDomElement('div', timeWrapper, 'player__time-current', null, '00:00');
     const totalTimeElement = createDomElement('div', timeWrapper, 'player__time-length');
+    const audio = createDomElement('audio', player, 'audio', { src: track.path });
 
     playButton.innerHTML = playButtonImg;
     playButton.addEventListener('click', e => toggleAudio(audio, isShort, e));
@@ -179,11 +181,9 @@ window.addEventListener('DOMContentLoaded', () => {
       audio.currentTime = e.target.value / 100;
     });
 
-    audio.src = track.path;
-
     audio.onloadedmetadata = () => {
       isShort ?
-        setTimelineMax(playerTimeline, totalTimeElement, gameData.timeToGuess) :
+      setTimelineMax(playerTimeline, totalTimeElement, gameData.timeToGuess) :
         setTimelineMax(playerTimeline, totalTimeElement, audio.duration);
     };
 
@@ -269,7 +269,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function finishGame() {
-    console.log(gameData.score);
     renderResultsPage(main, gameData.score);
     addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
 
