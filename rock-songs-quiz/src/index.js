@@ -23,6 +23,7 @@ const importAllMedia = (r) => r.keys().forEach(r);
 importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
 importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
 importAllMedia(require.context('./assets/background/', true, /\.jpg$/));
+importAllMedia(require.context('./assets/images/', true, /\.jpg$/));
 
 const backgrounds = ['./assets/bg-50.jpg', './assets/bg-60.jpg', './assets/bg-70.jpg', './assets/bg-80.jpg', './assets/bg-90.jpg', './assets/bg-00.jpg'];
 
@@ -402,7 +403,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function showFullTrackInfo(track, block) {
     block.innerHTML = '';
     const wrapper = createDomElement('div', block, 'description-block__wrapper');
-    createDomElement('img', wrapper, 'description-block__band-image', { src: track.image, height: 175 });
+    createDomElement('img', wrapper, 'description-block__band-image', { src: track.image, height: 175, width: 175 });
     const playerWrapper = createDomElement('div', wrapper, 'description-block__player-wrapper');
     createDomElement('h2', playerWrapper, 'description-block__band-name', null, track.artist);
     createDomElement('h3', playerWrapper, 'description-block__song-name', null, track.song);

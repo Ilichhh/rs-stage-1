@@ -5,7 +5,7 @@ const songsData = [
       song: 'Johnny B. Goode',
       artist: 'Chuck Berry',
       description: 'Guitarist, singer, and songwriter Charles Edward Anderson “Chuck” Berry was considered a pioneer of rock and roll and a major influence on 20th century popular music. His songs such as “Johnny B. Goode” and “Roll Over Beethoven” are rock and roll standards.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Chuck_Berry_1957.jpg/800px-Chuck_Berry_1957.jpg',
+      image: './assets/Chuck_Berry.jpg',
       path: './assets/Chuck_Berry_Johnny_B_Goode.mp3',
     },
     {
@@ -13,7 +13,7 @@ const songsData = [
       song: 'Jailhouse Rock',
       artist: 'Elvis Presley',
       description: 'Elvis Presley, (born Jan. 8, 1935, Tupelo, Miss., U.S.—died Aug. 16, 1977, Memphis, Tenn.), U.S. popular singer, the “King of Rock and Roll.” Presley was raised in Memphis, where he sang Pentecostal church music and listened to black bluesmen and Grand Ole Opry broadcasts.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Elvis_Presley_promoting_Jailhouse_Rock.jpg',
+      image: './assets/Elvis_Presley.jpg',
       path: './assets/Elvis_Presley_Jailhouse_Rock.mp3',
     },
     {
@@ -21,7 +21,7 @@ const songsData = [
       song: 'What\'d I Say',
       artist: 'Ray Charles',
       description: 'Ray Charles was a pianist and vocalist whose style spanned the genres of blues, country, rock & roll, jazz, and soul. Blind at the age of seven, he went on to become a gifted musician, recording such hits as \'Georgia on My Mind\' and \' Hit the Road Jack\'.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Ray_Charles_classic_piano_pose.jpg',
+      image: './assets/Ray_Charles.jpg',
       path: './assets/Ray_Charles_What\'d_I_Say.mp3',
     },
     {
@@ -29,7 +29,7 @@ const songsData = [
       song: 'Whole Lot of Shakin\' Going On',
       artist: 'Jerry Lee Lewis',
       description: 'Jerry Lee Lewis (September 29, 1935 – October 28, 2022) was an American singer, songwriter and pianist. Nicknamed "The Killer", he was described as "rock & roll\'s first great wild man".',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Jerry_Lee_Lewis_1950s_publicity_photo_cropped_retouched.jpg',
+      image: './assets/Jerry_Lee_Lewis.jpg',
       path: './assets/Jerry_Lee_Lewis_Whole_Lot_Of_Shakin\'_Going_On.mp3',
     },
     {
@@ -37,7 +37,7 @@ const songsData = [
       song: 'Summertime Blues',
       artist: 'Eddie Cochran',
       description: 'Ray Edward Cochran (/ˈkɒkrən/; October 3, 1938 – April 17, 1960) was an American rock and roll musician.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/1c/Eddie_Cochran.jpg',
+      image: './assets/Eddie_Cochran.jpg',
       path: './assets/Eddie_Cochran_Summertime_Blues.mp3',
     },
     {
@@ -45,7 +45,7 @@ const songsData = [
       song: 'Lawdy Miss Clawdy',
       artist: 'Lloyd Price',
       description: 'Lloyd Price (March 9, 1933 – May 3, 2021) was an American singer-songwriter, record executive and bandleader, known as "Mr. Personality", after his 1959 million-selling hit, "Personality". His first recording, "Lawdy Miss Clawdy", was a hit for Specialty Records in 1952.',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/Publicity_photo_of_Lloyd_Price_-_ht24wk00x_files_046435e7-3a2b-42be-b859-88a492e9b836_%28cropped%29.jpg',
+      image: './assets/Lloyd_Price.jpg',
       path: './assets/Lloyd_Price_Lawdy_Miss_Clawdy.mp3',
     },
   ],
