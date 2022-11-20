@@ -27,11 +27,28 @@ importAllMedia(require.context('./assets/background/', true, /\.jpg$/));
 const backgrounds = ['./assets/bg-50.jpg', './assets/bg-60.jpg', './assets/bg-70.jpg', './assets/bg-80.jpg', './assets/bg-90.jpg', './assets/bg-00.jpg'];
 
 const gameData = {
-  timeToGuess: 4,
   stage: 0,
   score: 0,
   attempts: 0,
 };
+
+const difficultyData = [
+  {
+    name: 'Easy',
+    description: 'Choose if you\'ve been listening to rap all your life and you don\'t understand what\'s going on here. You will have the opportunity to listen to the entire song. It’s hard not to cope, because usually the text contains the name itself.',
+    timeToGuess: 999,
+  },
+  {
+    name: 'Normal',
+    description: 'Normal mode for those who understand something in the subject. Listen to the first 6 seconds of the song and try to guess by the intro.',
+    timeToGuess: 6,
+  },
+  {
+    name: 'Rock Expert',
+    description: 'Absolute hardcore only for true rock fans. The first 4 seconds can only be listened to once. Only three attempts to guess, after which points are not awarded.',
+    timeToGuess: 4,
+  },
+];
 
 let randomTrack;
 let isGuessed = false;
@@ -39,6 +56,7 @@ let activePlayButton;
 let prevAudio;
 let prevPlayButton;
 let sampleAudio;
+let difficulty;
 
 const root = document.querySelector('.body');
 const header = createDomElement('header', root, 'header');
@@ -67,10 +85,31 @@ window.addEventListener('DOMContentLoaded', () => {
     addBackgroundVideo('./assets/Metallica.mp4');
 
     startButton = document.querySelector('.start-page__button');
-    startButton.addEventListener('click', showQuizPage);
+    startButton.addEventListener('click', choseDifficulty);
 
     root.classList = 'body start-page';
     footer.classList.remove('footer_quiz');
+  }
+
+
+  function choseDifficulty() {
+    const startHeader = document.querySelector('.start-page__header');
+    const startSubheader = document.querySelector('.start-page__subheader');
+    startSubheader.textContent = 'Select game difficulty';
+    startHeader.remove();
+    startButton.remove();
+
+    const buttonsWrapper = createDomElement('div', main, 'start-page__buttons-wrapper');
+    const difficultyDescription = createDomElement('div', main, 'start-page__difficulty-descr');
+
+    difficultyData.forEach((item, index) => {
+      const diffButton = createDomElement('button', buttonsWrapper, 'button start-page__button', null, item.name);
+      diffButton.addEventListener('mouseover', () => {
+        difficultyDescription.textContent = difficultyData[index].description;
+        difficulty = index;
+      });
+      diffButton.addEventListener('click', showQuizPage);
+    });
   }
 
 
@@ -140,7 +179,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (prevAudio) pauseAudio(prevAudio);
     if (prevPlayButton) prevPlayButton.innerHTML = playButtonImg;
     prevAudio = audio;
-    if (isShort && audio.currentTime >= gameData.timeToGuess) {
+    if (difficulty !== 2 && isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
       audio.currentTime = 0;
     } else if (audio.currentTime >= audio.duration) {
       audio.currentTime = 0;
@@ -161,12 +200,14 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateTimeline(audio, currentTimeElement, playerTimeline, isShort) {
-    currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
-    playerTimeline.value = audio.currentTime.toFixed(2) * 100;
-    if (isShort && audio.currentTime >= gameData.timeToGuess) {
-      pauseAudio(audio);
-    } else if (audio.currentTime >= audio.duration) {
-      pauseAudio(audio);
+    if (!audio.paused) {
+      currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
+      playerTimeline.value = audio.currentTime.toFixed(2) * 100;
+      if (difficulty !== 2 && isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
+        pauseAudio(audio);
+      } else if (audio.currentTime >= audio.duration) {
+        pauseAudio(audio);
+      }
     }
   }
 
@@ -208,8 +249,8 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     audio.onloadedmetadata = () => {
-      isShort ?
-      setTimelineMax(playerTimeline, totalTimeElement, gameData.timeToGuess) :
+      isShort && difficulty !== 2 ?
+      setTimelineMax(playerTimeline, totalTimeElement, difficultyData[difficulty].timeToGuess) :
         setTimelineMax(playerTimeline, totalTimeElement, audio.duration);
     };
 
@@ -217,7 +258,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // Generation of answer options
+  // Generate answer options
   function generateAnswerOptionsBlock() {
     const answerOptionsBlock = document.querySelector('.answer-options');
     answerOptionsBlock.innerHTML = '';
@@ -242,7 +283,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (!isGuessed) {
       gameData.attempts++;
-      let sound = new Audio();
+      const sound = new Audio();
       if (selectedAnswerID === randomTrack.id) {
         if (!sampleAudio.paused) pauseAudio(sampleAudio);
         updateScore();
@@ -272,7 +313,10 @@ window.addEventListener('DOMContentLoaded', () => {
   function resetQuestionBlock() {
     songNameElement.textContent = '******';
     descriptionBlock.innerHTML = '';
-    createDomElement('div', descriptionBlock, 'description-block__placeholder', null, `Listen to the first ${gameData.timeToGuess} seconds of the song and try to guess the artist.`);
+    const text = difficulty === 0 ? 
+      'Listen to the song and try to guess the artist.' :
+      `Listen to the first ${difficultyData[difficulty].timeToGuess} seconds of the song and try to guess the artist.`;
+    createDomElement('div', descriptionBlock, 'description-block__placeholder', null, text);
     bandImageElement.src = 'assets/band_placeholder.png';
   }
 
@@ -312,7 +356,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Update Score
   function updateScore() {
-    gameData.score += 6 - gameData.attempts;
+    if (difficulty !== 2 || gameData.attempts === 1) {
+      gameData.score += 6 - gameData.attempts;
+    } else {
+      if (gameData.attempts === 2) gameData.score += 3;
+      if (gameData.attempts === 3) gameData.score += 1;
+    }
     gameData.attempts = 0;
     scoreElement.textContent = `Score: ${gameData.score}`;
   }

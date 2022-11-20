@@ -18,6 +18,18 @@
     width: 60%;
     text-align: center;
   }
+  &__buttons-wrapper {
+    display: flex;
+    width: 600px;
+    margin: 0 auto;
+  }
+  &__difficulty-descr {
+    margin: 0 auto;
+    width: 50%;
+    margin-top: 25px;
+    font-size: 18px;
+    text-align: center;
+  }
 }
 
 .container_start {
