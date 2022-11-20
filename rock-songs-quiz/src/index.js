@@ -84,6 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function showStartPage() {
     const links = document.querySelectorAll('.menu__link');
     links.forEach(link => link.classList.remove('menu__link_active'));
+    updateMenuView(document.querySelectorAll('.menu__link')[0]);
     renderStartPage(main);
     addBackgroundVideo('./assets/Metallica.mp4');
 
@@ -118,7 +119,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function showQuizPage() {
     renderQuizPage(main);
-    updateMenuView(document.querySelector('.menu__link'));
+    updateMenuView(document.querySelectorAll('.menu__link')[1]);
     nextButton = document.querySelector('.button_next');
     songNameElement = document.querySelector('.question-block__song-name');
     bandImageElement = document.querySelector('.question-block__band-image');
@@ -160,8 +161,8 @@ window.addEventListener('DOMContentLoaded', () => {
   function showPage(e) {
     const page = e.target.textContent;
     updateMenuView(e.target)
+    if (page === 'Home') showStartPage();
     if (page === 'Quiz') showQuizPage();
-    if (page === 'Results') showResultsPage();
     if (page === 'Gallery') showGalleryPage();
   }
 
@@ -375,11 +376,16 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   function showResultsPage() {
+    const links = document.querySelectorAll('.menu__link');
+    links.forEach(link => link.classList.remove('menu__link_active'));
     renderResultsPage(main, gameData.score);
-    addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
-    startButton = document.querySelector('.start-page__button');
-    startButton.addEventListener('click', choseDifficulty);
     footer.classList.remove('footer_quiz');
+    if (gameData.score === 30) {
+      addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
+    } else {
+      startButton = document.querySelector('.start-page__button');
+      startButton.addEventListener('click', choseDifficulty);
+    }
   }
 
 

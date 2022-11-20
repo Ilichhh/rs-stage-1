@@ -2,6 +2,12 @@ import createDomElement from './create_element';
 import rsLogo from '../assets/svg/rsschooljs.svg';
 import logo from '../assets/images/Logo.png';
 import ghLogo from '../assets/images/band_placeholder.png';
+import meme0 from '../assets/images/0.jpg';
+import meme1 from '../assets/images/1.jpg';
+import meme2 from '../assets/images/2.jpg';
+
+const memeArr = [meme0, meme1, meme2];
+const congratsArr = ['Are you a Morgenshtern fan?', 'Not bad, but you can definitely do better!', 'Very good, now try to get the maximum score!'];
 
 
 export function renderHeader(header, main) {
@@ -11,7 +17,7 @@ export function renderHeader(header, main) {
   const nav = createDomElement('nav', container, 'nav');
 
   const menu = createDomElement('ul', nav, 'menu');
-  const menuItems = ['Quiz', 'Results', 'Gallery'];
+  const menuItems = ['Home', 'Quiz', 'Gallery'];
   for (let item of menuItems) {
     const li = createDomElement('li', menu, 'menu__item');
     const link = createDomElement('a', li, 'menu__link', { href: '#' }, item);
@@ -72,9 +78,16 @@ export function renderStartPage(main) {
 export function renderResultsPage(main, score) {
   main.innerHTML = '';
   const container = createDomElement('div', main, 'container container_results');
-  createDomElement('h2', container, 'results-page__header', null, 'Congratulations!');
-  createDomElement('h3', container, 'results-page__subheader', null, `You passed the quiz and scored ${score} out of 30 possible points`)
-  const startButton = createDomElement('button', container, 'button start-page__button', null, 'Try again');
+  
+  if (score === 30) {
+    createDomElement('h2', container, 'results-page__header', null, 'Congratulations!');
+    createDomElement('h3', container, 'results-page__header', null, `You got the maximum score!`);
+  } else {
+    createDomElement('h2', container, 'results-page__header', null, congratsArr[+score.toString()[0]]);
+    createDomElement('h3', container, 'results-page__subheader', null, `You passed the quiz and scored ${score} out of 30 possible points`);
+    createDomElement('img', container, 'meme', { src: memeArr[+score.toString()[0]] });
+    createDomElement('button', container, 'button start-page__button', null, 'Try again');
+  }
   createDomElement('div', container, 'background');
 }
 
