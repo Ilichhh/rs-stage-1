@@ -1,0 +1,12 @@
+@import '../abstracts/variables';
+
+.block {
+  padding: 15px;
+  border: 1px solid $secondary-bg-color;
+  border-radius: 5px;
+  background-color: $main-bg-color;
+  box-shadow: 10px 5px 5px $shadow-color;
+  &_options {
+    padding: 0;
+  }
+}
