@@ -206,7 +206,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function playAudio(audio, isShort) {
     if (prevAudio) pauseAudio(prevAudio);
-    if (prevPlayButton) prevPlayButton.innerHTML = playButtonImg;
+    if (prevPlayButton) {
+      prevPlayButton.innerHTML = playButtonImg;
+      prevPlayButton.style.paddingLeft = '13px';
+      prevPlayButton.style.paddingRight = '7px';
+    }
     prevAudio = audio;
     if (isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
       audio.currentTime = 0;
@@ -215,11 +219,15 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     audio.play();
     activePlayButton.innerHTML = pauseButtonImg;
+    activePlayButton.style.paddingLeft = '10px';
+    activePlayButton.style.paddingRight = '10px';
   }
 
   function pauseAudio(audio) {
     audio.pause();
     activePlayButton.innerHTML = playButtonImg;
+    activePlayButton.style.paddingLeft = '13px';
+    activePlayButton.style.paddingRight = '7px';
   }
 
   function toggleAudio(audio, isShort, e) {
@@ -232,6 +240,11 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!audio.paused) {
       currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
       playerTimeline.value = audio.currentTime.toFixed(2) * 100;
+      const position = isShort ?
+        (audio.currentTime * 100 / difficultyData[difficulty].timeToGuess) :
+        (audio.currentTime * 100 / audio.duration);
+        playerTimeline.style.background = `linear-gradient(to right, rgb(215, 127, 32) 0%, rgb(215, 127, 32) ${position}%, rgb(103, 100, 97) ${position}%, rgb(103, 100, 97) 100%)`;
+
       if (isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
         pauseAudio(audio);
       } else if (audio.currentTime >= audio.duration) {
@@ -261,20 +274,22 @@ window.addEventListener('DOMContentLoaded', () => {
     const volumeInput = createDomElement('input', player, 'player__volume', { type: 'range', min: 0, max: 100, value: 50 });
     volumeInput.addEventListener('input', e => {
       audio.volume = e.target.value / 100;
+      volumeInput.style.background = `linear-gradient(to right, rgb(215, 127, 32) 0%, rgb(215, 127, 32) ${audio.volume * 100}%, rgb(103, 100, 97) ${audio.volume * 100}%, rgb(103, 100, 97) 100%)`;
     });
 
     // const volumeButton = createDomElement('button', player, 'player__volume-btn');
     // createDomElement('img', volumeButton, 'player__volume-icon', { src: volumeIcon });
-    console.log(playerTimeline.style.background);
-
+    
     playButton.innerHTML = playButtonImg;
     playButton.addEventListener('click', e => toggleAudio(audio, isShort, e));
-
+    
     playerTimeline.addEventListener('input', e => {
       audio.currentTime = e.target.value / 100;
-      playerTimeline.style.background = `linear-gradient(to right, $main-bright-color 0%, $main-bright-color ${40}%, $secondary-bg-color ${40}%, $secondary-bg-color 100%)`;
+      const position = isShort ?
+        (audio.currentTime * 100 / difficultyData[difficulty].timeToGuess) :
+        (audio.currentTime * 100 / audio.duration);
+      playerTimeline.style.background = `linear-gradient(to right, rgb(215, 127, 32) 0%, rgb(215, 127, 32) ${position}%, rgb(103, 100, 97) ${position}%, rgb(103, 100, 97) 100%)`;
 
-      console.dir(playerTimeline.style.background);
     });
 
     audio.onloadedmetadata = () => {

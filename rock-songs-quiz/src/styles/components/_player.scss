@@ -4,29 +4,26 @@
   display: flex;
   @media (max-width: 700px) {
     display: grid;
-    grid-template-columns: 75px 1fr;
+    grid-template-columns: 55px 1fr;
   }
-
-  &__play-btn,
-  &__volume-btn {
-    padding: 0;
+  
+  &__play-btn {
+    flex-shrink: 0;
+    padding: 10px;
+    padding-left: 13px;
+    padding-right: 7px;
+    margin-right: 10px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 50px;
     height: 50px;
-    border: none;
-    border-radius: 50%;
+    border: 1.5px solid $text-color;
     background-color: $main-bg-color;
+    transform: scale(.8);
+    border-radius: 50%;
     cursor: pointer;
-  }
-
-  &__play-btn {
-    margin-right: 15px;
-  }
-
-  &__volume-btn {
-    margin-left: 15px;
+    outline: none;
   }
 
   &__volume {
@@ -48,18 +45,16 @@
     display: block;
     border-radius: 3px;
     background: $secondary-bg-color;
-    background: linear-gradient(to right, $main-bright-color 0%, $main-bright-color 0%, $secondary-bg-color 0%, $secondary-bg-color 100%);
-    // background: $hover-state-bright-color;
     cursor: pointer;
     outline: none;
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 0;
+      height: 0;
       background-color: $hover-state-bright-color;
       border-radius: 50%;
       cursor: pointer;
-      transition: .2s;
+      transition: .1s;
     }
     &:active::-webkit-slider-thumb {
       width: 20px;
@@ -67,10 +62,15 @@
       background: $hover-state-bright-color;
     }
   }
+
+  &__volume {
+    background: linear-gradient(to right, $main-bright-color 0%, $main-bright-color 50%, $secondary-bg-color 50%, $secondary-bg-color 100%);
+  }
   
 
   &__timeline {
     width: 100%;
+    background: linear-gradient(to right, $main-bright-color 0%, $main-bright-color 0%, $secondary-bg-color 0%, $secondary-bg-color 100%);
   }
 
   &__time {

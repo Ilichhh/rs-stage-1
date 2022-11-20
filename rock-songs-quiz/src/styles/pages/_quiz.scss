@@ -93,6 +93,8 @@
   }
   &__band-image {
     margin-right: 25px;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px $shadow-color;
     @media (max-width: 540px) {
       width: 250px;
       height: 250px;
@@ -171,6 +173,8 @@
   &__band-image {
     margin-right: 20px;
     margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 5px 3px 5px $shadow-color;
     @media (max-width: 540px) {
       height: 250px;
       width: 250px;
