@@ -3,6 +3,9 @@
     margin: 0 auto 1rem;
     text-align: center;
     font-size: 56px;
+    @media (max-width: 540px) {
+      font-size: 44px;
+    }
   }
   &__subheader {
     margin: 0 auto 2rem;

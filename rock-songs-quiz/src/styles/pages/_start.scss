@@ -12,16 +12,27 @@
     margin: 0 auto 1rem;
     text-align: center;
     font-size: 72px;
+    @media (max-width: 360px) {
+      font-size: 48px;
+    }
   }
   &__subheader {
     margin: 0 auto 2rem;
     width: 60%;
     text-align: center;
+    @media (max-width: 360px) {
+      font-size: 20px;
+      width: 80%;
+    }
   }
   &__buttons-wrapper {
     display: flex;
     width: 600px;
     margin: -15px auto 0;
+    @media (max-width: 360px) {
+      width: auto;
+      flex-direction: column;
+    }
   }
   &__difficulty-descr {
     position: absolute;

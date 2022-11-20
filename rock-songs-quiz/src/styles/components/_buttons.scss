@@ -35,6 +35,9 @@
   height: 50px;
   width: 200px;
   font-size: 24px;
+  @media (max-width: 360px) {
+    margin: 0 auto;
+  }
   &:hover {
     background-color: $hover-state-bright-color;
     border-color: $hover-state-bright-color;

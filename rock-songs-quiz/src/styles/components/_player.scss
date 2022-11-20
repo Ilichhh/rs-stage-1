@@ -2,6 +2,10 @@
 
 .player {
   display: flex;
+  @media (max-width: 700px) {
+    display: grid;
+    grid-template-columns: 75px 1fr;
+  }
 
   &__play-btn,
   &__volume-btn {

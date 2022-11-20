@@ -136,7 +136,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function showGalleryPage() {
     renderGalleryPage(main);
-    setBackgroundImg(backgrounds[choseRandomTrack().id - 1]);
+    setBackgroundImg(backgrounds[Math.floor(Math.random() * 6)]);
     const wrapper = document.querySelector('.gallery-page__wrapper');
     const stagesItems = ["1950's", "1960's", "1970's", "1980's", "1990's", "2000's"];
     for (let item in stagesItems) {
