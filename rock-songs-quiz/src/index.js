@@ -22,8 +22,8 @@ import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResu
 const importAllMedia = (r) => r.keys().forEach(r);
 importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
 importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
-importAllMedia(require.context('./assets/background/', true, /\.jpg$/));
-importAllMedia(require.context('./assets/images/', true, /\.jpg$/));
+importAllMedia(require.context('./assets/background/', true, /\.(jpe?g$|png)/));
+importAllMedia(require.context('./assets/images/', true, /\.(jpe?g$|png)$/));
 
 const backgrounds = ['./assets/bg-50.jpg', './assets/bg-60.jpg', './assets/bg-70.jpg', './assets/bg-80.jpg', './assets/bg-90.jpg', './assets/bg-00.jpg'];
 
