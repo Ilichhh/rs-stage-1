@@ -1,0 +1,36 @@
+@import '../components/buttons';
+@import '../components/block';
+@import '../components/player';
+@import '../abstracts/variables';
+
+.gallery-page {
+  &__wrapper {
+  }
+  &__stage-wrapper {
+    margin-bottom: 25px;
+  }
+  &__stage-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 25px;
+    padding: 0;
+    height: 35px;
+    list-style: none;
+    border-radius: 5px;
+    background-color: $main-bright-color;
+    box-shadow: 10px 5px 5px $shadow-color;
+  }
+  &__items-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    padding-bottom: 25px;
+    @media (max-width: 1024px) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

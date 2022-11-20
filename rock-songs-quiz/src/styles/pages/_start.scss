@@ -1,0 +1,60 @@
+@import '../components/buttons';
+
+.start-page {
+  margin: 0 auto;
+  max-width: 1200px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  color: $text-color;
+  &__header {
+    margin: 0 auto 1rem;
+    text-align: center;
+    font-size: 72px;
+    @media (max-width: 360px) {
+      font-size: 48px;
+    }
+  }
+  &__subheader {
+    margin: 0 auto 2rem;
+    width: 60%;
+    text-align: center;
+    @media (max-width: 360px) {
+      font-size: 20px;
+      width: 80%;
+    }
+  }
+  &__buttons-wrapper {
+    display: flex;
+    width: 600px;
+    margin: -15px auto 0;
+    @media (max-width: 360px) {
+      width: auto;
+      flex-direction: column;
+    }
+  }
+  &__difficulty-descr {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    margin-top: 25px;
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+.container_start {
+  flex: 10;
+  flex-shrink: 1
+}
+
+video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
