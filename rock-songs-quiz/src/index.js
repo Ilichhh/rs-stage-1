@@ -206,7 +206,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (prevAudio) pauseAudio(prevAudio);
     if (prevPlayButton) prevPlayButton.innerHTML = playButtonImg;
     prevAudio = audio;
-    if (difficulty !== 2 && isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
+    if (isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
       audio.currentTime = 0;
     } else if (audio.currentTime >= audio.duration) {
       audio.currentTime = 0;
@@ -230,7 +230,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!audio.paused) {
       currentTimeElement.textContent = convertTimeFormat(audio.currentTime);
       playerTimeline.value = audio.currentTime.toFixed(2) * 100;
-      if (difficulty !== 2 && isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
+      if (isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
         pauseAudio(audio);
       } else if (audio.currentTime >= audio.duration) {
         pauseAudio(audio);
@@ -276,7 +276,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     audio.onloadedmetadata = () => {
-      isShort && difficulty !== 2 ?
+      isShort ?
       setTimelineMax(playerTimeline, totalTimeElement, difficultyData[difficulty].timeToGuess) :
         setTimelineMax(playerTimeline, totalTimeElement, audio.duration);
     };
@@ -353,7 +353,7 @@ window.addEventListener('DOMContentLoaded', () => {
     disableNextButton();
     resetQuestionBlock();
     updateStagesBlockStatus();
-    createPlayer(choseRandomTrack(), player);
+    createPlayer(choseRandomTrack(), player, difficulty !== 0);
     setBackgroundImg(backgrounds[gameData.stage]);
   }
 
