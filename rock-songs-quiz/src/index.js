@@ -45,7 +45,7 @@ const difficultyData = [
   },
   {
     name: 'Rock Expert',
-    description: 'Absolute hardcore only for true rock fans. The first 4 seconds can only be listened to once. Only three attempts to guess, after which points are not awarded.',
+    description: 'Absolute hardcore only for true rock fans. Listen to the first 4 seconds. Only three attempts to guess, after which points are not awarded.',
     timeToGuess: 4,
   },
 ];
@@ -81,6 +81,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   function showStartPage() {
+    const links = document.querySelectorAll('.menu__link');
+    links.forEach(link => link.classList.remove('menu__link_active'));
     renderStartPage(main);
     addBackgroundVideo('./assets/Metallica.mp4');
 
@@ -93,8 +95,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   function choseDifficulty() {
-    const startHeader = document.querySelector('.start-page__header');
-    const startSubheader = document.querySelector('.start-page__subheader');
+    const startHeader = document.querySelector('.start-page__header') || document.querySelector('.results-page__header');
+    const startSubheader = document.querySelector('.start-page__subheader') || document.querySelector('.results-page__subheader');
     startSubheader.textContent = 'Select game difficulty';
     startHeader.remove();
     startButton.remove();
@@ -115,7 +117,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function showQuizPage() {
     renderQuizPage(main);
-
+    updateMenuView(document.querySelector('.menu__link'));
     nextButton = document.querySelector('.button_next');
     songNameElement = document.querySelector('.question-block__song-name');
     bandImageElement = document.querySelector('.question-block__band-image');
@@ -147,9 +149,16 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function updateMenuView(activeLink) {
+    const links = document.querySelectorAll('.menu__link');
+    links.forEach(link => link.classList.remove('menu__link_active'));
+    activeLink.classList.add('menu__link_active');
+  }
+
 
   function showPage(e) {
     const page = e.target.textContent;
+    updateMenuView(e.target)
     if (page === 'Quiz') showQuizPage();
     if (page === 'Results') showResultsPage();
     if (page === 'Gallery') showGalleryPage();
@@ -365,9 +374,8 @@ window.addEventListener('DOMContentLoaded', () => {
   function showResultsPage() {
     renderResultsPage(main, gameData.score);
     addBackgroundVideo('./assets/Queen_Bohemian_Rhapsody.mp4');
-
-    startButton = document.querySelector('.results-page__button');
-    startButton.addEventListener('click', showQuizPage);
+    startButton = document.querySelector('.start-page__button');
+    startButton.addEventListener('click', choseDifficulty);
     footer.classList.remove('footer_quiz');
   }
 

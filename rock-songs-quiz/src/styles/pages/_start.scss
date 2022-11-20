@@ -21,10 +21,12 @@
   &__buttons-wrapper {
     display: flex;
     width: 600px;
-    margin: 0 auto;
+    margin: -15px auto 0;
   }
   &__difficulty-descr {
-    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     width: 50%;
     margin-top: 25px;
     font-size: 18px;

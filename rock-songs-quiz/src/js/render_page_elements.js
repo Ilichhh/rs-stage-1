@@ -74,7 +74,7 @@ export function renderResultsPage(main, score) {
   const container = createDomElement('div', main, 'container container_results');
   createDomElement('h2', container, 'results-page__header', null, 'Congratulations!');
   createDomElement('h3', container, 'results-page__subheader', null, `You passed the quiz and scored ${score} out of 30 possible points`)
-  const startButton = createDomElement('button', container, 'button results-page__button', null, 'Try again');
+  const startButton = createDomElement('button', container, 'button start-page__button', null, 'Try again');
   createDomElement('div', container, 'background');
 }
 
@@ -82,8 +82,6 @@ export function renderResultsPage(main, score) {
 export function renderGalleryPage(main) {
   main.innerHTML = '';
   const container = createDomElement('div', main, 'container container_gallery');
-  createDomElement('h2', container, 'gallery-page__header', null, 'Gallery');
-  const wrapper = createDomElement('div', container, 'gallery-page__wrapper');
-  
+  createDomElement('div', container, 'gallery-page__wrapper');
   createDomElement('div', container, 'background');
 }

@@ -27,5 +27,8 @@
     &:hover {
       color: $hover-state-bright-color;
     }
+    &_active {
+      color: $hover-state-bright-color;
+    }
   }
 }
