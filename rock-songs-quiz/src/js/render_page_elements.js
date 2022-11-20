@@ -49,10 +49,10 @@ export function renderQuizPage(main) {
   const questionBlockInfo = createDomElement('div', questionBlock, 'question-block__info');
   createDomElement('h2', questionBlockInfo, 'question-block__song-name', null, '******');
 
-  const answerOptionsBlock = createDomElement('div', wrapper, 'block answer-options-block');
+  const answerOptionsBlock = createDomElement('div', wrapper, 'block block_options answer-options-block');
   createDomElement('ul', answerOptionsBlock, 'answer-options');
 
-  createDomElement('div', wrapper, 'block description-block');
+  createDomElement('div', wrapper, 'block description-block description-block_quiz');
   createDomElement('button', wrapper, 'button button_next', null, 'Next Level');
 
   createDomElement('div', container, 'background');
@@ -75,5 +75,15 @@ export function renderResultsPage(main, score) {
   createDomElement('h2', container, 'results-page__header', null, 'Congratulations!');
   createDomElement('h3', container, 'results-page__subheader', null, `You passed the quiz and scored ${score} out of 30 possible points`)
   const startButton = createDomElement('button', container, 'button results-page__button', null, 'Try again');
+  createDomElement('div', container, 'background');
+}
+
+
+export function renderGalleryPage(main) {
+  main.innerHTML = '';
+  const container = createDomElement('div', main, 'container container_gallery');
+  createDomElement('h2', container, 'gallery-page__header', null, 'Gallery');
+  const wrapper = createDomElement('div', container, 'gallery-page__wrapper');
+  
   createDomElement('div', container, 'background');
 }

@@ -16,7 +16,7 @@ import pauseIcon from './assets/icons/pause.png';
 import volumeIcon from './assets/icons/volume.png';
 
 import createDomElement from './js/create_element';
-import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResultsPage } from './js/render_page_elements';
+import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResultsPage, renderGalleryPage } from './js/render_page_elements';
 
 
 const importAllMedia = (r) => r.keys().forEach(r);
@@ -56,7 +56,7 @@ let activePlayButton;
 let prevAudio;
 let prevPlayButton;
 let sampleAudio;
-let difficulty;
+let difficulty = 1;
 
 const root = document.querySelector('.body');
 const header = createDomElement('header', root, 'header');
@@ -129,6 +129,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
     startGame();
   }
+
+
+  function showGalleryPage() {
+    renderGalleryPage(main);
+    setBackgroundImg(backgrounds[choseRandomTrack().id - 1]);
+    const wrapper = document.querySelector('.gallery-page__wrapper');
+    const stagesItems = ["1950's", "1960's", "1970's", "1980's", "1990's", "2000's"];
+    for (let item in stagesItems) {
+      const stageWrapper = createDomElement('div', wrapper, 'gallery-page__stage-wrapper');
+      createDomElement('h3', stageWrapper, 'gallery-page__stage-header', null, stagesItems[item]);
+      const itemsWrapper = createDomElement('div', stageWrapper, 'gallery-page__items-wrapper');
+      songsData[item].forEach(band => {
+        const songBlock = createDomElement('div', itemsWrapper, 'block description-block');
+        showFullTrackInfo(band, songBlock);
+      })
+    }
+  }
+
 
   function showPage(e) {
     const page = e.target.textContent;

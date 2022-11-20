@@ -5,4 +5,7 @@
   border: 1px solid $secondary-bg-color;
   border-radius: 5px;
   background-color: $main-bg-color;
+  &_options {
+    padding: 0;
+  }
 }

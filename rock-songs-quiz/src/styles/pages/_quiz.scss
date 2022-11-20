@@ -73,10 +73,6 @@
   }
 }
 
-.answer-options-block {
-  padding: 0;
-  height: 300px;
-}
 
 .description-block {
   // height: 305px;
@@ -119,8 +115,10 @@
 }
 
 .description-block {
-  grid-row: 3 / 5;
-  grid-column: 2 / 3;
+  &_quiz {
+    grid-row: 3 / 5;
+    grid-column: 2 / 3;
+  }
   &__placeholder {
     margin-top: 125px;
     text-align: center;
@@ -151,4 +149,9 @@
   &__band-descr {
     font-weight: 200;
   }
+}
+
+.answer-options-block {
+  padding: 0;
+  height: 300px;
 }
