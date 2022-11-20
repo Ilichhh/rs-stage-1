@@ -308,9 +308,11 @@ window.addEventListener('DOMContentLoaded', () => {
     const selectedAnswerLabel = selectedAnswer.children[0];
 
     showFullTrackInfo(songsData[gameData.stage][selectedAnswerID - 1], descriptionBlock);
-
     if (!isGuessed) {
-      gameData.attempts++;
+      if (!selectedAnswerLabel.classList.contains('answer-options__indicator_correct') && 
+          !selectedAnswerLabel.classList.contains('answer-options__indicator_wrong')) {
+        gameData.attempts++;
+      }
       const sound = new Audio();
       if (selectedAnswerID === randomTrack.id) {
         if (!sampleAudio.paused) pauseAudio(sampleAudio);
