@@ -361,6 +361,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function resetQuestionBlock() {
     songNameElement.textContent = '******';
     descriptionBlock.innerHTML = '';
+    console.log(difficulty);
     const text = difficulty === 0 ? 
       'Listen to the song and try to guess the artist.' :
       `Listen to the first ${difficultyData[difficulty].timeToGuess} seconds of the song and try to guess the artist.`;
@@ -438,4 +439,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
     createDomElement('div', block, 'description-block__band-descr', null, track.description);
   }
+
+  // Local Storage
+  function setLocalStorage() {
+    localStorage.setItem('Difficulty', difficulty);
+  }
+
+  function getLocalStorage() {
+    if (localStorage.getItem('Difficulty')) {
+      difficulty = +localStorage.getItem('Difficulty');
+    }
+  }
+
+  window.addEventListener('beforeunload', setLocalStorage);
+  window.addEventListener('load', getLocalStorage);
 });
