@@ -269,7 +269,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const totalTimeElement = createDomElement('div', timeWrapper, 'player__time-length');
     const audio = createDomElement('audio', player, 'audio', { src: track.path });
 
-    if (isShort || (difficulty === 0 && !sampleAudio)) sampleAudio = audio;
+    if (isShort) sampleAudio = audio;
 
     const volumeInput = createDomElement('input', player, 'player__volume', { type: 'range', min: 0, max: 100, value: 50 });
     volumeInput.addEventListener('input', e => {
@@ -331,6 +331,8 @@ window.addEventListener('DOMContentLoaded', () => {
       }
       const sound = new Audio();
       if (selectedAnswerID === randomTrack.id) {
+        const sample = document.querySelector('audio');
+        pauseAudio(sample);
         if (!sampleAudio.paused) pauseAudio(sampleAudio);
         updateScore();
         isGuessed = true;
