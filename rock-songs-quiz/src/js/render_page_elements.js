@@ -78,14 +78,15 @@ export function renderStartPage(main) {
 export function renderResultsPage(main, score) {
   main.innerHTML = '';
   const container = createDomElement('div', main, 'container container_results');
+  const index = +score.toString().padStart(2, '0')[0];
   
   if (score === 30) {
     createDomElement('h2', container, 'results-page__header', null, 'Congratulations!');
     createDomElement('h3', container, 'results-page__header', null, `You got the maximum score!`);
   } else {
-    createDomElement('h2', container, 'results-page__header', null, congratsArr[+score.toString()[0]]);
+    createDomElement('h2', container, 'results-page__header', null, congratsArr[index]);
     createDomElement('h3', container, 'results-page__subheader', null, `You passed the quiz and scored ${score} out of 30 possible points`);
-    createDomElement('img', container, 'meme', { src: memeArr[+score.toString()[0]] });
+    createDomElement('img', container, 'meme', { src: memeArr[index] });
     createDomElement('button', container, 'button start-page__button', null, 'Try again');
   }
   createDomElement('div', container, 'background');
