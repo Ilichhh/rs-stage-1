@@ -46,7 +46,7 @@ const difficultyData = [
   },
   {
     name: 'Rock Expert',
-    description: 'Absolute hardcore only for true rock fans. Listen to the first 4 seconds. Only three attempts to guess, after which points are not awarded.',
+    description: 'Absolute hardcore only for true rock fans. Listen to the first 4 seconds. Only three attempts to guess, after which points are not awarded. The artist is not shown in the answer options, only the title of the song.',
     timeToGuess: 4,
   },
 ];
@@ -225,9 +225,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function pauseAudio(audio) {
     audio.pause();
-    activePlayButton.innerHTML = playButtonImg;
-    activePlayButton.style.paddingLeft = '13px';
-    activePlayButton.style.paddingRight = '7px';
+    if (activePlayButton) {
+      activePlayButton.innerHTML = playButtonImg;
+      activePlayButton.style.paddingLeft = '13px';
+      activePlayButton.style.paddingRight = '7px';
+    } 
   }
 
   function toggleAudio(audio, isShort, e) {
@@ -308,9 +310,12 @@ window.addEventListener('DOMContentLoaded', () => {
     answerOptionsBlock.innerHTML = '';
 
     songsData[gameData.stage].forEach(song => {
+      const option = difficulty === 2 ?
+        `${song.song}` :
+        `${song.artist} - ${song.song}`;
       const answerOptionElement = createDomElement('li', answerOptionsBlock, 'answer-options__option', { 'data-id': song.id });
       const answerOptionLabel = createDomElement('span', answerOptionElement, 'answer-options__indicator');
-      answerOptionElement.insertAdjacentHTML('beforeend', `${song.artist} - ${song.song}`);
+      answerOptionElement.insertAdjacentHTML('beforeend', option);
     });
 
     answerOptionsBlock.addEventListener('click', checkAnswer);
@@ -361,10 +366,9 @@ window.addEventListener('DOMContentLoaded', () => {
   function resetQuestionBlock() {
     songNameElement.textContent = '******';
     descriptionBlock.innerHTML = '';
-    console.log(difficulty);
     const text = difficulty === 0 ? 
-      'Listen to the song and try to guess the artist.' :
-      `Listen to the first ${difficultyData[difficulty].timeToGuess} seconds of the song and try to guess the artist.`;
+      'Listen to the song and try to guess the song.' :
+      `Listen to the first ${difficultyData[difficulty].timeToGuess} seconds of the song and try to guess the song.`;
     createDomElement('div', descriptionBlock, 'description-block__placeholder', null, text);
     bandImageElement.src = 'assets/band_placeholder.png';
   }
