@@ -280,9 +280,6 @@ window.addEventListener('DOMContentLoaded', () => {
       volumeInput.style.background = `linear-gradient(to right, rgb(215, 127, 32) 0%, rgb(215, 127, 32) ${audio.volume * 100}%, rgb(103, 100, 97) ${audio.volume * 100}%, rgb(103, 100, 97) 100%)`;
     });
 
-    // const volumeButton = createDomElement('button', player, 'player__volume-btn');
-    // createDomElement('img', volumeButton, 'player__volume-icon', { src: volumeIcon });
-    
     playButton.innerHTML = playButtonImg;
     playButton.addEventListener('click', e => toggleAudio(audio, isShort, e));
     
@@ -292,7 +289,6 @@ window.addEventListener('DOMContentLoaded', () => {
         (audio.currentTime * 100 / difficultyData[difficulty].timeToGuess) :
         (audio.currentTime * 100 / audio.duration);
       playerTimeline.style.background = `linear-gradient(to right, rgb(215, 127, 32) 0%, rgb(215, 127, 32) ${position}%, rgb(103, 100, 97) ${position}%, rgb(103, 100, 97) 100%)`;
-
     });
 
     audio.onloadedmetadata = () => {
@@ -339,7 +335,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (selectedAnswerID === randomTrack.id) {
         const sample = document.querySelector('audio');
         pauseAudio(sample);
-        if (!sampleAudio.paused) pauseAudio(sampleAudio);
+        if (sampleAudio && !sampleAudio.paused) pauseAudio(sampleAudio);
         updateScore();
         isGuessed = true;
         songNameElement.textContent = `${randomTrack.artist} - ${randomTrack.song}`;
