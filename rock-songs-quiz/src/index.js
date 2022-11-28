@@ -5,25 +5,22 @@
 /* eslint-disable arrow-parens */
 import './index.html';
 import './styles/main.scss';
-import songsData from './data';
+import songsData from './js/songs_data';
+import difficultyData from './js/difficulty_data';
 
 import playButtonImg from './assets/svg/play.svg';
 import pauseButtonImg from './assets/svg/pause.svg';
-import bandPlaceholder from './assets/icons/GitHub-Mark-Light-32px.png';
-
-import playIcon from './assets/icons/play.png';
-import pauseIcon from './assets/icons/pause.png';
-import volumeIcon from './assets/icons/volume.png';
+import bandPlaceholder from './assets/images/band_placeholder.png';
 
 import createDomElement from './js/create_element';
-import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResultsPage, renderGalleryPage } from './js/render_page_elements';
-
+import { renderHeader, renderFooter, renderQuizPage, renderStartPage, renderResultsPage, renderGalleryPage, addBackgroundVideo, setBackgroundImg } from './js/render_page_elements';
 
 const importAllMedia = (r) => r.keys().forEach(r);
 importAllMedia(require.context('./assets/audio/', true, /\.mp3$/));
 importAllMedia(require.context('./assets/video/', true, /\.mp4$/));
 importAllMedia(require.context('./assets/background/', true, /\.(jpe?g$|png)/));
 importAllMedia(require.context('./assets/images/', true, /\.(jpe?g$|png)$/));
+
 
 const backgrounds = ['./assets/bg-50.jpg', './assets/bg-60.jpg', './assets/bg-70.jpg', './assets/bg-80.jpg', './assets/bg-90.jpg', './assets/bg-00.jpg'];
 
@@ -32,24 +29,6 @@ const gameData = {
   score: 0,
   attempts: 0,
 };
-
-const difficultyData = [
-  {
-    name: 'Easy',
-    description: 'Choose if you\'ve been listening to rap all your life and you don\'t understand what\'s going on here. You will have the opportunity to listen to the entire song. It’s hard not to cope, because usually the text contains the name itself.',
-    timeToGuess: 999,
-  },
-  {
-    name: 'Normal',
-    description: 'Normal mode for those who understand something in the subject. Listen to the first 6 seconds of the song and try to guess by the intro.',
-    timeToGuess: 6,
-  },
-  {
-    name: 'Rock Expert',
-    description: 'Absolute hardcore only for true rock fans. Listen to the first 4 seconds. Only three attempts to guess, after which points are not awarded. The artist is not shown in the answer options, only the title of the song.',
-    timeToGuess: 4,
-  },
-];
 
 let randomTrack;
 let isGuessed = false;
@@ -66,19 +45,21 @@ const footer = createDomElement('footer', root, 'footer');
 
 let nextButton, songNameElement, bandImageElement, descriptionBlock, questionBlock, scoreElement, stagesElements, startButton, player;
 
-console.log('Весь функционал реализован. Должен быть максимальный балл, если случайно не прокрался какой-то баг. Приложение сделано как SPA, страницы виртуальные.\n\nВместо смены язвка сделал выбор сложности. На легкой можно прослушать весь трек. На средней только первые 6 секунд. На сложной 4 секунды, плюс не показывается исполнитель, плюс меняется механика подсчета очков (не использовать эту сложность для проверки на соответствие с ТЗ). Есть сохранение сложности в локал сторадж. \n\nТакже добавил разное отображение страницы с результатами в зависимости от набранных баллов. Если набрать 30 баллов, можно увидеть Фредди 0_о.')
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Create Pages
-  function init() {
-    renderHeader(header, main);
-    showStartPage();
+  // Create Elements
+  function initApp() {
+    renderHeader(header);
     renderFooter(footer);
+    showStartPage();
 
     const logo = document.querySelector('.logo');
-    logo.addEventListener('click', showStartPage);
     const menu = document.querySelector('.menu');
-    menu.addEventListener('click', showPage)
+
+    logo.addEventListener('click', showStartPage);
+    menu.addEventListener('click', showPage);
+    window.addEventListener('beforeunload', setLocalStorage);
+    window.addEventListener('load', getLocalStorage);
   }
 
 
@@ -121,6 +102,7 @@ window.addEventListener('DOMContentLoaded', () => {
   function showQuizPage() {
     renderQuizPage(main);
     updateMenuView(document.querySelectorAll('.menu__link')[1]);
+
     nextButton = document.querySelector('.button_next');
     songNameElement = document.querySelector('.question-block__song-name');
     bandImageElement = document.querySelector('.question-block__band-image');
@@ -141,16 +123,18 @@ window.addEventListener('DOMContentLoaded', () => {
     setBackgroundImg(backgrounds[Math.floor(Math.random() * 6)]);
     const wrapper = document.querySelector('.gallery-page__wrapper');
     const stagesItems = ["1950's", "1960's", "1970's", "1980's", "1990's", "2000's"];
-    for (let item in stagesItems) {
+
+    stagesItems.forEach((item, index) => {
       const stageWrapper = createDomElement('div', wrapper, 'gallery-page__stage-wrapper');
-      createDomElement('h3', stageWrapper, 'gallery-page__stage-header', null, stagesItems[item]);
+      createDomElement('h3', stageWrapper, 'gallery-page__stage-header', null, stagesItems[index]);
       const itemsWrapper = createDomElement('div', stageWrapper, 'gallery-page__items-wrapper');
-      songsData[item].forEach(band => {
+      songsData[index].forEach(band => {
         const songBlock = createDomElement('div', itemsWrapper, 'block description-block');
         showFullTrackInfo(band, songBlock);
-      })
-    }
+      });
+    });
   }
+
 
   function updateMenuView(activeLink) {
     const links = document.querySelectorAll('.menu__link');
@@ -161,35 +145,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function showPage(e) {
     const page = e.target.textContent;
-    updateMenuView(e.target)
+    updateMenuView(e.target);
     if (page === 'Home') showStartPage();
     if (page === 'Quiz') showQuizPage();
     if (page === 'Gallery') showGalleryPage();
   }
 
-  init();
 
-
-  // Background
-  function addBackgroundVideo(source) {
-    const bgVideoAttributes = {
-      autoplay: true,
-      muted: true,
-      loop: true,
-      id: 'video',
-    };
-
-    const background = document.querySelector('.background');
-    const videoElement = createDomElement('video', background, 'bg-video', bgVideoAttributes);
-    const sourceElement = createDomElement('source', videoElement, null, { src: source });
+  function showFullTrackInfo(track, block) {
+    block.innerHTML = '';
+    const wrapper = createDomElement('div', block, 'description-block__wrapper');
+    createDomElement('img', wrapper, 'description-block__band-image', { src: track.image, height: 175, width: 175 });
+    const playerWrapper = createDomElement('div', wrapper, 'description-block__player-wrapper');
+    createDomElement('h2', playerWrapper, 'description-block__band-name', null, track.artist);
+    createDomElement('h3', playerWrapper, 'description-block__song-name', null, track.song);
+    const player = createDomElement('div', playerWrapper, 'player');
+    createPlayer(track, player, false);
+    createDomElement('div', block, 'description-block__band-descr', null, track.description);
   }
 
-  function setBackgroundImg(source) {
-    const background = document.querySelector('.background');
-    background.innerHTML = '';
-    const backgroundImage = createDomElement('div', background, 'bg-img');
-    backgroundImage.style.background = `url(${source}) center center/cover no-repeat`;
-  }
 
   // Player
   function convertTimeFormat(time) {
@@ -199,11 +173,13 @@ window.addEventListener('DOMContentLoaded', () => {
     return `${minutes.toString().padStart(2, 0)}:${seconds.toString().padStart(2, 0)}`;
   }
 
+
   function choseRandomTrack() {
     const randomNum = Math.floor(Math.random() * 6);
     randomTrack = songsData[gameData.stage][randomNum];
     return randomTrack;
   }
+
 
   function playAudio(audio, isShort) {
     if (prevAudio) pauseAudio(prevAudio);
@@ -224,20 +200,23 @@ window.addEventListener('DOMContentLoaded', () => {
     activePlayButton.style.paddingRight = '10px';
   }
 
+
   function pauseAudio(audio) {
     audio.pause();
     if (activePlayButton) {
       activePlayButton.innerHTML = playButtonImg;
       activePlayButton.style.paddingLeft = '13px';
       activePlayButton.style.paddingRight = '7px';
-    } 
+    }
   }
+
 
   function toggleAudio(audio, isShort, e) {
     prevPlayButton = activePlayButton;
     activePlayButton = e.target.closest('.player__play-btn');
     !audio.paused ? pauseAudio(audio) : playAudio(audio, isShort);
   }
+
 
   function updateTimeline(audio, currentTimeElement, playerTimeline, isShort) {
     if (!audio.paused) {
@@ -246,7 +225,8 @@ window.addEventListener('DOMContentLoaded', () => {
       const position = isShort ?
         (audio.currentTime * 100 / difficultyData[difficulty].timeToGuess) :
         (audio.currentTime * 100 / audio.duration);
-        playerTimeline.style.background = `linear-gradient(to right, rgb(215, 127, 32) 0%, rgb(215, 127, 32) ${position}%, rgb(103, 100, 97) ${position}%, rgb(103, 100, 97) 100%)`;
+
+      playerTimeline.style.background = `linear-gradient(to right, rgb(215, 127, 32) 0%, rgb(215, 127, 32) ${position}%, rgb(103, 100, 97) ${position}%, rgb(103, 100, 97) 100%)`;
 
       if (isShort && audio.currentTime >= difficultyData[difficulty].timeToGuess) {
         pauseAudio(audio);
@@ -255,6 +235,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
 
   function setTimelineMax(timeline, totalTimeElement, duration) {
     timeline.max = duration * 100;
@@ -293,7 +274,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     audio.onloadedmetadata = () => {
       isShort ?
-      setTimelineMax(playerTimeline, totalTimeElement, difficultyData[difficulty].timeToGuess) :
+        setTimelineMax(playerTimeline, totalTimeElement, difficultyData[difficulty].timeToGuess) :
         setTimelineMax(playerTimeline, totalTimeElement, audio.duration);
     };
 
@@ -311,7 +292,7 @@ window.addEventListener('DOMContentLoaded', () => {
         `${song.song}` :
         `${song.artist} - ${song.song}`;
       const answerOptionElement = createDomElement('li', answerOptionsBlock, 'answer-options__option', { 'data-id': song.id });
-      const answerOptionLabel = createDomElement('span', answerOptionElement, 'answer-options__indicator');
+      createDomElement('span', answerOptionElement, 'answer-options__indicator');
       answerOptionElement.insertAdjacentHTML('beforeend', option);
     });
 
@@ -360,6 +341,7 @@ window.addEventListener('DOMContentLoaded', () => {
     nextButton.classList.remove('button_next_active');
   }
 
+
   function resetQuestionBlock() {
     songNameElement.textContent = '******';
     descriptionBlock.innerHTML = '';
@@ -367,8 +349,9 @@ window.addEventListener('DOMContentLoaded', () => {
       'Listen to the song and try to guess the song.' :
       `Listen to the first ${difficultyData[difficulty].timeToGuess} seconds of the song and try to guess the song.`;
     createDomElement('div', descriptionBlock, 'description-block__placeholder', null, text);
-    bandImageElement.src = 'assets/band_placeholder.png';
+    bandImageElement.src = bandPlaceholder;
   }
+
 
   function generateStage() {
     generateAnswerOptionsBlock();
@@ -380,6 +363,7 @@ window.addEventListener('DOMContentLoaded', () => {
     setBackgroundImg(backgrounds[gameData.stage]);
   }
 
+
   function startGame() {
     gameData.stage = 0;
     gameData.score = 0;
@@ -387,12 +371,14 @@ window.addEventListener('DOMContentLoaded', () => {
     generateStage();
   }
 
+
   function nextStage() {
     gameData.stage++;
     isGuessed = false;
     if (gameData.stage > 4) nextButton.textContent = 'Show Results';
     gameData.stage > 5 ? showResultsPage() : generateStage();
   }
+
 
   function showResultsPage() {
     const links = document.querySelectorAll('.menu__link');
@@ -420,6 +406,7 @@ window.addEventListener('DOMContentLoaded', () => {
     scoreElement.textContent = `Score: ${gameData.score}`;
   }
 
+
   function updateStagesBlockStatus() {
     stagesElements.forEach((element, index) => {
       element.classList = 'stage';
@@ -427,19 +414,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function showFullTrackInfo(track, block) {
-    block.innerHTML = '';
-    const wrapper = createDomElement('div', block, 'description-block__wrapper');
-    createDomElement('img', wrapper, 'description-block__band-image', { src: track.image, height: 175, width: 175 });
-    const playerWrapper = createDomElement('div', wrapper, 'description-block__player-wrapper');
-    createDomElement('h2', playerWrapper, 'description-block__band-name', null, track.artist);
-    createDomElement('h3', playerWrapper, 'description-block__song-name', null, track.song);
-
-    const player = createDomElement('div', playerWrapper, 'player');
-    createPlayer(track, player, false);
-
-    createDomElement('div', block, 'description-block__band-descr', null, track.description);
-  }
 
   // Local Storage
   function setLocalStorage() {
@@ -452,6 +426,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  window.addEventListener('beforeunload', setLocalStorage);
-  window.addEventListener('load', getLocalStorage);
+
+  // Init
+  initApp();
 });
