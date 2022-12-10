@@ -22,7 +22,7 @@ class News {
 
             const newsDescrTitle = <HTMLElement>newsClone.querySelector('.news__description-title');
             newsDescrTitle.textContent = item.title;
-            const newsDescrSource = <HTMLElement>newsClone.querySelector('.news__description-source')
+            const newsDescrSource = <HTMLElement>newsClone.querySelector('.news__description-source');
             newsDescrSource.textContent = item.source.name;
             const newsDescrContent = <HTMLElement>newsClone.querySelector('.news__description-content');
             newsDescrContent.textContent = item.description;
