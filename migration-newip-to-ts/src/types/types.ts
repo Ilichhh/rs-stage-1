@@ -14,3 +14,11 @@ export interface Article {
     description: string;
     url: string;
 }
+
+export interface SourceDate {
+    sources: Source[];
+}
+
+export interface ArticlesDate {
+    articles: Article[];
+}
