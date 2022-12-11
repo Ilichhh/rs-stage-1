@@ -22,3 +22,20 @@ export interface SourceDate {
 export interface ArticlesDate {
     articles: Article[];
 }
+
+export interface CallbackFunc<T> {
+    (data: T): void;
+}
+
+export interface RequestParameters {
+    apiKey: string;
+    category?: 'business' | 'entertainment' | 'general' | 'health' | 'science' | 'sports' | 'technology';
+    language?: 'ar' | 'de' | 'en' | 'es' | 'fr' | 'he' | 'it' | 'nl' | 'no' | 'pt' | 'ru' | 'sv' | 'ud' | 'zh';
+}
+
+export interface EndpointParameters {
+    endpoint: 'sources' | 'everything';
+    options?: {
+        sources: string;
+    };
+}
