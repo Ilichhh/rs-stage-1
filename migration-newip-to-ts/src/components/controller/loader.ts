@@ -10,7 +10,6 @@ class Loader {
     }
 
     getResp<T>({ endpoint, options }: EndpointParameters, callback: CallbackFunc<T>) {
-        if (!callback) console.error('No callback for GET response');
         this.load('GET', { endpoint, options }, callback);
     }
 
@@ -29,7 +28,7 @@ class Loader {
         let url = `${this.baseLink}${endpoint}?`;
 
         Object.keys(urlOptions).forEach((key) => {
-            url += `${key}=${urlOptions[key]}&`;
+            url += `${key}=${urlOptions[key as keyof typeof urlOptions]}&`;
         });
 
         return url.slice(0, -1);

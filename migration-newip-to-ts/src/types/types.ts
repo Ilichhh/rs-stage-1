@@ -29,8 +29,6 @@ export interface CallbackFunc<T> {
 
 export interface RequestParameters {
     apiKey: string;
-    category?: 'business' | 'entertainment' | 'general' | 'health' | 'science' | 'sports' | 'technology';
-    language?: 'ar' | 'de' | 'en' | 'es' | 'fr' | 'he' | 'it' | 'nl' | 'no' | 'pt' | 'ru' | 'sv' | 'ud' | 'zh';
 }
 
 export interface EndpointParameters {
