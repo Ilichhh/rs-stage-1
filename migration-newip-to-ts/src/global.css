@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    color: #fff;
+    background: #17181c;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 800;
+    text-align: center;
+}
+
+main {
+    min-height: calc(100vh - 50px);
+    display: flex;
+    align-items: center;
+}
+
+footer {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer .copyright {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+}
+footer .copyright a {
+    color: #444;
+}
+footer .copyright a:hover {
+    color: #555;
+}
+footer .copyright:before {
+    content: '©';
+}
+
+.container {
+    width: 95vw;
+    margin: 0 auto;
+}
+
+.container_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
