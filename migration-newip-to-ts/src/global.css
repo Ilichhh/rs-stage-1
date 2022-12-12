@@ -1,4 +1,5 @@
 body {
+    margin: 0;
     color: #fff;
     background: #17181c;
     font-family: sans-serif;
@@ -13,8 +14,12 @@ header h1 {
     font-weight: 800;
 }
 
+main {
+    min-height: calc(100vh - 180px);
+}
+
 footer {
-    height: 100px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,7 +41,11 @@ footer .copyright:before {
 }
 
 .container {
-    width: 90vw;
+    width: 95vw;
+    margin: 0 auto;
+}
+
+.container_footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
