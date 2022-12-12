@@ -12,6 +12,7 @@ class App {
     }
 
     start() {
+        this.view.drawFooter();
         document
             .querySelector('.sources')
             ?.addEventListener('click', (e) =>

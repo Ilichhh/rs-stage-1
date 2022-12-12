@@ -20,6 +20,7 @@ footer {
     justify-content: center;
 }
 footer .copyright {
+    margin: 0;
     font-size: 14px;
     color: #333;
     text-align: center;
@@ -32,4 +33,11 @@ footer .copyright a:hover {
 }
 footer .copyright:before {
     content: '©';
+}
+
+.container {
+    width: 90vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
 }

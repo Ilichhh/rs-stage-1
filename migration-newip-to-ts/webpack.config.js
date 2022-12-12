@@ -17,7 +17,15 @@ const baseConfig = {
                 test: /\.ts$/i,
                 use: 'ts-loader',
                 exclude: /node_modules/,
-              },
+            },
+            {
+                test: /\.(png|jpe?g|gif|ogg|mp3|wav|mp4|mpe?g)$/i,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'assets',
+                },
+            },
         ],
     },
     resolve: {

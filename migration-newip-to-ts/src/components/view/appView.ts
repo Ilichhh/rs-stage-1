@@ -1,5 +1,7 @@
 import News from './news/news';
 import Sources from './sources/sources';
+import ghLogo from './../../assets/gh.png';
+import rsLogo from './../../assets/rs.png';
 import type { ArticlesDate, SourceDate } from './../../types/types';
 
 export class AppView {
@@ -19,6 +21,13 @@ export class AppView {
     drawSources(data: SourceDate) {
         const values = data?.sources ? data?.sources : [];
         this.sources.draw(values);
+    }
+
+    drawFooter() {
+        const ghLogoElement = <HTMLImageElement>document.querySelector('.social__gh-logo');
+        const rsLogoElement = <HTMLImageElement>document.querySelector('.social__rs-logo');
+        ghLogoElement.src = ghLogo;
+        rsLogoElement.src = rsLogo;
     }
 }
 
