@@ -1,5 +1,6 @@
 import './news.css';
 import type { Article } from './../../../types/types';
+import newsPlaceholder from './../../../assets/news_placeholder.png';
 
 class News {
     draw(data: Article[]) {
@@ -14,7 +15,7 @@ class News {
             if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
 
             const newsPhoto = <HTMLElement>newsClone.querySelector('.news__meta-photo');
-            newsPhoto.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
+            newsPhoto.style.backgroundImage = `url(${item.urlToImage || newsPlaceholder})`;
             const newsAuthor = <HTMLElement>newsClone.querySelector('.news__meta-author');
             newsAuthor.textContent = item.author || item.source.name;
             const newsDate = <HTMLElement>newsClone.querySelector('.news__meta-date');
