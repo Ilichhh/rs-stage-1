@@ -12,28 +12,25 @@ class AppController extends AppLoader {
     }
 
     getNews<T>(e: Event, callback: CallbackFunc<T>) {
-        let target = <HTMLElement>e.target;
+        let target = <HTMLSelectElement>e.target;
         const newsContainer = <HTMLElement>e.currentTarget;
 
-        while (target !== newsContainer) {
-            if (target.classList.contains('source__item')) {
-                const sourceId = <string>target.getAttribute('data-source-id');
-                if (newsContainer.getAttribute('data-source') !== sourceId) {
-                    newsContainer.setAttribute('data-source', sourceId);
-                    super.getResp(
-                        {
-                            endpoint: 'everything',
-                            options: {
-                                sources: sourceId,
-                            },
+        if (target.classList.contains('sources')) {
+            const sourceId = <string>target.value;
+            if (newsContainer.getAttribute('data-source') !== sourceId) {
+                newsContainer.setAttribute('data-source', sourceId);
+                super.getResp(
+                    {
+                        endpoint: 'everything',
+                        options: {
+                            sources: sourceId,
                         },
-                        callback
-                    );
-                }
-                return;
+                    },
+                    callback
+                );
             }
-            target = <HTMLElement>target.parentNode;
         }
+        target = <HTMLSelectElement>target.parentNode;
     }
 }
 

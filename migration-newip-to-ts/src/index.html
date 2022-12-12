@@ -7,15 +7,16 @@
         <title>NewsPortal</title>
     </head>
     <body>
-        <header>
-            <div class="container">
-                <h1>News Portal</h1>
-            </div>
-        </header>
-
         <main>
             <div class="container container_main">
-                <div class="sources buttons"></div>
+                <div class="container">
+                    <h1>News Portal</h1>
+                </div>
+                <div class="custom-select">
+                    <select class="sources">
+                        <option value="" disabled selected hidden>Select source...</option>
+                    </select>
+                </div>
                 <div class="news"></div>
             </div>
         </main>
@@ -39,9 +40,8 @@
         </footer>
 
         <template id="sourceItemTemp">
-            <div class="source__item">
-                <span class="source__item-name"></span>
-            </div>
+            <option class="source__item">
+            </option>
         </template>
 
         <template id="newsItemTemp">

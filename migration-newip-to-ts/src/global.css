@@ -2,20 +2,19 @@ body {
     margin: 0;
     color: #fff;
     background: #17181c;
-    font-family: sans-serif;
+    font-family: 'Fira Sans', sans-serif;
 }
 
-header {
-    padding: 10px 30px;
-}
-
-header h1 {
-    font-size: 40px;
+h1 {
+    font-size: 48px;
     font-weight: 800;
+    text-align: center;
 }
 
 main {
-    min-height: calc(100vh - 180px);
+    min-height: calc(100vh - 50px);
+    display: flex;
+    align-items: center;
 }
 
 footer {
