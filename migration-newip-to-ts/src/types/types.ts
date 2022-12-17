@@ -23,17 +23,17 @@ export interface ArticlesDate {
     articles: Article[];
 }
 
-export interface CallbackFunc<T> {
-    (data: T): void;
-}
+export type CallbackFunc<T> = (data: T) => void;
 
-export interface RequestParameters {
+export type RequestParameters = {
     apiKey: string;
-}
+};
 
-export interface EndpointParameters {
-    endpoint: 'sources' | 'everything';
+export type Endpoint = 'sources' | 'everything';
+
+export type EndpointParameters = {
+    endpoint: Endpoint;
     options?: {
         sources: string;
     };
-}
+};

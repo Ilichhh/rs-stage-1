@@ -3,15 +3,15 @@ import { AppView } from '../view/appView';
 import type { SourceDate, ArticlesDate } from './../../types/types';
 
 class App {
-    controller: AppController;
-    view: AppView;
+    private controller: AppController;
+    private view: AppView;
 
     constructor() {
         this.controller = new AppController();
         this.view = new AppView();
     }
 
-    start() {
+    public start(): void {
         this.view.drawFooter();
         document
             .querySelector('.sources')
