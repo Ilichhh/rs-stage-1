@@ -1,5 +1,5 @@
 {
-    "name": "Async Race",
+    "name": "NewsJS",
     "version": "1.0.0",
     "description": "",
     "main": "webpack.base.config.js",
@@ -17,6 +17,8 @@
     "license": "ISC",
     "homepage": "",
     "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.46.0",
+        "@typescript-eslint/parser": "^5.46.0",
         "clean-webpack-plugin": "^3.0.0",
         "copy-webpack-plugin": "^7.0.0",
         "css-loader": "^5.1.0",
@@ -25,6 +27,7 @@
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.25.2",
         "eslint-plugin-prettier": "^3.4.0",
+        "eslint-webpack-plugin": "^3.2.0",
         "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.2.0",
         "prettier": "2.2.1",
@@ -37,9 +40,5 @@
         "webpack-cli": "^4.5.0",
         "webpack-dev-server": "^3.11.2",
         "webpack-merge": "^5.7.3"
-    },
-    "dependencies": {
-        "eslint-config-airbnb-typescript": "^17.0.0",
-        "svg-inline-loader": "^0.8.2"
     }
 }

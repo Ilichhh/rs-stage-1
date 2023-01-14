@@ -1,6 +1,6 @@
 class App {
   start() {
-    console.log('Hello, Race!')
+    console.log('Hello, Race!');
   }
 }
 
