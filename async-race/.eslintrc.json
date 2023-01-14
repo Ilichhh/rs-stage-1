@@ -10,11 +10,13 @@
         "plugin:prettier/recommended",
         "prettier",
         "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "airbnb-base"
+        // "plugin:@typescript-eslint/eslint-recommended",
+        // "plugin:@typescript-eslint/recommended",
+        "airbnb-base",
+        "airbnb-typescript/base"
     ],
     "parserOptions": {
+        "project": "./tsconfig.json",
         "ecmaVersion": 2020,
         "sourceType": "module"
     },
