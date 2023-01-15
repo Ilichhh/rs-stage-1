@@ -1,0 +1,20 @@
+.header {
+  padding: 10px 0 10px;
+  background-color: $blue-color;
+
+  &__logo {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  &__nav {
+    width: 280px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.container_header {
+  display: flex;
+  justify-content: space-between;
+}

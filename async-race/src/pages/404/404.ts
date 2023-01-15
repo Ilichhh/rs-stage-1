@@ -14,8 +14,12 @@ class Page404 extends Page {
   }
 
   render(): HTMLElement {
+    const container = document.createElement('div');
+    container.className = 'container';
+    this.main.append(container);
+
     const title = this.createHeaderTitle(Page404.TextObject[this.errorType]);
-    this.main.append(title);
+    container.append(title);
     return this.main;
   }
 }
