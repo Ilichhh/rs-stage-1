@@ -10,3 +10,11 @@ export enum ErrorTypes {
 export type TextObject = {
   [name: string | number]: string;
 };
+
+export type Attributes = {
+  [name: string]: string;
+};
+
+export type AttributesObject = {
+  [name: string]: Attributes;
+};

@@ -1,0 +1,26 @@
+.management {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__create-form,
+  &__update-form {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    padding: 10px;
+    background-color: $blue-color;
+  }
+
+  &__create-input,
+  &__update-input {
+    width: 200px;
+    height: 25px;
+  }
+
+  &__create-color,
+  &__update-color {
+    height: 30px;
+  }
+}

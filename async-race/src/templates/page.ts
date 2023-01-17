@@ -1,9 +1,12 @@
-class Page {
+import DomElement from './domElement';
+
+class Page extends DomElement {
   protected main: HTMLElement;
 
   static TextObject = {};
 
   constructor(id: string) {
+    super();
     this.main = document.createElement('main');
     this.main.id = id;
   }

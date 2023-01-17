@@ -4,4 +4,9 @@
   background-color: $pink-color;
   color: $yellow-color;
   text-decoration: none;
+
+  &:hover {
+    background-color: $yellow-color;
+    color: $pink-color;
+  }
 }
