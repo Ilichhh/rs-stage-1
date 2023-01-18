@@ -110,8 +110,7 @@ class GaragePage extends Page {
     const raceContainer = this.createElement('div', 'race-container');
     container.append(raceContainer);
 
-    const carController = new CarController('div', 'car-controller', '333');
-
+    const carController = new CarController('div', 'car-controller', 'ccc', 'Audi');
     raceContainer.append(carController.render());
 
     return this.main;
