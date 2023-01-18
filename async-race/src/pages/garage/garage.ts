@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
 import CarController from '../../components/car-controller/carController';
 import { TextObject, AttributesObject } from '../../types/types';
 
 class GaragePage extends Page {
   static TextObject: TextObject = {
-    MainTitle: 'Garage',
+    MainTitle: 'Garage (4)',
   };
 
   static AttributesObject: AttributesObject = {
@@ -12,6 +13,7 @@ class GaragePage extends Page {
       type: 'text',
       id: 'create-name',
       name: 'car-name',
+      placeholder: 'enter name',
     },
     createCarColor: {
       type: 'color',
@@ -22,6 +24,7 @@ class GaragePage extends Page {
       type: 'text',
       id: 'update-name',
       name: 'car-name',
+      disabled: 'disabled',
     },
     updateCarColor: {
       type: 'color',
@@ -30,8 +33,20 @@ class GaragePage extends Page {
     },
   };
 
+  public raceButton: HTMLButtonElement;
+
+  public resetButton: HTMLButtonElement;
+
+  public generateCarsBtn: HTMLButtonElement;
+
   constructor(id: string) {
     super(id);
+    this.raceButton = <HTMLButtonElement>this.createElement('button', 'control-panel__race-btn button');
+    this.raceButton.innerText = 'RACE';
+    this.resetButton = <HTMLButtonElement>this.createElement('button', 'control-panel__reset-btn button');
+    this.resetButton.innerText = 'RESET';
+    this.generateCarsBtn = <HTMLButtonElement>this.createElement('button', 'control-panel__generate-cars-btn button');
+    this.generateCarsBtn.innerText = 'GENERATE CARS';
   }
 
   private createManagementSection(): HTMLElement {
@@ -74,29 +89,18 @@ class GaragePage extends Page {
 
   private createControlPanel(): HTMLElement {
     const section = this.createElement('div', 'control-panel');
-
-    const raceButton = this.createElement('button', 'control-panel__race-btn button');
-    raceButton.innerText = 'RACE';
-    section.append(raceButton);
-
-    const resetButton = this.createElement('button', 'control-panel__reset-btn button');
-    resetButton.innerText = 'RESET';
-    section.append(resetButton);
-
-    const generateCarsButton = this.createElement('button', 'control-panel__generate-cars-btn button');
-    generateCarsButton.innerText = 'GENERATE CARS';
-    section.append(generateCarsButton);
+    this.resetButton.disabled = true;
+    section.append(this.raceButton);
+    section.append(this.resetButton);
+    section.append(this.generateCarsBtn);
 
     return section;
   }
 
   render(): HTMLElement {
     const container = document.createElement('div');
-    container.className = 'container';
+    container.className = 'container container_main';
     this.main.append(container);
-
-    const title = this.createHeaderTitle(GaragePage.TextObject.MainTitle);
-    container.append(title);
 
     // Car management
     const managementSection = this.createManagementSection();
@@ -107,6 +111,8 @@ class GaragePage extends Page {
     container.append(controlSection);
 
     // Race
+    const title = this.createHeaderTitle(GaragePage.TextObject.MainTitle);
+    container.append(title);
     const raceContainer = this.createElement('div', 'race-container');
     container.append(raceContainer);
 

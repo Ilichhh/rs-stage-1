@@ -1,6 +1,10 @@
 .button {
   display: inline-block;
   padding: 5px 10px;
+  border-left: 2px solid $yellow-color;
+  border-top: 2px solid $yellow-color;
+  border-right: 2px solid $dark-color;
+  border-bottom: 2px solid $dark-color;
   background-color: $pink-color;
   color: $yellow-color;
   text-decoration: none;
@@ -10,8 +14,17 @@
     height: 50px;
   }
 
+  &:disabled {
+    cursor: default;
+    background-color: #bbb;
+  }
+
   &:hover {
     background-color: $yellow-color;
     color: $pink-color;
+    &:disabled {
+      color: $yellow-color;
+      background-color: #bbb;
+    }
   }
 }

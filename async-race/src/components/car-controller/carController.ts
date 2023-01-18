@@ -27,9 +27,9 @@ class CarController extends Component {
     this.deleteButton.innerText = 'DELETE';
 
     this.startButton = this.createElement('button', 'car-controller__start-btn button');
-    this.startButton.innerText = 'start';
+    this.startButton.innerText = 'GO';
     this.stoptButton = this.createElement('button', 'car-controler__stop-btn button');
-    this.stoptButton.innerText = 'stop';
+    this.stoptButton.innerText = 'BR';
   }
 
   render(): HTMLElement {

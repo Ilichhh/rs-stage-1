@@ -12,7 +12,7 @@ class Page extends DomElement {
   }
 
   protected createHeaderTitle(text: string): HTMLHeadingElement {
-    const headerTitle = document.createElement('h1');
+    const headerTitle = document.createElement('h2');
     headerTitle.innerText = text;
     return headerTitle;
   }
