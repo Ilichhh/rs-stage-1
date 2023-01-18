@@ -1,4 +1,5 @@
 import Page from '../../templates/page';
+import CarController from '../../components/car-controller/carController';
 import { TextObject, AttributesObject } from '../../types/types';
 
 class GaragePage extends Page {
@@ -33,20 +34,11 @@ class GaragePage extends Page {
     super(id);
   }
 
-  render(): HTMLElement {
-    const container = document.createElement('div');
-    container.className = 'container';
-    this.main.append(container);
-
-    const title = this.createHeaderTitle(GaragePage.TextObject.MainTitle);
-    container.append(title);
-
-    // Car management
-    const managementSection = this.createElement('div', 'management');
-    container.append(managementSection);
+  private createManagementSection(): HTMLElement {
+    const section = this.createElement('div', 'management');
 
     const createCarBlock = this.createElement('form', 'management__create-form');
-    managementSection.append(createCarBlock);
+    section.append(createCarBlock);
 
     const creteCarInput = this.createElement('input', 'management__create-input');
     this.setMultipleAttributes(creteCarInput, GaragePage.AttributesObject.createCarInput);
@@ -62,7 +54,7 @@ class GaragePage extends Page {
     createCarBlock.append(createCarButton);
 
     const updateCarBlock = this.createElement('form', 'management__update-form');
-    managementSection.append(updateCarBlock);
+    section.append(updateCarBlock);
 
     const updateCarInput = this.createElement('input', 'management__update-input');
     this.setMultipleAttributes(updateCarInput, GaragePage.AttributesObject.updateCarInput);
@@ -76,6 +68,51 @@ class GaragePage extends Page {
     updateCarButton.setAttribute('type', 'submit');
     updateCarButton.innerText = 'UPDATE';
     updateCarBlock.append(updateCarButton);
+
+    return section;
+  }
+
+  private createControlPanel(): HTMLElement {
+    const section = this.createElement('div', 'control-panel');
+
+    const raceButton = this.createElement('button', 'control-panel__race-btn button');
+    raceButton.innerText = 'RACE';
+    section.append(raceButton);
+
+    const resetButton = this.createElement('button', 'control-panel__reset-btn button');
+    resetButton.innerText = 'RESET';
+    section.append(resetButton);
+
+    const generateCarsButton = this.createElement('button', 'control-panel__generate-cars-btn button');
+    generateCarsButton.innerText = 'GENERATE CARS';
+    section.append(generateCarsButton);
+
+    return section;
+  }
+
+  render(): HTMLElement {
+    const container = document.createElement('div');
+    container.className = 'container';
+    this.main.append(container);
+
+    const title = this.createHeaderTitle(GaragePage.TextObject.MainTitle);
+    container.append(title);
+
+    // Car management
+    const managementSection = this.createManagementSection();
+    container.append(managementSection);
+
+    // Control panel
+    const controlSection = this.createControlPanel();
+    container.append(controlSection);
+
+    // Race
+    const raceContainer = this.createElement('div', 'race-container');
+    container.append(raceContainer);
+
+    const carController = new CarController('div', 'car-controller', '333');
+
+    raceContainer.append(carController.render());
 
     return this.main;
   }

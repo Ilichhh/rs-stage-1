@@ -4,6 +4,11 @@
   background-color: $pink-color;
   color: $yellow-color;
   text-decoration: none;
+  cursor: pointer;
+
+  &_big {
+    height: 50px;
+  }
 
   &:hover {
     background-color: $yellow-color;
