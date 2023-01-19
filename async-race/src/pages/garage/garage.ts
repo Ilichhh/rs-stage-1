@@ -29,6 +29,14 @@ class GaragePage extends Page {
     },
   };
 
+  public createCarForm: HTMLFormElement;
+
+  public createCarName: HTMLInputElement;
+
+  public creteCarColor: HTMLInputElement;
+
+  public createCarButton: HTMLButtonElement;
+
   public raceButton: HTMLButtonElement;
 
   public resetButton: HTMLButtonElement;
@@ -37,32 +45,30 @@ class GaragePage extends Page {
 
   constructor(id: string) {
     super(id);
+    this.createCarForm = <HTMLFormElement>this.createElement('form', 'management__create-form');
+    this.createCarName = <HTMLInputElement>this.createElement('input', 'management__create-input');
+    this.creteCarColor = <HTMLInputElement>this.createElement('input', 'management__create-color');
+    this.createCarButton = <HTMLButtonElement>this.createElement('button', 'management__create-btn button');
+
     this.raceButton = <HTMLButtonElement>this.createElement('button', 'control-panel__race-btn button');
-    this.raceButton.innerText = 'RACE';
     this.resetButton = <HTMLButtonElement>this.createElement('button', 'control-panel__reset-btn button');
-    this.resetButton.innerText = 'RESET';
     this.generateCarsBtn = <HTMLButtonElement>this.createElement('button', 'control-panel__generate-cars-btn button');
-    this.generateCarsBtn.innerText = 'GENERATE CARS';
   }
 
   private createManagementSection(): HTMLElement {
     const section = this.createElement('div', 'management');
 
-    const createCarBlock = this.createElement('form', 'management__create-form');
-    section.append(createCarBlock);
+    section.append(this.createCarForm);
 
-    const creteCarInput = this.createElement('input', 'management__create-input');
-    this.setMultipleAttributes(creteCarInput, GaragePage.AttributesObject.createCarInput);
-    createCarBlock.append(creteCarInput);
+    this.setMultipleAttributes(this.createCarName, GaragePage.AttributesObject.createCarInput);
+    this.createCarForm.append(this.createCarName);
 
-    const creteCarColor = this.createElement('input', 'management__create-color');
-    this.setMultipleAttributes(creteCarColor, GaragePage.AttributesObject.createCarColor);
-    createCarBlock.append(creteCarColor);
+    this.setMultipleAttributes(this.creteCarColor, GaragePage.AttributesObject.createCarColor);
+    this.createCarForm.append(this.creteCarColor);
 
-    const createCarButton = this.createElement('button', 'management__create-btn button');
-    createCarButton.setAttribute('type', 'submit');
-    createCarButton.innerText = 'CREATE';
-    createCarBlock.append(createCarButton);
+    this.createCarButton.setAttribute('type', 'submit');
+    this.createCarButton.innerText = 'CREATE';
+    this.createCarForm.append(this.createCarButton);
 
     const updateCarBlock = this.createElement('form', 'management__update-form');
     section.append(updateCarBlock);
@@ -85,10 +91,37 @@ class GaragePage extends Page {
 
   private createControlPanel(): HTMLElement {
     const section = this.createElement('div', 'control-panel');
+    this.raceButton.innerText = 'RACE';
+    this.resetButton.innerText = 'RESET';
     this.resetButton.disabled = true;
+    this.generateCarsBtn.innerText = 'GENERATE CARS';
+
     section.append(this.raceButton);
     section.append(this.resetButton);
     section.append(this.generateCarsBtn);
+
+    return section;
+  }
+
+  private createRaceSection(carsArr: Car[]): HTMLElement {
+    const section = this.createElement('div', 'race-container');
+
+    carsArr.forEach((car) => {
+      const carController = new CarController('div', 'car-controller', car.color, car.name, car.id);
+      section.append(carController.render());
+    });
+
+    const pagesControls = this.createElement('div', 'pages-controls');
+    const prevPageBtn = this.createElement('button', 'pages-controls__prev-btn button');
+    prevPageBtn.innerText = 'PREV';
+    pagesControls.append(prevPageBtn);
+    const currentPageIndex = this.createElement('span', 'pages-controls__current-index');
+    currentPageIndex.innerText = '1';
+    pagesControls.append(currentPageIndex);
+    const nextPageBtn = this.createElement('button', 'pages-controls__next-btn button');
+    nextPageBtn.innerText = 'NEXT';
+    pagesControls.append(nextPageBtn);
+    section.append(pagesControls);
 
     return section;
   }
@@ -107,16 +140,13 @@ class GaragePage extends Page {
     const controlSection = this.createControlPanel();
     container.append(controlSection);
 
-    // Race
+    // Header
     const title = this.createHeaderTitle(`Garage (${carsArr.length})`);
     container.append(title);
-    const raceContainer = this.createElement('div', 'race-container');
-    container.append(raceContainer);
 
-    carsArr.forEach((car) => {
-      const carController = new CarController('div', 'car-controller', car.color, car.name);
-      raceContainer.append(carController.render());
-    });
+    // Race section
+    const raceContainer = this.createRaceSection(carsArr);
+    container.append(raceContainer);
 
     return this.main;
   }

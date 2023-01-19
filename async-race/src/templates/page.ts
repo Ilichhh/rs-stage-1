@@ -2,7 +2,7 @@ import DomElement from './domElement';
 import { Car } from '../types/types';
 
 class Page extends DomElement {
-  protected main: HTMLElement;
+  public main: HTMLElement;
 
   static TextObject = {};
 

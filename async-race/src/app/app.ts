@@ -56,10 +56,27 @@ class App {
 
   async start() {
     App.body.append(this.header.render());
-    const carsArr = await this.api.getCars();
+    let carsArr = await this.api.getCars();
 
     this.renderStartPage(carsArr);
     this.enableRouteChange(carsArr);
+
+    this.garage.main.addEventListener('click', async (e) => {
+      const target: HTMLElement = <HTMLElement>e.target;
+      if (target.classList.contains('car-controller__delete-btn')) {
+        const id: string = <string>target.closest('.car-controller')?.id;
+        carsArr = await this.api.deleteCar(+id, carsArr);
+        this.garage.render(carsArr);
+      }
+    });
+
+    this.garage.createCarForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await this.api.createCar(this.garage.createCarName.value, this.garage.creteCarColor.value);
+      carsArr = await this.api.getCars();
+      this.garage.createCarName.value = '';
+      this.garage.render(carsArr);
+    });
   }
 }
 

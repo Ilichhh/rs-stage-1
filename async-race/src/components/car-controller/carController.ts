@@ -2,21 +2,24 @@ import Component from '../../templates/component';
 import Car from '../car/car';
 
 class CarController extends Component {
-  private car: Car;
+  public id: number;
 
-  private carName: HTMLElement;
+  public car: Car;
 
-  private editButton: HTMLElement;
+  public carName: HTMLElement;
 
-  private deleteButton: HTMLElement;
+  public editButton: HTMLElement;
 
-  private startButton: HTMLElement;
+  public deleteButton: HTMLElement;
 
-  private stoptButton: HTMLElement;
+  public startButton: HTMLElement;
 
-  constructor(tagName: string, className: string, color: string, name: string) {
+  public stoptButton: HTMLElement;
+
+  constructor(tagName: string, className: string, color: string, name: string, id: number) {
     super(tagName, className);
 
+    this.id = id;
     this.car = new Car('div', 'car', color);
     this.carName = this.createElement('span', 'car-controller__name');
     this.carName.innerText = name;
@@ -50,6 +53,7 @@ class CarController extends Component {
     finish.append(finishFlag);
     raceTrack.append(finish);
 
+    this.container.id = this.id.toString();
     this.container.append(editButtonsWrapper);
     this.container.append(raceTrack);
 

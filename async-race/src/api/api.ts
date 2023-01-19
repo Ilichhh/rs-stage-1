@@ -1,3 +1,5 @@
+import { Car } from '../types/types';
+
 class Api {
   private baseLink: string;
 
@@ -10,6 +12,22 @@ class Api {
     const response = await request.json();
     console.log(response);
     return response;
+  }
+
+  public async createCar(name: string, color: string) {
+    const data = JSON.stringify({ name, color });
+    await fetch(`${this.baseLink}/garage`, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
+  public async deleteCar(id: number, carsArr: Car[]) {
+    await fetch(`${this.baseLink}/garage/${id}`, { method: 'DELETE' });
+    return carsArr.filter((car) => car.id !== id);
   }
 }
 
