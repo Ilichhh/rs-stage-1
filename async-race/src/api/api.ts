@@ -14,10 +14,27 @@ class Api {
     return response;
   }
 
+  public async getCar(id: number) {
+    const request = await fetch(`${this.baseLink}/garage/${id}`);
+    const response = await request.json();
+    return response;
+  }
+
   public async createCar(name: string, color: string) {
     const data = JSON.stringify({ name, color });
     await fetch(`${this.baseLink}/garage`, {
       method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
+  public async updateCar(id: number, name: string, color: string) {
+    const data = JSON.stringify({ name, color });
+    await fetch(`${this.baseLink}/garage/${id}`, {
+      method: 'PUT',
       body: data,
       headers: {
         'Content-Type': 'application/json',

@@ -16,6 +16,8 @@ class App {
 
   private garage: GaragePage;
 
+  private carId: number;
+
   private renderNewPage(idPage: string, carsArr: Car[]): void {
     const currentPageHTML = document.getElementById(App.defaultPageId);
     currentPageHTML?.remove();
@@ -52,6 +54,7 @@ class App {
     this.header = new Header('header', 'header');
     this.api = new Api('http://localhost:3000');
     this.garage = new GaragePage('garage');
+    this.carId = 0;
   }
 
   async start() {
@@ -67,6 +70,14 @@ class App {
         const id: string = <string>target.closest('.car-controller')?.id;
         carsArr = await this.api.deleteCar(+id, carsArr);
         this.garage.render(carsArr);
+      } else if (target.classList.contains('car-controller__edit-btn')) {
+        const id: string = <string>target.closest('.car-controller')?.id;
+        this.carId = +id;
+        this.garage.updateCarName.disabled = false;
+        this.garage.createCarName.disabled = true;
+        const car = await this.api.getCar(+id);
+        this.garage.updateCarName.value = car.name;
+        this.garage.updateCarColor.value = car.color;
       }
     });
 
@@ -75,6 +86,15 @@ class App {
       await this.api.createCar(this.garage.createCarName.value, this.garage.creteCarColor.value);
       carsArr = await this.api.getCars();
       this.garage.createCarName.value = '';
+      this.garage.render(carsArr);
+    });
+
+    this.garage.updateCarForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // eslint-disable-next-line max-len
+      await this.api.updateCar(this.carId, this.garage.updateCarName.value, this.garage.updateCarColor.value);
+      carsArr = await this.api.getCars();
+      this.garage.updateCarName.value = '';
       this.garage.render(carsArr);
     });
   }

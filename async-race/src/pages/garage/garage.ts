@@ -37,6 +37,14 @@ class GaragePage extends Page {
 
   public createCarButton: HTMLButtonElement;
 
+  public updateCarForm: HTMLFormElement;
+
+  public updateCarName: HTMLInputElement;
+
+  public updateCarColor: HTMLInputElement;
+
+  public updateCarButton: HTMLButtonElement;
+
   public raceButton: HTMLButtonElement;
 
   public resetButton: HTMLButtonElement;
@@ -50,6 +58,11 @@ class GaragePage extends Page {
     this.creteCarColor = <HTMLInputElement>this.createElement('input', 'management__create-color');
     this.createCarButton = <HTMLButtonElement>this.createElement('button', 'management__create-btn button');
 
+    this.updateCarForm = <HTMLFormElement>this.createElement('form', 'management__update-form');
+    this.updateCarName = <HTMLInputElement>this.createElement('input', 'management__update-input');
+    this.updateCarColor = <HTMLInputElement>this.createElement('input', 'management__update-color');
+    this.updateCarButton = <HTMLButtonElement>this.createElement('button', 'management__update-btn button');
+
     this.raceButton = <HTMLButtonElement>this.createElement('button', 'control-panel__race-btn button');
     this.resetButton = <HTMLButtonElement>this.createElement('button', 'control-panel__reset-btn button');
     this.generateCarsBtn = <HTMLButtonElement>this.createElement('button', 'control-panel__generate-cars-btn button');
@@ -60,6 +73,7 @@ class GaragePage extends Page {
 
     section.append(this.createCarForm);
 
+    this.createCarName.disabled = false;
     this.setMultipleAttributes(this.createCarName, GaragePage.AttributesObject.createCarInput);
     this.createCarForm.append(this.createCarName);
 
@@ -70,21 +84,17 @@ class GaragePage extends Page {
     this.createCarButton.innerText = 'CREATE';
     this.createCarForm.append(this.createCarButton);
 
-    const updateCarBlock = this.createElement('form', 'management__update-form');
-    section.append(updateCarBlock);
+    section.append(this.updateCarForm);
 
-    const updateCarInput = this.createElement('input', 'management__update-input');
-    this.setMultipleAttributes(updateCarInput, GaragePage.AttributesObject.updateCarInput);
-    updateCarBlock.append(updateCarInput);
+    this.setMultipleAttributes(this.updateCarName, GaragePage.AttributesObject.updateCarInput);
+    this.updateCarForm.append(this.updateCarName);
 
-    const updateCarColor = this.createElement('input', 'management__update-color');
-    this.setMultipleAttributes(updateCarColor, GaragePage.AttributesObject.updateCarColor);
-    updateCarBlock.append(updateCarColor);
+    this.setMultipleAttributes(this.updateCarColor, GaragePage.AttributesObject.updateCarColor);
+    this.updateCarForm.append(this.updateCarColor);
 
-    const updateCarButton = this.createElement('button', 'management__update-btn button');
-    updateCarButton.setAttribute('type', 'submit');
-    updateCarButton.innerText = 'UPDATE';
-    updateCarBlock.append(updateCarButton);
+    this.updateCarButton.setAttribute('type', 'submit');
+    this.updateCarButton.innerText = 'UPDATE';
+    this.updateCarForm.append(this.updateCarButton);
 
     return section;
   }
