@@ -18,3 +18,9 @@ export type Attributes = {
 export type AttributesObject = {
   [name: string]: Attributes;
 };
+
+export type Car = {
+  name: string;
+  color: string;
+  id: number;
+};

@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
 import CarController from '../../components/car-controller/carController';
-import { TextObject, AttributesObject } from '../../types/types';
+import { AttributesObject, Car } from '../../types/types';
 
 class GaragePage extends Page {
-  static TextObject: TextObject = {
-    MainTitle: 'Garage (4)',
-  };
-
   static AttributesObject: AttributesObject = {
     createCarInput: {
       type: 'text',
@@ -97,9 +93,10 @@ class GaragePage extends Page {
     return section;
   }
 
-  render(): HTMLElement {
+  render(carsArr: Car[]): HTMLElement {
     const container = document.createElement('div');
     container.className = 'container container_main';
+    this.main.innerHTML = '';
     this.main.append(container);
 
     // Car management
@@ -111,13 +108,15 @@ class GaragePage extends Page {
     container.append(controlSection);
 
     // Race
-    const title = this.createHeaderTitle(GaragePage.TextObject.MainTitle);
+    const title = this.createHeaderTitle(`Garage (${carsArr.length})`);
     container.append(title);
     const raceContainer = this.createElement('div', 'race-container');
     container.append(raceContainer);
 
-    const carController = new CarController('div', 'car-controller', 'ccc', 'Audi');
-    raceContainer.append(carController.render());
+    carsArr.forEach((car) => {
+      const carController = new CarController('div', 'car-controller', car.color, car.name);
+      raceContainer.append(carController.render());
+    });
 
     return this.main;
   }
