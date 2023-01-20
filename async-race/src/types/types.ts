@@ -24,3 +24,8 @@ export type Car = {
   color: string;
   id: number;
 };
+
+export type Cars = {
+  items: Car[];
+  count: number | null;
+};

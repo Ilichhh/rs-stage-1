@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
 import CarController from '../../components/car-controller/carController';
-import { AttributesObject, Car } from '../../types/types';
+import { AttributesObject, Cars } from '../../types/types';
 
 class GaragePage extends Page {
   static AttributesObject: AttributesObject = {
@@ -45,11 +45,19 @@ class GaragePage extends Page {
 
   public updateCarButton: HTMLButtonElement;
 
+  public currentPage: number;
+
+  public raceSection: HTMLElement;
+
   public raceButton: HTMLButtonElement;
 
   public resetButton: HTMLButtonElement;
 
   public generateCarsBtn: HTMLButtonElement;
+
+  public prevPageBtn: HTMLButtonElement;
+
+  public nextPageBtn: HTMLButtonElement;
 
   constructor(id: string) {
     super(id);
@@ -63,9 +71,14 @@ class GaragePage extends Page {
     this.updateCarColor = <HTMLInputElement>this.createElement('input', 'management__update-color');
     this.updateCarButton = <HTMLButtonElement>this.createElement('button', 'management__update-btn button');
 
+    this.currentPage = 1;
+    this.raceSection = this.createElement('div', 'race-container');
     this.raceButton = <HTMLButtonElement>this.createElement('button', 'control-panel__race-btn button');
     this.resetButton = <HTMLButtonElement>this.createElement('button', 'control-panel__reset-btn button');
     this.generateCarsBtn = <HTMLButtonElement>this.createElement('button', 'control-panel__generate-cars-btn button');
+
+    this.prevPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__prev-btn button');
+    this.nextPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__next-btn button');
   }
 
   private createManagementSection(): HTMLElement {
@@ -113,30 +126,38 @@ class GaragePage extends Page {
     return section;
   }
 
-  private createRaceSection(carsArr: Car[]): HTMLElement {
-    const section = this.createElement('div', 'race-container');
+  public renderRaceSection(cars: Cars, page: number, limit: number): void {
+    this.raceSection.innerHTML = '';
 
-    carsArr.forEach((car) => {
+    const title = this.createHeaderTitle(`Garage (${cars.count})`);
+    this.raceSection.append(title);
+
+    cars.items.forEach((car) => {
       const carController = new CarController('div', 'car-controller', car.color, car.name, car.id);
-      section.append(carController.render());
+      this.raceSection.append(carController.render());
     });
 
     const pagesControls = this.createElement('div', 'pages-controls');
-    const prevPageBtn = this.createElement('button', 'pages-controls__prev-btn button');
-    prevPageBtn.innerText = 'PREV';
-    pagesControls.append(prevPageBtn);
-    const currentPageIndex = this.createElement('span', 'pages-controls__current-index');
-    currentPageIndex.innerText = '1';
-    pagesControls.append(currentPageIndex);
-    const nextPageBtn = this.createElement('button', 'pages-controls__next-btn button');
-    nextPageBtn.innerText = 'NEXT';
-    pagesControls.append(nextPageBtn);
-    section.append(pagesControls);
 
-    return section;
+    this.prevPageBtn.innerText = 'PREV';
+    if (page === 1) this.prevPageBtn.disabled = true;
+    else this.prevPageBtn.disabled = false;
+    pagesControls.append(this.prevPageBtn);
+
+    const currentPageIndex = this.createElement('span', 'pages-controls__current-index');
+    currentPageIndex.innerText = page.toString();
+    pagesControls.append(currentPageIndex);
+
+    this.nextPageBtn.innerText = 'NEXT';
+    const totalPages: number = Math.ceil(<number>cars.count / limit);
+    if (page === totalPages) this.nextPageBtn.disabled = true;
+    else this.nextPageBtn.disabled = false;
+    pagesControls.append(this.nextPageBtn);
+
+    this.raceSection.append(pagesControls);
   }
 
-  render(carsArr: Car[]): HTMLElement {
+  public render(cars: Cars, page: number, limit: number): HTMLElement {
     const container = document.createElement('div');
     container.className = 'container container_main';
     this.main.innerHTML = '';
@@ -150,13 +171,9 @@ class GaragePage extends Page {
     const controlSection = this.createControlPanel();
     container.append(controlSection);
 
-    // Header
-    const title = this.createHeaderTitle(`Garage (${carsArr.length})`);
-    container.append(title);
-
     // Race section
-    const raceContainer = this.createRaceSection(carsArr);
-    container.append(raceContainer);
+    this.renderRaceSection(cars, page, limit);
+    container.append(this.raceSection);
 
     return this.main;
   }

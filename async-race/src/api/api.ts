@@ -1,4 +1,4 @@
-import { Car } from '../types/types';
+import { Car, Cars } from '../types/types';
 
 class Api {
   private baseLink: string;
@@ -7,11 +7,12 @@ class Api {
     this.baseLink = baselink;
   }
 
-  public async getCars(): Promise<Car[]> {
-    const request: Response = await fetch(`${this.baseLink}/garage?_page=1&limit=7`);
+  public async getCars(page?: number, limit?: number): Promise<Cars> {
+    const request: Response = await fetch(`${this.baseLink}/garage?_page=${page}&_limit=${limit}`);
     const response: Car[] = await request.json();
-    console.log(response);
-    return response;
+    const totalCount: string = <string>request.headers.get('X-Total-Count');
+    const result = { items: response, count: +totalCount };
+    return result;
   }
 
   public async getCar(id: number): Promise<Car> {
