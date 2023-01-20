@@ -16,14 +16,17 @@
 
   &:disabled {
     cursor: default;
+    color: white;
     background-color: #bbb;
+    border-left: 2px solid white;
+    border-top: 2px solid white;
   }
 
   &:hover {
     background-color: $yellow-color;
     color: $pink-color;
     &:disabled {
-      color: $yellow-color;
+      color: white;
       background-color: #bbb;
     }
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/keyword-spacing */
 import Component from '../../templates/component';
 import Car from '../car/car';
 
@@ -12,9 +13,9 @@ class CarController extends Component {
 
   public deleteButton: HTMLElement;
 
-  public startButton: HTMLElement;
+  public startButton: HTMLButtonElement;
 
-  public stoptButton: HTMLElement;
+  public stoptButton: HTMLButtonElement;
 
   constructor(tagName: string, className: string, color: string, name: string, id: number) {
     super(tagName, className);
@@ -29,9 +30,9 @@ class CarController extends Component {
     this.deleteButton = this.createElement('button', 'car-controller__delete-btn button');
     this.deleteButton.innerText = 'DELETE';
 
-    this.startButton = this.createElement('button', 'car-controller__start-btn button');
+    this.startButton = <HTMLButtonElement>this.createElement('button', 'car-controller__start-btn button');
     this.startButton.innerText = 'GO';
-    this.stoptButton = this.createElement('button', 'car-controler__stop-btn button');
+    this.stoptButton = <HTMLButtonElement>this.createElement('button', 'car-controler__stop-btn button');
     this.stoptButton.innerText = 'BR';
   }
 
@@ -44,6 +45,7 @@ class CarController extends Component {
     const raceTrack = this.createElement('div', 'car-controller__race-track');
     const raceButtonsWrapper = this.createElement('div', 'car-controller__race-btns-wrapper');
     raceButtonsWrapper.append(this.startButton);
+    this.stoptButton.disabled = true;
     raceButtonsWrapper.append(this.stoptButton);
     raceTrack.append(raceButtonsWrapper);
     raceTrack.append(this.car.render());

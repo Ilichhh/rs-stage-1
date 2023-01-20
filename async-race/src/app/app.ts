@@ -6,8 +6,8 @@ import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
 import { PageIds, ErrorTypes, Cars } from '../types/types';
 
-const RANDOM_CARS_COUNT = 11;
-const ITEMS_PER_PAGE = 4;
+const RANDOM_CARS_COUNT = 10;
+const ITEMS_PER_PAGE = 3;
 
 class App {
   private static body: HTMLElement = document.body;
@@ -69,17 +69,31 @@ class App {
 
   private async createCar(e: Event): Promise<void> {
     e.preventDefault();
-    await this.api.createCar(this.garage.createCarName.value, this.garage.creteCarColor.value);
-    this.garage.createCarName.value = '';
-    this.redrawRaceSection();
+    if (!this.garage.createCarName.value.length) {
+      const warning = setInterval(() => {
+        this.garage.createCarName.classList.toggle('management__create-input_warning');
+      }, 200);
+      setTimeout(() => clearInterval(warning), 1600);
+    } else {
+      await this.api.createCar(this.garage.createCarName.value, this.garage.creteCarColor.value);
+      this.garage.createCarName.value = '';
+      this.redrawRaceSection();
+    }
   }
 
   private async updateCar(e: Event): Promise<void> {
     e.preventDefault();
-    // eslint-disable-next-line max-len
-    await this.api.updateCar(this.carId, this.garage.updateCarName.value, this.garage.updateCarColor.value);
-    this.garage.updateCarName.value = '';
-    this.redrawRaceSection();
+    if (!this.garage.updateCarName.value.length) {
+      const warning = setInterval(() => {
+        this.garage.updateCarName.classList.toggle('management__update-input_warning');
+      }, 200);
+      setTimeout(() => clearInterval(warning), 1600);
+    } else {
+      // eslint-disable-next-line max-len
+      await this.api.updateCar(this.carId, this.garage.updateCarName.value, this.garage.updateCarColor.value);
+      this.garage.updateCarName.value = '';
+      this.renderStartPage();
+    }
   }
 
   private async redrawRaceSection() {
@@ -132,8 +146,12 @@ class App {
         this.garage.updateCarName.disabled = false;
         this.garage.createCarName.disabled = true;
         const car = await this.api.getCar(+id);
+        this.garage.updateCarName.placeholder = 'enter name';
+        this.garage.createCarName.placeholder = '';
         this.garage.updateCarName.value = car.name;
         this.garage.updateCarColor.value = car.color;
+        this.garage.updateCarButton.disabled = false;
+        this.garage.createCarButton.disabled = true;
       }
     });
   }

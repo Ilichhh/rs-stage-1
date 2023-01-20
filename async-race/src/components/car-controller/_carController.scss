@@ -9,8 +9,10 @@
   &__race-btns-wrapper {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 70px;
     margin-right: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   &__edit-btn,

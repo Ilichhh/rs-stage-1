@@ -20,6 +20,7 @@ class GaragePage extends Page {
       type: 'text',
       id: 'update-name',
       name: 'car-name',
+      placeholder: '',
       disabled: 'disabled',
     },
     updateCarColor: {
@@ -94,6 +95,7 @@ class GaragePage extends Page {
     this.createCarForm.append(this.creteCarColor);
 
     this.createCarButton.setAttribute('type', 'submit');
+    this.createCarButton.disabled = false;
     this.createCarButton.innerText = 'CREATE';
     this.createCarForm.append(this.createCarButton);
 
@@ -107,6 +109,7 @@ class GaragePage extends Page {
 
     this.updateCarButton.setAttribute('type', 'submit');
     this.updateCarButton.innerText = 'UPDATE';
+    this.updateCarButton.disabled = true;
     this.updateCarForm.append(this.updateCarButton);
 
     return section;
@@ -150,7 +153,7 @@ class GaragePage extends Page {
 
     this.nextPageBtn.innerText = 'NEXT';
     const totalPages: number = Math.ceil(<number>cars.count / limit);
-    if (page === totalPages) this.nextPageBtn.disabled = true;
+    if (page === totalPages || totalPages < 2) this.nextPageBtn.disabled = true;
     else this.nextPageBtn.disabled = false;
     pagesControls.append(this.nextPageBtn);
 

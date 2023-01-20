@@ -18,6 +18,11 @@
   &__update-input {
     width: 200px;
     height: 25px;
+    &_warning {
+      &::placeholder {
+        color: red;
+      }
+    }
   }
 
   &__create-color,
