@@ -6,6 +6,8 @@ import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
 import { PageIds, ErrorTypes, Car } from '../types/types';
 
+const RANDOM_CARS_COUNT = 3;
+
 class App {
   private static body: HTMLElement = document.body;
 
@@ -53,6 +55,35 @@ class App {
     this.renderNewPage(hash, this.carsArr);
   }
 
+  private async generateRandomCars(): Promise<void> {
+    const carsPromises = [];
+    for (let i = 0; i < RANDOM_CARS_COUNT; i += 1) {
+      const name = RandomCarGenerator.generateName();
+      const color = RandomCarGenerator.generateColor();
+      carsPromises.push(this.api.createCar(name, color));
+    }
+    await Promise.all(carsPromises);
+    this.carsArr = await this.api.getCars();
+    this.garage.render(this.carsArr);
+  }
+
+  private async createCar(e: Event): Promise<void> {
+    e.preventDefault();
+    await this.api.createCar(this.garage.createCarName.value, this.garage.creteCarColor.value);
+    this.carsArr = await this.api.getCars();
+    this.garage.createCarName.value = '';
+    this.garage.render(this.carsArr);
+  }
+
+  private async updateCar(e: Event): Promise<void> {
+    e.preventDefault();
+    // eslint-disable-next-line max-len
+    await this.api.updateCar(this.carId, this.garage.updateCarName.value, this.garage.updateCarColor.value);
+    this.carsArr = await this.api.getCars();
+    this.garage.updateCarName.value = '';
+    this.garage.render(this.carsArr);
+  }
+
   constructor() {
     this.header = new Header('header', 'header');
     this.api = new Api('http://localhost:3000');
@@ -68,23 +99,16 @@ class App {
     this.renderStartPage();
     this.enableRouteChange();
 
-    this.garage.generateCarsBtn.addEventListener('click', async () => {
-      const carsPromises = [];
-      for (let i = 0; i < 3; i += 1) {
-        const name = RandomCarGenerator.generateName();
-        const color = RandomCarGenerator.generateColor();
-        carsPromises.push(this.api.createCar(name, color));
-      }
-      await Promise.all(carsPromises);
-      this.carsArr = await this.api.getCars();
-      this.garage.render(this.carsArr);
-    });
+    this.garage.generateCarsBtn.addEventListener('click', () => this.generateRandomCars());
+    this.garage.createCarForm.addEventListener('submit', (e) => this.createCar(e));
+    this.garage.updateCarForm.addEventListener('submit', (e) => this.updateCar(e));
 
     this.garage.main.addEventListener('click', async (e) => {
       const target: HTMLElement = <HTMLElement>e.target;
       if (target.classList.contains('car-controller__delete-btn')) {
         const id: string = <string>target.closest('.car-controller')?.id;
-        this.carsArr = await this.api.deleteCar(+id, this.carsArr);
+        await this.api.deleteCar(+id);
+        this.carsArr = this.carsArr.filter((car) => car.id !== +id);
         this.garage.render(this.carsArr);
       } else if (target.classList.contains('car-controller__edit-btn')) {
         const id: string = <string>target.closest('.car-controller')?.id;
@@ -95,23 +119,6 @@ class App {
         this.garage.updateCarName.value = car.name;
         this.garage.updateCarColor.value = car.color;
       }
-    });
-
-    this.garage.createCarForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      await this.api.createCar(this.garage.createCarName.value, this.garage.creteCarColor.value);
-      this.carsArr = await this.api.getCars();
-      this.garage.createCarName.value = '';
-      this.garage.render(this.carsArr);
-    });
-
-    this.garage.updateCarForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      // eslint-disable-next-line max-len
-      await this.api.updateCar(this.carId, this.garage.updateCarName.value, this.garage.updateCarColor.value);
-      this.carsArr = await this.api.getCars();
-      this.garage.updateCarName.value = '';
-      this.garage.render(this.carsArr);
     });
   }
 }
