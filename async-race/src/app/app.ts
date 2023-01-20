@@ -3,6 +3,7 @@ import WinnersPage from '../pages/winners/winners';
 import Header from '../components/header/header';
 import Page404 from '../pages/404/404';
 import Api from '../api/api';
+import RandomCarGenerator from '../utils/randomCarGenerator';
 import { PageIds, ErrorTypes, Car } from '../types/types';
 
 class App {
@@ -15,6 +16,8 @@ class App {
   private api: Api;
 
   private garage: GaragePage;
+
+  private carsArr: Car[];
 
   private carId: number;
 
@@ -38,38 +41,51 @@ class App {
     }
   }
 
-  private enableRouteChange(carsArr: Car[]): void {
+  private enableRouteChange(): void {
     window.addEventListener('hashchange', () => {
       const hash: string = window.location.hash.slice(1);
-      this.renderNewPage(hash, carsArr);
+      this.renderNewPage(hash, this.carsArr);
     });
   }
 
-  private renderStartPage(carsArr: Car[]): void {
+  private renderStartPage(): void {
     const hash: string = window.location.hash.slice(1);
-    this.renderNewPage(hash, carsArr);
+    this.renderNewPage(hash, this.carsArr);
   }
 
   constructor() {
     this.header = new Header('header', 'header');
     this.api = new Api('http://localhost:3000');
     this.garage = new GaragePage('garage');
+    this.carsArr = [];
     this.carId = 0;
   }
 
   async start() {
     App.body.append(this.header.render());
-    let carsArr = await this.api.getCars();
+    this.carsArr = await this.api.getCars();
 
-    this.renderStartPage(carsArr);
-    this.enableRouteChange(carsArr);
+    this.renderStartPage();
+    this.enableRouteChange();
+
+    this.garage.generateCarsBtn.addEventListener('click', async () => {
+      const carsPromises = [];
+      for (let i = 0; i < 3; i += 1) {
+        const name = RandomCarGenerator.generateName();
+        const color = RandomCarGenerator.generateColor();
+        carsPromises.push(this.api.createCar(name, color));
+      }
+      await Promise.all(carsPromises);
+      this.carsArr = await this.api.getCars();
+      this.garage.render(this.carsArr);
+    });
 
     this.garage.main.addEventListener('click', async (e) => {
       const target: HTMLElement = <HTMLElement>e.target;
       if (target.classList.contains('car-controller__delete-btn')) {
         const id: string = <string>target.closest('.car-controller')?.id;
-        carsArr = await this.api.deleteCar(+id, carsArr);
-        this.garage.render(carsArr);
+        this.carsArr = await this.api.deleteCar(+id, this.carsArr);
+        this.garage.render(this.carsArr);
       } else if (target.classList.contains('car-controller__edit-btn')) {
         const id: string = <string>target.closest('.car-controller')?.id;
         this.carId = +id;
@@ -84,18 +100,18 @@ class App {
     this.garage.createCarForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       await this.api.createCar(this.garage.createCarName.value, this.garage.creteCarColor.value);
-      carsArr = await this.api.getCars();
+      this.carsArr = await this.api.getCars();
       this.garage.createCarName.value = '';
-      this.garage.render(carsArr);
+      this.garage.render(this.carsArr);
     });
 
     this.garage.updateCarForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       // eslint-disable-next-line max-len
       await this.api.updateCar(this.carId, this.garage.updateCarName.value, this.garage.updateCarColor.value);
-      carsArr = await this.api.getCars();
+      this.carsArr = await this.api.getCars();
       this.garage.updateCarName.value = '';
-      this.garage.render(carsArr);
+      this.garage.render(this.carsArr);
     });
   }
 }
