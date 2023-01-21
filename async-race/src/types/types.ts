@@ -34,3 +34,7 @@ export type CarEngine = {
   velocity: number;
   distance: number;
 };
+
+export type CarDrive = {
+  success: boolean;
+};

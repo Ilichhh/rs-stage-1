@@ -9,7 +9,7 @@ import RandomCarGenerator from '../utils/randomCarGenerator';
 import { PageIds, ErrorTypes, Cars, CarEngine } from '../types/types';
 
 const RANDOM_CARS_COUNT = 10;
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 7;
 
 class App {
   private static body: HTMLElement = document.body;
@@ -158,10 +158,10 @@ class App {
         this.garage.createCarButton.disabled = true;
       } else if (target.classList.contains('car-controller__start-btn')) {
         // Start
-        this.driveCar(<HTMLButtonElement>target);
+        await this.driveCar(<HTMLButtonElement>target);
       } else if (target.classList.contains('car-controller__stop-btn')) {
         const id: string = <string>target.closest('.car-controller')?.id;
-        this.api.engineStop(+id);
+        await this.api.engineStop(+id);
       }
     });
   }
@@ -171,16 +171,16 @@ class App {
     const car: HTMLElement = <HTMLElement>trackElement.children[1];
     const stopBtn: HTMLButtonElement = <HTMLButtonElement>target.parentNode?.children[1];
     const trackLength: number = trackElement.clientWidth - 200;
-    target.disabled = true;
-    stopBtn.disabled = false;
-
     const id: string = <string>target.closest('.car-controller')?.id;
     const engine: CarEngine = await this.api.engineStart(+id);
     const time: number = Math.round(engine.distance / engine.velocity);
+
+    target.disabled = true;
+    stopBtn.disabled = false;
     let carAnimation;
 
     let position: number = 0;
-    const framesCount = (time / 1000) * 60;
+    const framesCount: number = (time / 1000) * 60;
     const shift: number = trackLength / framesCount;
 
     function step() {

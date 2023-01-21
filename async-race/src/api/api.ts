@@ -1,4 +1,5 @@
-import { Car, Cars, CarEngine } from '../types/types';
+// eslint-disable-next-line object-curly-newline
+import { Car, Cars, CarEngine, CarDrive } from '../types/types';
 
 class Api {
   private baseLink: string;
@@ -59,11 +60,14 @@ class Api {
     return response;
   }
 
-  public async drive(id: number) {
+  public async drive(id: number): Promise<CarDrive> {
     const request: Response = await fetch(`${this.baseLink}/engine?id=${id}&status=drive`, { method: 'PATCH' });
-    let response;
-    if (request.status === 200) response = await request.json();
-    return response || { success: false };
+    let response: CarDrive;
+    if (request.status === 200) {
+      response = await request.json();
+      return response;
+    }
+    return { success: false };
   }
 }
 
