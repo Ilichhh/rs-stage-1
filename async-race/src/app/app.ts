@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import GaragePage from '../pages/garage/garage';
 import WinnersPage from '../pages/winners/winners';
 import Header from '../components/header/header';
@@ -157,35 +158,56 @@ class App {
         this.garage.createCarButton.disabled = true;
       } else if (target.classList.contains('car-controller__start-btn')) {
         // Start
-        const trackElement: HTMLElement = <HTMLElement>target.parentNode?.parentNode;
-        const car: HTMLElement = <HTMLElement>trackElement.children[1];
-        const trackLength: number = trackElement.clientWidth - 200;
-
+        this.driveCar(<HTMLButtonElement>target);
+      } else if (target.classList.contains('car-controller__stop-btn')) {
         const id: string = <string>target.closest('.car-controller')?.id;
-        const engine: CarEngine = await this.api.engineStart(+id);
-        const time: number = Math.round(engine.distance / engine.velocity);
-        console.log(time);
-
-        this.driveCar(car, trackLength, time);
-
-        const res = await this.api.drive(+id);
-        console.log(res.success);
+        this.api.engineStop(+id);
       }
     });
   }
 
-  private driveCar(car: HTMLElement, trackLength: number, duration: number) {
-    let position = 0;
-    const framesCount = (duration / 1000) * 60;
-    const shift = trackLength / framesCount;
+  private async driveCar(target: HTMLButtonElement) {
+    const trackElement: HTMLElement = <HTMLElement>target.parentNode?.parentNode;
+    const car: HTMLElement = <HTMLElement>trackElement.children[1];
+    const stopBtn: HTMLButtonElement = <HTMLButtonElement>target.parentNode?.children[1];
+    const trackLength: number = trackElement.clientWidth - 200;
+    target.disabled = true;
+    stopBtn.disabled = false;
 
-    function tick() {
+    const id: string = <string>target.closest('.car-controller')?.id;
+    const engine: CarEngine = await this.api.engineStart(+id);
+    const time: number = Math.round(engine.distance / engine.velocity);
+    let carAnimation;
+
+    let position: number = 0;
+    const framesCount = (time / 1000) * 60;
+    const shift: number = trackLength / framesCount;
+
+    function step() {
       position += shift;
-      // eslint-disable-next-line no-param-reassign
       car.style.transform = `translateX(${position}px)`;
-      if (position < trackLength) requestAnimationFrame(tick);
+      if (position < trackLength && engine.velocity) carAnimation = requestAnimationFrame(step);
     }
-    tick();
+    step();
+
+    stopBtn.addEventListener('click', async () => {
+      await this.api.engineStop(+id);
+      position = 0;
+      car.style.transform = 'translateX(0px)';
+      engine.velocity = 0;
+      target.disabled = false;
+      stopBtn.disabled = true;
+    });
+
+    const res = await this.api.drive(+id);
+    if (res.success && engine.velocity) {
+      console.log(time);
+    }
+    if (!res.success) {
+      engine.velocity = 0;
+      carAnimation = requestAnimationFrame(step);
+      cancelAnimationFrame(carAnimation);
+    }
   }
 }
 
