@@ -59,7 +59,7 @@ class App {
   }
 
   private async generateRandomCars(): Promise<void> {
-    const carsPromises = [];
+    const carsPromises: Promise<void>[] = [];
     for (let i = 0; i < RANDOM_CARS_COUNT; i += 1) {
       const name: string = RandomCarGenerator.generateName();
       const color: string = RandomCarGenerator.generateColor();
@@ -130,6 +130,19 @@ class App {
       this.redrawRaceSection();
     });
 
+    this.garage.raceButton.addEventListener('click', async () => {
+      this.garage.raceButton.disabled = true;
+      this.garage.resetButton.disabled = false;
+      const carsPromises: Promise<void>[] = [];
+      const cars: HTMLButtonElement[] = <HTMLButtonElement[]>[
+        ...document.querySelectorAll('.car-controller__start-btn'),
+      ];
+      cars.forEach((car) => {
+        carsPromises.push(this.driveCar(car));
+      });
+      await Promise.all(carsPromises);
+    });
+
     this.garage.main.addEventListener('click', async (e) => {
       const target: HTMLElement = <HTMLElement>e.target;
       if (target.classList.contains('car-controller__delete-btn')) {
@@ -160,6 +173,7 @@ class App {
         // Start
         await this.driveCar(<HTMLButtonElement>target);
       } else if (target.classList.contains('car-controller__stop-btn')) {
+        // Stop
         const id: string = <string>target.closest('.car-controller')?.id;
         await this.api.engineStop(+id);
       }
