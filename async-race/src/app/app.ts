@@ -152,6 +152,11 @@ class App {
         this.garage.updateCarColor.value = car.color;
         this.garage.updateCarButton.disabled = false;
         this.garage.createCarButton.disabled = true;
+      } else if (target.classList.contains('car-controller__start-btn')) {
+        const id: string = <string>target.closest('.car-controller')?.id;
+        await this.api.engineStart(+id);
+        const res = await this.api.drive(+id);
+        console.log(res.success);
       }
     });
   }
