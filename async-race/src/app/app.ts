@@ -4,10 +4,11 @@ import Header from '../components/header/header';
 import Page404 from '../pages/404/404';
 import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
-import { PageIds, ErrorTypes, Cars } from '../types/types';
+// eslint-disable-next-line object-curly-newline
+import { PageIds, ErrorTypes, Cars, CarEngine } from '../types/types';
 
 const RANDOM_CARS_COUNT = 10;
-const ITEMS_PER_PAGE = 3;
+const ITEMS_PER_PAGE = 4;
 
 class App {
   private static body: HTMLElement = document.body;
@@ -131,6 +132,7 @@ class App {
     this.garage.main.addEventListener('click', async (e) => {
       const target: HTMLElement = <HTMLElement>e.target;
       if (target.classList.contains('car-controller__delete-btn')) {
+        // Delete
         const id: string = <string>target.closest('.car-controller')?.id;
         await this.api.deleteCar(+id);
         let cars: Cars = await this.api.getCars(this.garage.currentPage, ITEMS_PER_PAGE);
@@ -141,6 +143,7 @@ class App {
         }
         this.garage.renderRaceSection(cars, this.garage.currentPage, ITEMS_PER_PAGE);
       } else if (target.classList.contains('car-controller__edit-btn')) {
+        // Edit
         const id: string = <string>target.closest('.car-controller')?.id;
         this.carId = +id;
         this.garage.updateCarName.disabled = false;
@@ -153,12 +156,36 @@ class App {
         this.garage.updateCarButton.disabled = false;
         this.garage.createCarButton.disabled = true;
       } else if (target.classList.contains('car-controller__start-btn')) {
+        // Start
+        const trackElement: HTMLElement = <HTMLElement>target.parentNode?.parentNode;
+        const car: HTMLElement = <HTMLElement>trackElement.children[1];
+        const trackLength: number = trackElement.clientWidth - 200;
+
         const id: string = <string>target.closest('.car-controller')?.id;
-        await this.api.engineStart(+id);
+        const engine: CarEngine = await this.api.engineStart(+id);
+        const time: number = Math.round(engine.distance / engine.velocity);
+        console.log(time);
+
+        this.driveCar(car, trackLength, time);
+
         const res = await this.api.drive(+id);
         console.log(res.success);
       }
     });
+  }
+
+  private driveCar(car: HTMLElement, trackLength: number, duration: number) {
+    let position = 0;
+    const framesCount = (duration / 1000) * 60;
+    const shift = trackLength / framesCount;
+
+    function tick() {
+      position += shift;
+      // eslint-disable-next-line no-param-reassign
+      car.style.transform = `translateX(${position}px)`;
+      if (position < trackLength) requestAnimationFrame(tick);
+    }
+    tick();
   }
 }
 

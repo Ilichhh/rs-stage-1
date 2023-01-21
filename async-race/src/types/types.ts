@@ -29,3 +29,8 @@ export type Cars = {
   items: Car[];
   count: number | null;
 };
+
+export type CarEngine = {
+  velocity: number;
+  distance: number;
+};

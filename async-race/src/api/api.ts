@@ -1,4 +1,4 @@
-import { Car, Cars } from '../types/types';
+import { Car, Cars, CarEngine } from '../types/types';
 
 class Api {
   private baseLink: string;
@@ -47,16 +47,16 @@ class Api {
     await fetch(`${this.baseLink}/garage/${id}`, { method: 'DELETE' });
   }
 
-  public async engineStart(id: number) {
+  public async engineStart(id: number): Promise<CarEngine> {
     const request: Response = await fetch(`${this.baseLink}/engine?id=${id}&status=started`, { method: 'PATCH' });
-    const response = await request.json();
-    console.log(response);
+    const response: CarEngine = await request.json();
+    return response;
   }
 
-  public async engineStop(id: number) {
+  public async engineStop(id: number): Promise<CarEngine> {
     const request: Response = await fetch(`${this.baseLink}/engine?id=${id}&status=stopped`, { method: 'PATCH' });
-    const response = await request.json();
-    console.log(response);
+    const response: CarEngine = await request.json();
+    return response;
   }
 
   public async drive(id: number) {
