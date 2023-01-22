@@ -22,6 +22,8 @@ class App {
 
   private garage: GaragePage;
 
+  private winners: WinnersPage;
+
   private carId: number;
 
   private renderNewPage(idPage: string, cars: Cars): void {
@@ -32,7 +34,7 @@ class App {
     if (idPage === PageIds.GaragePage || !idPage) {
       page = this.garage;
     } else if (idPage === PageIds.WinnersPage) {
-      page = new WinnersPage(idPage);
+      page = this.winners;
     } else {
       page = new Page404(idPage, ErrorTypes.Error_404);
     }
@@ -107,6 +109,7 @@ class App {
     this.header = new Header('header', 'header');
     this.api = new Api('http://localhost:3000');
     this.garage = new GaragePage('garage');
+    this.winners = new WinnersPage('winners');
     this.carId = 0;
   }
 
@@ -139,7 +142,20 @@ class App {
       cars.forEach((car) => {
         carsPromises.push(this.driveCar(car));
       });
-      console.log(await Promise.all(carsPromises));
+      const receResult: RaceResult[] = await Promise.all(carsPromises);
+      const bestRes = receResult.filter((car) => car.finished).sort((a, b) => a.time - b.time)[0];
+      const winner = { id: bestRes.id, wins: 1, time: bestRes.time / 1000 };
+      const winnersData = await this.api.getWinners();
+      if (winnersData.map((w) => w.id).includes(winner.id)) {
+        const pastWinnersData = winnersData.filter((wi) => wi.id === winner.id)[0];
+        const newWinsNumber = pastWinnersData.wins + 1;
+        if (pastWinnersData.time < winner.time) winner.time = pastWinnersData.time;
+        winner.wins = newWinsNumber;
+        await this.api.updateWinner(winner);
+      } else {
+        await this.api.createWinner(winner);
+      }
+      console.log(await this.api.getWinners());
       this.garage.resetButton.disabled = false;
     });
 

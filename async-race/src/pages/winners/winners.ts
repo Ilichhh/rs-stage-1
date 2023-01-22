@@ -11,6 +11,7 @@ class WinnersPage extends Page {
   }
 
   render(): HTMLElement {
+    this.main.innerHTML = '';
     const container = document.createElement('div');
     container.className = 'container';
     this.main.append(container);

@@ -1,5 +1,5 @@
 // eslint-disable-next-line object-curly-newline
-import { Car, Cars, CarEngine, CarDrive } from '../types/types';
+import { Car, Cars, CarEngine, CarDrive, Winner } from '../types/types';
 
 class Api {
   private baseLink: string;
@@ -68,6 +68,44 @@ class Api {
       return response;
     }
     return { success: false };
+  }
+
+  public async getWinner(id: number) {
+    try {
+      const request: Response = await fetch(`${this.baseLink}/winner/${id}`);
+      const response: Winner = await request.json();
+      return response;
+    } catch {
+      return null;
+    }
+  }
+
+  public async getWinners() {
+    const request: Response = await fetch(`${this.baseLink}/winners?_page=${1}&_limit=${10}`);
+    const response: Winner[] = await request.json();
+    return response;
+  }
+
+  public async createWinner(winner: Winner) {
+    const data: string = JSON.stringify(winner);
+    await fetch(`${this.baseLink}/winners`, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
+  public async updateWinner(winner: Winner) {
+    const data: string = JSON.stringify({ wins: winner.wins, time: winner.time });
+    await fetch(`${this.baseLink}/winners/${winner.id}`, {
+      method: 'PUT',
+      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
 
