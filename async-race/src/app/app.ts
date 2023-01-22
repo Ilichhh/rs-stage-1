@@ -6,7 +6,7 @@ import Page404 from '../pages/404/404';
 import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
 // eslint-disable-next-line object-curly-newline
-import { PageIds, ErrorTypes, Cars, CarEngine } from '../types/types';
+import { PageIds, ErrorTypes, Cars, CarEngine, RaceResult } from '../types/types';
 
 const RANDOM_CARS_COUNT = 10;
 const ITEMS_PER_PAGE = 7;
@@ -132,15 +132,28 @@ class App {
 
     this.garage.raceButton.addEventListener('click', async () => {
       this.garage.raceButton.disabled = true;
-      this.garage.resetButton.disabled = false;
-      const carsPromises: Promise<void>[] = [];
+      const carsPromises: Promise<RaceResult>[] = [];
       const cars: HTMLButtonElement[] = <HTMLButtonElement[]>[
         ...document.querySelectorAll('.car-controller__start-btn'),
       ];
       cars.forEach((car) => {
         carsPromises.push(this.driveCar(car));
       });
+      console.log(await Promise.all(carsPromises));
+      this.garage.resetButton.disabled = false;
+    });
+
+    this.garage.resetButton.addEventListener('click', async () => {
+      const carsPromises: Promise<CarEngine>[] = [];
+      const cars: HTMLElement[] = <HTMLElement[]>[...document.querySelectorAll('.car-controller')];
+      cars.forEach((car) => {
+        const id: string = <string>car.id;
+        carsPromises.push(this.api.engineStop(+id));
+      });
       await Promise.all(carsPromises);
+      this.redrawRaceSection();
+      this.garage.raceButton.disabled = false;
+      this.garage.resetButton.disabled = true;
     });
 
     this.garage.main.addEventListener('click', async (e) => {
@@ -191,7 +204,6 @@ class App {
 
     target.disabled = true;
     stopBtn.disabled = false;
-    let carAnimation;
 
     let position: number = 0;
     const framesCount: number = (time / 1000) * 60;
@@ -200,7 +212,7 @@ class App {
     function step() {
       position += shift;
       car.style.transform = `translateX(${position}px)`;
-      if (position < trackLength && engine.velocity) carAnimation = requestAnimationFrame(step);
+      if (position < trackLength && engine.velocity) requestAnimationFrame(step);
     }
     step();
 
@@ -219,9 +231,9 @@ class App {
     }
     if (!res.success) {
       engine.velocity = 0;
-      carAnimation = requestAnimationFrame(step);
-      cancelAnimationFrame(carAnimation);
     }
+
+    return { id: +id, time, finished: res.success };
   }
 }
 

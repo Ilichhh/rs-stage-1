@@ -38,3 +38,9 @@ export type CarEngine = {
 export type CarDrive = {
   success: boolean;
 };
+
+export type RaceResult = {
+  id: number;
+  time: number;
+  finished: boolean;
+};
