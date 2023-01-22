@@ -60,6 +60,8 @@ class GaragePage extends Page {
 
   public nextPageBtn: HTMLButtonElement;
 
+  public winnerMessage: HTMLElement;
+
   constructor(id: string) {
     super(id);
     this.createCarForm = <HTMLFormElement>this.createElement('form', 'management__create-form');
@@ -80,6 +82,8 @@ class GaragePage extends Page {
 
     this.prevPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__prev-btn button');
     this.nextPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__next-btn button');
+
+    this.winnerMessage = this.createElement('h2', 'winner-message');
   }
 
   private createManagementSection(): HTMLElement {
@@ -165,6 +169,9 @@ class GaragePage extends Page {
     container.className = 'container container_main';
     this.main.innerHTML = '';
     this.main.append(container);
+
+    this.winnerMessage.innerText = '';
+    container.append(this.winnerMessage);
 
     // Car management
     const managementSection = this.createManagementSection();

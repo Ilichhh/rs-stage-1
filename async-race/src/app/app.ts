@@ -201,6 +201,7 @@ class App {
     const id: string = <string>target.closest('.car-controller')?.id;
     const engine: CarEngine = await this.api.engineStart(+id);
     const time: number = Math.round(engine.distance / engine.velocity);
+    const carName = trackElement.parentNode?.children[0].children[2].textContent;
 
     target.disabled = true;
     stopBtn.disabled = false;
@@ -228,6 +229,13 @@ class App {
     const res = await this.api.drive(+id);
     if (res.success && engine.velocity) {
       console.log(time);
+      if (!this.garage.winnerMessage.innerText.length) {
+        const convertedTime = time / 1000;
+        this.garage.winnerMessage.innerText = `${carName} won with a result of ${convertedTime}s`;
+        setTimeout(() => {
+          this.garage.winnerMessage.innerText = '';
+        }, 10000);
+      }
     }
     if (!res.success) {
       engine.velocity = 0;
