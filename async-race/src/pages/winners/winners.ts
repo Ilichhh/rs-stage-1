@@ -1,16 +1,22 @@
 import Page from '../../templates/page';
-import { TextObject } from '../../types/types';
+import { TextObject, Winner } from '../../types/types';
 
 class WinnersPage extends Page {
   static TextObject: TextObject = {
     MainTitle: 'Winners',
   };
 
+  public currentPage: number;
+
   constructor(id: string) {
     super(id);
+    this.currentPage = 1;
   }
 
-  render(): HTMLElement {
+  render(winners: Winner[], page: number, limit: number): HTMLElement {
+    console.log(page);
+    console.log(limit);
+    console.log(winners);
     this.main.innerHTML = '';
     const container = document.createElement('div');
     container.className = 'container';

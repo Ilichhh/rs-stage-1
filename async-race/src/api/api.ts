@@ -80,8 +80,8 @@ class Api {
     }
   }
 
-  public async getWinners() {
-    const request: Response = await fetch(`${this.baseLink}/winners?_page=${1}&_limit=${10}`);
+  public async getWinners(page?: number, limit?: number) {
+    const request: Response = await fetch(`${this.baseLink}/winners?_page=${page}&_limit=${limit}`);
     const response: Winner[] = await request.json();
     return response;
   }

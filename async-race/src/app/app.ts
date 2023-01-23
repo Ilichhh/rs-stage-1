@@ -6,10 +6,11 @@ import Page404 from '../pages/404/404';
 import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
 // eslint-disable-next-line object-curly-newline
-import { PageIds, ErrorTypes, Cars, CarEngine, RaceResult } from '../types/types';
+import { PageIds, ErrorTypes, Cars, CarEngine, RaceResult, Winner } from '../types/types';
 
 const RANDOM_CARS_COUNT = 10;
-const ITEMS_PER_PAGE = 7;
+const CARS_PER_PAGE = 7;
+const WINNERS_PER_PAGE = 10;
 
 class App {
   private static body: HTMLElement = document.body;
@@ -26,21 +27,24 @@ class App {
 
   private carId: number;
 
-  private renderNewPage(idPage: string, cars: Cars): void {
+  private renderNewPage(idPage: string, cars: Cars, winners: Winner[]): void {
     const currentPageHTML = document.getElementById(App.defaultPageId);
     currentPageHTML?.remove();
-    let page: GaragePage | WinnersPage | null = null;
+    let page: GaragePage | WinnersPage | Page404 | null = null;
+    let pageHTML: HTMLElement;
 
     if (idPage === PageIds.GaragePage || !idPage) {
       page = this.garage;
+      pageHTML = page.render(cars, this.garage.currentPage, CARS_PER_PAGE);
     } else if (idPage === PageIds.WinnersPage) {
       page = this.winners;
+      pageHTML = page.render(winners, this.garage.currentPage, WINNERS_PER_PAGE);
     } else {
       page = new Page404(idPage, ErrorTypes.Error_404);
+      pageHTML = page.render();
     }
 
     if (page) {
-      const pageHTML = page.render(cars, this.garage.currentPage, ITEMS_PER_PAGE);
       pageHTML.id = App.defaultPageId;
       App.body.append(pageHTML);
     }
@@ -49,15 +53,17 @@ class App {
   private enableRouteChange(): void {
     window.addEventListener('hashchange', async () => {
       const hash: string = window.location.hash.slice(1);
-      const cars: Cars = await this.api.getCars(this.garage.currentPage, ITEMS_PER_PAGE);
-      this.renderNewPage(hash, cars);
+      const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
+      const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
+      this.renderNewPage(hash, cars, winners);
     });
   }
 
   private async renderStartPage(): Promise<void> {
     const hash: string = window.location.hash.slice(1);
-    const cars: Cars = await this.api.getCars(this.garage.currentPage, ITEMS_PER_PAGE);
-    this.renderNewPage(hash, cars);
+    const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
+    const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
+    this.renderNewPage(hash, cars, winners);
   }
 
   private async generateRandomCars(): Promise<void> {
@@ -101,8 +107,8 @@ class App {
   }
 
   private async redrawRaceSection() {
-    const cars: Cars = await this.api.getCars(this.garage.currentPage, ITEMS_PER_PAGE);
-    this.garage.renderRaceSection(cars, this.garage.currentPage, ITEMS_PER_PAGE);
+    const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
+    this.garage.renderRaceSection(cars, this.garage.currentPage, CARS_PER_PAGE);
   }
 
   constructor() {
@@ -178,13 +184,13 @@ class App {
         // Delete
         const id: string = <string>target.closest('.car-controller')?.id;
         await this.api.deleteCar(+id);
-        let cars: Cars = await this.api.getCars(this.garage.currentPage, ITEMS_PER_PAGE);
+        let cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
         cars.items = cars.items.filter((car) => car.id !== +id);
         if (cars.items.length === 0 && this.garage.currentPage !== 1) {
           this.garage.currentPage -= 1;
-          cars = await this.api.getCars(this.garage.currentPage, ITEMS_PER_PAGE);
+          cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
         }
-        this.garage.renderRaceSection(cars, this.garage.currentPage, ITEMS_PER_PAGE);
+        this.garage.renderRaceSection(cars, this.garage.currentPage, CARS_PER_PAGE);
       } else if (target.classList.contains('car-controller__edit-btn')) {
         // Edit
         const id: string = <string>target.closest('.car-controller')?.id;
