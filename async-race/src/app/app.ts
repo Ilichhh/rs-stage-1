@@ -164,6 +164,18 @@ class App {
       this.redrawWinnersSection();
     });
 
+    this.winners.sortByTimeBtn.addEventListener('click', () => {
+      if (this.winners.sortingFilter === 'time-desc') this.winners.sortingFilter = 'time-asc';
+      else this.winners.sortingFilter = 'time-desc';
+      this.redrawWinnersSection();
+    });
+
+    this.winners.sortByWinsBtn.addEventListener('click', () => {
+      if (this.winners.sortingFilter === 'wins-desc') this.winners.sortingFilter = 'wins-asc';
+      else this.winners.sortingFilter = 'wins-desc';
+      this.redrawWinnersSection();
+    });
+
     this.garage.generateCarsBtn.addEventListener('click', () => this.generateRandomCars());
     this.garage.createCarForm.addEventListener('submit', (e) => this.createCar(e));
     this.garage.updateCarForm.addEventListener('submit', (e) => this.updateCar(e));

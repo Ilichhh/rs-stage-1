@@ -1,19 +1,29 @@
 /* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
-import { WinnersUpdated } from '../../types/types';
+import { WinnersData, WinnersUpdated } from '../../types/types';
 
 class WinnersPage extends Page {
   public currentPage: number;
+
+  public sortingFilter: string;
 
   public prevPageBtn: HTMLButtonElement;
 
   public nextPageBtn: HTMLButtonElement;
 
+  public sortByWinsBtn: HTMLElement;
+
+  public sortByTimeBtn: HTMLElement;
+
   constructor(id: string) {
     super(id);
     this.currentPage = 1;
+    this.sortingFilter = 'time-desc';
     this.prevPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__prev-btn button');
     this.nextPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__next-btn button');
+
+    this.sortByWinsBtn = this.createElement('td', 'winners__header-wins');
+    this.sortByTimeBtn = this.createElement('td', 'winners__header-best-time');
   }
 
   render(winners: WinnersUpdated, page: number, limit: number): HTMLElement {
@@ -43,24 +53,24 @@ class WinnersPage extends Page {
     const headerName = this.createElement('td', 'winners__header-name');
     headerName.textContent = 'Name';
     winnersHeader.append(headerName);
-    const headerWins = this.createElement('td', 'winners__header-wins');
-    headerWins.textContent = 'Wins';
-    winnersHeader.append(headerWins);
-    const headerTime = this.createElement('td', 'winners__header-best-time');
-    headerTime.textContent = 'Time';
-    winnersHeader.append(headerTime);
+    this.sortByWinsBtn.textContent = 'Wins';
+    winnersHeader.append(this.sortByWinsBtn);
+    this.sortByTimeBtn.textContent = 'Time';
+    winnersHeader.append(this.sortByTimeBtn);
     winnersTable.append(winnersHeader);
 
     // Body
     const winnersBody = this.createElement('tbody', 'winners__body');
     winnersTable.append(winnersBody);
 
-    winners.items.forEach((winner, index) => {
+    const sortedData = this.sortWinners(winners.items, this.sortingFilter);
+
+    sortedData.forEach((winner, index) => {
       const row = this.createElement('tr', 'winners__data');
       winnersBody.append(row);
 
       const number = this.createElement('td', 'winners__number');
-      number.textContent = (index + 1 + (page * 10 - 10)).toString();
+      number.textContent = (index + 1 + (this.currentPage * 10 - 10)).toString();
 
       const carImage = this.createElement('td', 'winners__car-img');
       carImage.innerHTML = `
@@ -113,6 +123,16 @@ class WinnersPage extends Page {
     tableWrapper.append(pagesControls);
 
     return this.main;
+  }
+
+  private sortWinners(data: WinnersData[], filter: string) {
+    let sortedData;
+    if (filter === 'time-desc') sortedData = data.sort((a, b) => a.time - b.time);
+    if (filter === 'time-asc') sortedData = data.sort((a, b) => b.time - a.time);
+    if (filter === 'wins-desc') sortedData = data.sort((a, b) => a.wins - b.wins);
+    if (filter === 'wins-asc') sortedData = data.sort((a, b) => b.wins - a.wins);
+
+    return sortedData || data;
   }
 }
 

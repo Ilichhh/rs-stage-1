@@ -1,6 +1,6 @@
 .winners {
   &__header {
-    height: 50px;
+    height: 35px;
   }
 
   &__header-number {
@@ -18,4 +18,15 @@
   &__header-wins {
     width: 85px;
   }
+
+  &__header-wins,
+  &__header-best-time {
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+      color: $pink-color;
+      background-color: $yellow-color;
+    }
+  }
+
 }
