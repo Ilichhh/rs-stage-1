@@ -50,3 +50,11 @@ export type Winner = {
   wins: number;
   time: number;
 };
+
+export type WinnersData = {
+  id: number;
+  wins: number;
+  time: number;
+  name: string;
+  color: string;
+};

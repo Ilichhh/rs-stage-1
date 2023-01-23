@@ -6,7 +6,7 @@ import Page404 from '../pages/404/404';
 import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
 // eslint-disable-next-line object-curly-newline
-import { PageIds, ErrorTypes, Cars, CarEngine, RaceResult, Winner } from '../types/types';
+import { PageIds, ErrorTypes, Cars, Car, CarEngine, RaceResult, WinnersData } from '../types/types';
 
 const RANDOM_CARS_COUNT = 10;
 const CARS_PER_PAGE = 7;
@@ -27,7 +27,7 @@ class App {
 
   private carId: number;
 
-  private renderNewPage(idPage: string, cars: Cars, winners: Winner[]): void {
+  private renderNewPage(idPage: string, cars: Cars, winners: WinnersData[]): void {
     const currentPageHTML = document.getElementById(App.defaultPageId);
     currentPageHTML?.remove();
     let page: GaragePage | WinnersPage | Page404 | null = null;
@@ -50,11 +50,33 @@ class App {
     }
   }
 
+  private async getFullWinnersData() {
+    // eslint-disable-next-line max-len
+    const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
+    const updatedWinners: WinnersData[] = [];
+    const promises: Promise<Car>[] = [];
+
+    winners.forEach((winner) => {
+      promises.push(this.api.getCar(winner.id));
+    });
+    const winnersAddData = await Promise.all(promises);
+    winners.forEach((winner, index) => {
+      updatedWinners.push({
+        id: winner.id,
+        wins: winner.wins,
+        time: winner.time,
+        name: winnersAddData[index].name,
+        color: winnersAddData[index].color,
+      });
+    });
+    return updatedWinners;
+  }
+
   private enableRouteChange(): void {
     window.addEventListener('hashchange', async () => {
       const hash: string = window.location.hash.slice(1);
       const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-      const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
+      const winners: WinnersData[] = await this.getFullWinnersData();
       this.renderNewPage(hash, cars, winners);
     });
   }
@@ -62,7 +84,7 @@ class App {
   private async renderStartPage(): Promise<void> {
     const hash: string = window.location.hash.slice(1);
     const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-    const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
+    const winners: WinnersData[] = await this.getFullWinnersData();
     this.renderNewPage(hash, cars, winners);
   }
 
