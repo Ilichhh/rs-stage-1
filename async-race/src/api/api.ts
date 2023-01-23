@@ -1,5 +1,5 @@
 // eslint-disable-next-line object-curly-newline
-import { Car, Cars, CarEngine, CarDrive, Winner } from '../types/types';
+import { Car, Cars, CarEngine, CarDrive, Winner, Winners } from '../types/types';
 
 class Api {
   private baseLink: string;
@@ -80,10 +80,13 @@ class Api {
     }
   }
 
-  public async getWinners(page?: number, limit?: number) {
+  public async getWinners(page?: number, limit?: number): Promise<Winners> {
     const request: Response = await fetch(`${this.baseLink}/winners?_page=${page}&_limit=${limit}`);
-    const response: Winner[] = await request.json();
-    return response;
+    const response = await request.json();
+
+    const totalCount: string = <string>request.headers.get('X-Total-Count');
+    const result: Winners = { items: response, count: +totalCount };
+    return result;
   }
 
   public async createWinner(winner: Winner) {

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
-import { TextObject, WinnersData } from '../../types/types';
+import { TextObject, WinnersUpdated } from '../../types/types';
 
 class WinnersPage extends Page {
   static TextObject: TextObject = {
@@ -8,14 +9,21 @@ class WinnersPage extends Page {
 
   public currentPage: number;
 
+  public prevPageBtn: HTMLButtonElement;
+
+  public nextPageBtn: HTMLButtonElement;
+
   constructor(id: string) {
     super(id);
     this.currentPage = 1;
+    this.prevPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__prev-btn button');
+    this.nextPageBtn = <HTMLButtonElement>this.createElement('button', 'pages-controls__next-btn button');
   }
 
-  render(winners: WinnersData[], page: number, limit: number): HTMLElement {
+  render(winners: WinnersUpdated, page: number, limit: number): HTMLElement {
     console.log(page);
     console.log(limit);
+    console.log(winners.count, 'total');
     console.log(winners);
     this.main.innerHTML = '';
     const container = document.createElement('div');
@@ -52,7 +60,7 @@ class WinnersPage extends Page {
     const winnersBody = this.createElement('tbody', 'winners__body');
     container.append(winnersBody);
 
-    winners.forEach((winner, index) => {
+    winners.items.forEach((winner, index) => {
       const row = this.createElement('tr', 'winners__data');
       winnersBody.append(row);
 
@@ -89,6 +97,25 @@ class WinnersPage extends Page {
       row.append(wins);
       row.append(time);
     });
+
+    const pagesControls = this.createElement('div', 'pages-controls');
+
+    this.prevPageBtn.innerText = 'PREV';
+    if (page === 1) this.prevPageBtn.disabled = true;
+    else this.prevPageBtn.disabled = false;
+    pagesControls.append(this.prevPageBtn);
+
+    const currentPageIndex = this.createElement('span', 'pages-controls__current-index');
+    currentPageIndex.innerText = page.toString();
+    pagesControls.append(currentPageIndex);
+
+    this.nextPageBtn.innerText = 'NEXT';
+    const totalPages: number = Math.ceil(<number>winners.count / limit);
+    if (page === totalPages || totalPages < 2) this.nextPageBtn.disabled = true;
+    else this.nextPageBtn.disabled = false;
+    pagesControls.append(this.nextPageBtn);
+
+    container.append(pagesControls);
 
     return this.main;
   }

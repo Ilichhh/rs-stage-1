@@ -6,7 +6,7 @@ import Page404 from '../pages/404/404';
 import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
 // eslint-disable-next-line object-curly-newline
-import { PageIds, ErrorTypes, Cars, Car, CarEngine, RaceResult, WinnersData } from '../types/types';
+import { PageIds, ErrorTypes, Cars, Car, CarEngine, RaceResult, WinnersUpdated } from '../types/types';
 
 const RANDOM_CARS_COUNT = 10;
 const CARS_PER_PAGE = 7;
@@ -27,10 +27,10 @@ class App {
 
   private carId: number;
 
-  private renderNewPage(idPage: string, cars: Cars, winners: WinnersData[]): void {
+  private renderNewPage(idPage: string, cars: Cars, winners: WinnersUpdated): void {
     const currentPageHTML = document.getElementById(App.defaultPageId);
     currentPageHTML?.remove();
-    let page: GaragePage | WinnersPage | Page404 | null = null;
+    let page;
     let pageHTML: HTMLElement;
 
     if (idPage === PageIds.GaragePage || !idPage) {
@@ -53,15 +53,16 @@ class App {
   private async getFullWinnersData() {
     // eslint-disable-next-line max-len
     const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
-    const updatedWinners: WinnersData[] = [];
+    const updatedWinners: WinnersUpdated = { items: [], count: winners.count };
     const promises: Promise<Car>[] = [];
 
-    winners.forEach((winner) => {
+    winners.items.forEach((winner) => {
       promises.push(this.api.getCar(winner.id));
     });
     const winnersAddData = await Promise.all(promises);
-    winners.forEach((winner, index) => {
-      updatedWinners.push({
+
+    winners.items.forEach((winner, index) => {
+      updatedWinners.items.push({
         id: winner.id,
         wins: winner.wins,
         time: winner.time,
@@ -76,7 +77,7 @@ class App {
     window.addEventListener('hashchange', async () => {
       const hash: string = window.location.hash.slice(1);
       const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-      const winners: WinnersData[] = await this.getFullWinnersData();
+      const winners: WinnersUpdated = await this.getFullWinnersData();
       this.renderNewPage(hash, cars, winners);
     });
   }
@@ -84,7 +85,7 @@ class App {
   private async renderStartPage(): Promise<void> {
     const hash: string = window.location.hash.slice(1);
     const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-    const winners: WinnersData[] = await this.getFullWinnersData();
+    const winners: WinnersUpdated = await this.getFullWinnersData();
     this.renderNewPage(hash, cars, winners);
   }
 
@@ -174,8 +175,8 @@ class App {
       const bestRes = receResult.filter((car) => car.finished).sort((a, b) => a.time - b.time)[0];
       const winner = { id: bestRes.id, wins: 1, time: bestRes.time / 1000 };
       const winnersData = await this.api.getWinners();
-      if (winnersData.map((w) => w.id).includes(winner.id)) {
-        const pastWinnersData = winnersData.filter((wi) => wi.id === winner.id)[0];
+      if (winnersData.items.map((w) => w.id).includes(winner.id)) {
+        const pastWinnersData = winnersData.items.filter((wi) => wi.id === winner.id)[0];
         const newWinsNumber = pastWinnersData.wins + 1;
         if (pastWinnersData.time < winner.time) winner.time = pastWinnersData.time;
         winner.wins = newWinsNumber;

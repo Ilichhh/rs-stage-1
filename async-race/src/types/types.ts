@@ -51,6 +51,16 @@ export type Winner = {
   time: number;
 };
 
+export type Winners = {
+  items: Winner[];
+  count: number | null;
+};
+
+export type WinnersUpdated = {
+  items: WinnersData[];
+  count: number | null;
+};
+
 export type WinnersData = {
   id: number;
   wins: number;

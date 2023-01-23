@@ -1,5 +1,5 @@
 import DomElement from './domElement';
-import { Cars, Winner } from '../types/types';
+import { Cars, WinnersUpdated } from '../types/types';
 
 class Page extends DomElement {
   public main: HTMLElement;
@@ -18,7 +18,7 @@ class Page extends DomElement {
     return headerTitle;
   }
 
-  render(cars: Cars | Winner[], itemsPerPage: number, page: number): HTMLElement {
+  render(cars: Cars | WinnersUpdated, itemsPerPage: number, page: number): HTMLElement {
     return this.main;
   }
 }
