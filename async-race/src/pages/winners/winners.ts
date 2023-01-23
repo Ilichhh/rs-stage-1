@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
-import { TextObject, WinnersUpdated } from '../../types/types';
+import { WinnersUpdated } from '../../types/types';
 
 class WinnersPage extends Page {
-  static TextObject: TextObject = {
-    MainTitle: 'Winners',
-  };
-
   public currentPage: number;
 
   public prevPageBtn: HTMLButtonElement;
@@ -21,16 +17,13 @@ class WinnersPage extends Page {
   }
 
   render(winners: WinnersUpdated, page: number, limit: number): HTMLElement {
-    console.log(page);
-    console.log(limit);
-    console.log(winners.count, 'total');
-    console.log(winners);
+    console.log(this.currentPage);
     this.main.innerHTML = '';
     const container = document.createElement('div');
     container.className = 'container';
     this.main.append(container);
 
-    const title = this.createHeaderTitle(WinnersPage.TextObject.MainTitle);
+    const title = this.createHeaderTitle(`Winners (${winners.count})`);
     container.append(title);
 
     // Table
@@ -67,7 +60,7 @@ class WinnersPage extends Page {
       winnersBody.append(row);
 
       const number = this.createElement('td', 'winners__number');
-      number.textContent = (index + 1).toString();
+      number.textContent = (index + 1 + (page * 10 - 10)).toString();
 
       const carImage = this.createElement('td', 'winners__car-img');
       carImage.innerHTML = `
@@ -103,17 +96,17 @@ class WinnersPage extends Page {
     const pagesControls = this.createElement('div', 'pages-controls pages-controls_winners');
 
     this.prevPageBtn.innerText = 'PREV';
-    if (page === 1) this.prevPageBtn.disabled = true;
+    if (this.currentPage === 1) this.prevPageBtn.disabled = true;
     else this.prevPageBtn.disabled = false;
     pagesControls.append(this.prevPageBtn);
 
     const currentPageIndex = this.createElement('span', 'pages-controls__current-index');
-    currentPageIndex.innerText = page.toString();
+    currentPageIndex.innerText = this.currentPage.toString();
     pagesControls.append(currentPageIndex);
 
     this.nextPageBtn.innerText = 'NEXT';
     const totalPages: number = Math.ceil(<number>winners.count / limit);
-    if (page === totalPages || totalPages < 2) this.nextPageBtn.disabled = true;
+    if (this.currentPage === totalPages || totalPages < 2) this.nextPageBtn.disabled = true;
     else this.nextPageBtn.disabled = false;
     pagesControls.append(this.nextPageBtn);
 

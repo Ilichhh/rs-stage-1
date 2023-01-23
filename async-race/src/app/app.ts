@@ -52,6 +52,7 @@ class App {
 
   private async getFullWinnersData() {
     // eslint-disable-next-line max-len
+    console.log('page to get', this.winners.currentPage);
     const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
     const updatedWinners: WinnersUpdated = { items: [], count: winners.count };
     const promises: Promise<Car>[] = [];
@@ -134,6 +135,11 @@ class App {
     this.garage.renderRaceSection(cars, this.garage.currentPage, CARS_PER_PAGE);
   }
 
+  private async redrawWinnersSection() {
+    const winners = await this.getFullWinnersData();
+    this.winners.render(winners, this.winners.currentPage, WINNERS_PER_PAGE);
+  }
+
   constructor() {
     this.header = new Header('header', 'header');
     this.api = new Api('http://localhost:3000');
@@ -147,6 +153,16 @@ class App {
 
     this.renderStartPage();
     this.enableRouteChange();
+
+    this.winners.nextPageBtn.addEventListener('click', () => {
+      this.winners.currentPage += 1;
+      this.redrawWinnersSection();
+    });
+
+    this.winners.prevPageBtn.addEventListener('click', () => {
+      this.winners.currentPage -= 1;
+      this.redrawWinnersSection();
+    });
 
     this.garage.generateCarsBtn.addEventListener('click', () => this.generateRandomCars());
     this.garage.createCarForm.addEventListener('submit', (e) => this.createCar(e));
