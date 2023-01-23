@@ -8,7 +8,7 @@ import RandomCarGenerator from '../utils/randomCarGenerator';
 // eslint-disable-next-line object-curly-newline
 import { PageIds, ErrorTypes, Cars, Car, CarEngine, RaceResult, WinnersUpdated } from '../types/types';
 
-const RANDOM_CARS_COUNT = 10;
+const RANDOM_CARS_COUNT = 100;
 const CARS_PER_PAGE = 7;
 const WINNERS_PER_PAGE = 10;
 
@@ -26,6 +26,8 @@ class App {
   private winners: WinnersPage;
 
   private carId: number;
+
+  private raceMode: boolean;
 
   private renderNewPage(idPage: string, cars: Cars, winners: WinnersUpdated): void {
     const currentPageHTML = document.getElementById(App.defaultPageId);
@@ -74,10 +76,12 @@ class App {
 
   private enableRouteChange(): void {
     window.addEventListener('hashchange', async () => {
-      const hash: string = window.location.hash.slice(1);
-      const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-      const winners: WinnersUpdated = await this.getFullWinnersData();
-      this.renderNewPage(hash, cars, winners);
+      if (!this.raceMode) {
+        const hash: string = window.location.hash.slice(1);
+        const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
+        const winners: WinnersUpdated = await this.getFullWinnersData();
+        this.renderNewPage(hash, cars, winners);
+      }
     });
   }
 
@@ -144,6 +148,7 @@ class App {
     this.garage = new GaragePage('garage');
     this.winners = new WinnersPage('winners');
     this.carId = 0;
+    this.raceMode = false;
   }
 
   async start() {
@@ -179,17 +184,22 @@ class App {
     this.garage.updateCarForm.addEventListener('submit', (e) => this.updateCar(e));
 
     this.garage.nextPageBtn.addEventListener('click', () => {
-      this.garage.currentPage += 1;
-      this.redrawRaceSection();
+      if (!this.raceMode) {
+        this.garage.currentPage += 1;
+        this.redrawRaceSection();
+      }
     });
 
     this.garage.prevPageBtn.addEventListener('click', () => {
-      this.garage.currentPage -= 1;
-      this.redrawRaceSection();
+      if (!this.raceMode) {
+        this.garage.currentPage -= 1;
+        this.redrawRaceSection();
+      }
     });
 
     this.garage.raceButton.addEventListener('click', async () => {
       this.garage.raceButton.disabled = true;
+      this.raceMode = true;
       const carsPromises: Promise<RaceResult>[] = [];
       const cars: HTMLButtonElement[] = <HTMLButtonElement[]>[
         ...document.querySelectorAll('.car-controller__start-btn'),
@@ -210,8 +220,8 @@ class App {
       } else {
         await this.api.createWinner(winner);
       }
-      console.log(await this.api.getWinners());
       this.garage.resetButton.disabled = false;
+      this.raceMode = false;
     });
 
     this.garage.resetButton.addEventListener('click', async () => {
@@ -225,6 +235,7 @@ class App {
       this.redrawRaceSection();
       this.garage.raceButton.disabled = false;
       this.garage.resetButton.disabled = true;
+      this.garage.winnerMessage.innerText = '';
     });
 
     this.garage.main.addEventListener('click', async (e) => {
@@ -271,11 +282,11 @@ class App {
     const stopBtn: HTMLButtonElement = <HTMLButtonElement>target.parentNode?.children[1];
     const trackLength: number = trackElement.clientWidth - 200;
     const id: string = <string>target.closest('.car-controller')?.id;
+    target.disabled = true;
     const engine: CarEngine = await this.api.engineStart(+id);
     const time: number = Math.round(engine.distance / engine.velocity);
     const carName = trackElement.parentNode?.children[0].children[2].textContent;
 
-    target.disabled = true;
     stopBtn.disabled = false;
 
     let position: number = 0;
@@ -290,18 +301,17 @@ class App {
     step();
 
     stopBtn.addEventListener('click', async () => {
+      stopBtn.disabled = true;
       await this.api.engineStop(+id);
       position = 0;
       car.style.transform = 'translateX(0px)';
       engine.velocity = 0;
       target.disabled = false;
-      stopBtn.disabled = true;
     });
 
     const res = await this.api.drive(+id);
     if (res.success && engine.velocity) {
-      console.log(time);
-      if (!this.garage.winnerMessage.innerText.length) {
+      if (!this.garage.winnerMessage.innerText.length && this.raceMode) {
         const convertedTime = time / 1000;
         this.garage.winnerMessage.innerText = `${carName} won with a result of ${convertedTime}s`;
         setTimeout(() => {

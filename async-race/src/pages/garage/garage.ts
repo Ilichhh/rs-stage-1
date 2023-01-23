@@ -137,6 +137,8 @@ class GaragePage extends Page {
 
   public renderRaceSection(cars: Cars, page: number, limit: number): void {
     this.raceSection.innerHTML = '';
+    this.raceButton.disabled = false;
+    this.resetButton.disabled = true;
 
     const title = this.createHeaderTitle(`Garage (${cars.count})`);
     this.raceSection.append(title);
