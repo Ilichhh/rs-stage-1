@@ -34,8 +34,10 @@ class WinnersPage extends Page {
     container.append(title);
 
     // Table
+    const tableWrapper = this.createElement('div', 'table-wrapper');
+    container.append(tableWrapper);
     const winnersTable = this.createElement('table', 'winners');
-    container.append(winnersTable);
+    tableWrapper.append(winnersTable);
 
     // Header
     const winnersHeader = this.createElement('tr', 'winners__header');
@@ -54,11 +56,11 @@ class WinnersPage extends Page {
     const headerTime = this.createElement('td', 'winners__header-best-time');
     headerTime.textContent = 'Time';
     winnersHeader.append(headerTime);
-    container.append(winnersHeader);
+    winnersTable.append(winnersHeader);
 
     // Body
     const winnersBody = this.createElement('tbody', 'winners__body');
-    container.append(winnersBody);
+    winnersTable.append(winnersBody);
 
     winners.items.forEach((winner, index) => {
       const row = this.createElement('tr', 'winners__data');
@@ -98,7 +100,7 @@ class WinnersPage extends Page {
       row.append(time);
     });
 
-    const pagesControls = this.createElement('div', 'pages-controls');
+    const pagesControls = this.createElement('div', 'pages-controls pages-controls_winners');
 
     this.prevPageBtn.innerText = 'PREV';
     if (page === 1) this.prevPageBtn.disabled = true;
@@ -115,7 +117,7 @@ class WinnersPage extends Page {
     else this.nextPageBtn.disabled = false;
     pagesControls.append(this.nextPageBtn);
 
-    container.append(pagesControls);
+    tableWrapper.append(pagesControls);
 
     return this.main;
   }

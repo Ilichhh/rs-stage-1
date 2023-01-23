@@ -45,6 +45,11 @@
   align-items: center;
   width: 220px;
   margin: 0 auto;
+
+  &_winners {
+    margin-left: 200px;
+    margin-top: 25px;
+  }
 }
 
 .winner-message {
