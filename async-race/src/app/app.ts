@@ -51,8 +51,6 @@ class App {
   }
 
   private async getFullWinnersData() {
-    // eslint-disable-next-line max-len
-    console.log('page to get', this.winners.currentPage);
     const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
     const updatedWinners: WinnersUpdated = { items: [], count: winners.count };
     const promises: Promise<Car>[] = [];
@@ -235,6 +233,7 @@ class App {
         // Delete
         const id: string = <string>target.closest('.car-controller')?.id;
         await this.api.deleteCar(+id);
+        await this.api.deleteWinner(+id);
         let cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
         cars.items = cars.items.filter((car) => car.id !== +id);
         if (cars.items.length === 0 && this.garage.currentPage !== 1) {
@@ -246,9 +245,9 @@ class App {
         // Edit
         const id: string = <string>target.closest('.car-controller')?.id;
         this.carId = +id;
+        const car = await this.api.getCar(+id);
         this.garage.updateCarName.disabled = false;
         this.garage.createCarName.disabled = true;
-        const car = await this.api.getCar(+id);
         this.garage.updateCarName.placeholder = 'enter name';
         this.garage.createCarName.placeholder = '';
         this.garage.updateCarName.value = car.name;

@@ -110,6 +110,10 @@ class Api {
       },
     });
   }
+
+  public async deleteWinner(id: number) {
+    await fetch(`${this.baseLink}/winners/${id}`, { method: 'DELETE' });
+  }
 }
 
 export default Api;

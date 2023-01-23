@@ -21,7 +21,6 @@ class GaragePage extends Page {
       id: 'update-name',
       name: 'car-name',
       placeholder: '',
-      disabled: 'disabled',
     },
     updateCarColor: {
       type: 'color',
@@ -68,11 +67,15 @@ class GaragePage extends Page {
     this.createCarName = <HTMLInputElement>this.createElement('input', 'management__create-input');
     this.creteCarColor = <HTMLInputElement>this.createElement('input', 'management__create-color');
     this.createCarButton = <HTMLButtonElement>this.createElement('button', 'management__create-btn button');
+    this.createCarName.disabled = false;
+    this.createCarButton.disabled = false;
 
     this.updateCarForm = <HTMLFormElement>this.createElement('form', 'management__update-form');
     this.updateCarName = <HTMLInputElement>this.createElement('input', 'management__update-input');
     this.updateCarColor = <HTMLInputElement>this.createElement('input', 'management__update-color');
     this.updateCarButton = <HTMLButtonElement>this.createElement('button', 'management__update-btn button');
+    this.updateCarName.disabled = true;
+    this.updateCarButton.disabled = true;
 
     this.currentPage = 1;
     this.raceSection = this.createElement('div', 'race-container');
@@ -91,7 +94,6 @@ class GaragePage extends Page {
 
     section.append(this.createCarForm);
 
-    this.createCarName.disabled = false;
     this.setMultipleAttributes(this.createCarName, GaragePage.AttributesObject.createCarInput);
     this.createCarForm.append(this.createCarName);
 
@@ -99,7 +101,7 @@ class GaragePage extends Page {
     this.createCarForm.append(this.creteCarColor);
 
     this.createCarButton.setAttribute('type', 'submit');
-    this.createCarButton.disabled = false;
+
     this.createCarButton.innerText = 'CREATE';
     this.createCarForm.append(this.createCarButton);
 
@@ -113,7 +115,7 @@ class GaragePage extends Page {
 
     this.updateCarButton.setAttribute('type', 'submit');
     this.updateCarButton.innerText = 'UPDATE';
-    this.updateCarButton.disabled = true;
+
     this.updateCarForm.append(this.updateCarButton);
 
     return section;

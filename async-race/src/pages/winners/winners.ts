@@ -27,7 +27,6 @@ class WinnersPage extends Page {
   }
 
   render(winners: WinnersUpdated, page: number, limit: number): HTMLElement {
-    console.log(this.currentPage);
     this.main.innerHTML = '';
     const container = document.createElement('div');
     container.className = 'container';
@@ -65,6 +64,7 @@ class WinnersPage extends Page {
 
     const sortedData = this.sortWinners(winners.items, this.sortingFilter);
 
+    console.log(sortedData);
     sortedData.forEach((winner, index) => {
       const row = this.createElement('tr', 'winners__data');
       winnersBody.append(row);
