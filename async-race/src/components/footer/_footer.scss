@@ -1,0 +1,13 @@
+.container_footer {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.social__link {
+  color: $blue-color;
+  &:hover {
+    color: $yellow-color;
+  }
+}

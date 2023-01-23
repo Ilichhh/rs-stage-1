@@ -2,6 +2,13 @@ body {
   background-color: $dark-color;
 }
 
+#main {
+  min-height: calc(100vh - 55px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .container {
   width: calc(100vw - 40px);
   max-width: 1200px;

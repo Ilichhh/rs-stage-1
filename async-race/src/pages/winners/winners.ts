@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
+import Footer from '../../components/footer/footer';
 import { WinnersData, WinnersUpdated } from '../../types/types';
 
 class WinnersPage extends Page {
@@ -120,6 +121,7 @@ class WinnersPage extends Page {
     pagesControls.append(this.nextPageBtn);
 
     tableWrapper.append(pagesControls);
+    this.main.append(Footer.render());
 
     return this.main;
   }

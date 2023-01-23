@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/keyword-spacing */
 import Page from '../../templates/page';
 import CarController from '../../components/car-controller/carController';
+import Footer from '../../components/footer/footer';
 import { AttributesObject, Cars } from '../../types/types';
 
 class GaragePage extends Page {
@@ -188,6 +189,7 @@ class GaragePage extends Page {
     // Race section
     this.renderRaceSection(cars, page, limit);
     container.append(this.raceSection);
+    this.main.append(Footer.render());
 
     return this.main;
   }

@@ -129,6 +129,10 @@ class App {
       await this.api.updateCar(this.carId, this.garage.updateCarName.value, this.garage.updateCarColor.value);
       this.garage.updateCarName.value = '';
       this.renderStartPage();
+      this.garage.createCarName.disabled = false;
+      this.garage.createCarButton.disabled = false;
+      this.garage.updateCarName.disabled = true;
+      this.garage.updateCarButton.disabled = true;
     }
   }
 
@@ -153,8 +157,7 @@ class App {
 
   async start() {
     App.body.append(this.header.render());
-
-    this.renderStartPage();
+    await this.renderStartPage();
     this.enableRouteChange();
 
     this.winners.nextPageBtn.addEventListener('click', () => {
