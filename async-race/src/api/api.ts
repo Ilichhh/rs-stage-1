@@ -70,26 +70,21 @@ class Api {
     return { success: false };
   }
 
-  public async getWinner(id: number) {
-    try {
-      const request: Response = await fetch(`${this.baseLink}/winner/${id}`);
-      const response: Winner = await request.json();
-      return response;
-    } catch {
-      return null;
-    }
+  public async getWinner(id: number): Promise<Winner> {
+    const request: Response = await fetch(`${this.baseLink}/winner/${id}`);
+    const response: Winner = await request.json();
+    return response;
   }
 
   public async getWinners(page?: number, limit?: number): Promise<Winners> {
     const request: Response = await fetch(`${this.baseLink}/winners?_page=${page}&_limit=${limit}`);
-    const response = await request.json();
-
+    const response: Winner[] = await request.json();
     const totalCount: string = <string>request.headers.get('X-Total-Count');
     const result: Winners = { items: response, count: +totalCount };
     return result;
   }
 
-  public async createWinner(winner: Winner) {
+  public async createWinner(winner: Winner): Promise<void> {
     const data: string = JSON.stringify(winner);
     await fetch(`${this.baseLink}/winners`, {
       method: 'POST',
@@ -100,7 +95,7 @@ class Api {
     });
   }
 
-  public async updateWinner(winner: Winner) {
+  public async updateWinner(winner: Winner): Promise<void> {
     const data: string = JSON.stringify({ wins: winner.wins, time: winner.time });
     await fetch(`${this.baseLink}/winners/${winner.id}`, {
       method: 'PUT',
@@ -111,7 +106,7 @@ class Api {
     });
   }
 
-  public async deleteWinner(id: number) {
+  public async deleteWinner(id: number): Promise<void> {
     await fetch(`${this.baseLink}/winners/${id}`, { method: 'DELETE' });
   }
 }

@@ -2,7 +2,7 @@ import Component from '../../templates/component';
 import { PageIds } from '../../types/types';
 
 class Header extends Component {
-  constructor(tagName: string, className: string) {
+  public constructor(tagName: string, className: string) {
     super(tagName, className);
   }
 
