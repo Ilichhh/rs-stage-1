@@ -6,7 +6,7 @@ import Page404 from '../pages/404/404';
 import Api from '../api/api';
 import RandomCarGenerator from '../utils/randomCarGenerator';
 // eslint-disable-next-line object-curly-newline
-import { PageIds, ErrorTypes, Cars, Car, CarEngine, RaceResult, WinnersUpdated } from '../types/types';
+import { PageIds, ErrorTypes, Cars, CarEngine, RaceResult, WinnersUpdated } from '../types/types';
 
 const RANDOM_CARS_COUNT = 100;
 const CARS_PER_PAGE = 7;
@@ -52,35 +52,10 @@ class App {
     }
   }
 
-  private async getFullWinnersData() {
-    const winners = await this.api.getWinners(this.winners.currentPage, WINNERS_PER_PAGE);
-    const updatedWinners: WinnersUpdated = { items: [], count: winners.count };
-    const promises: Promise<Car>[] = [];
-
-    winners.items.forEach((winner) => {
-      promises.push(this.api.getCar(winner.id));
-    });
-    const winnersAddData = await Promise.all(promises);
-
-    winners.items.forEach((winner, index) => {
-      updatedWinners.items.push({
-        id: winner.id,
-        wins: winner.wins,
-        time: winner.time,
-        name: winnersAddData[index].name,
-        color: winnersAddData[index].color,
-      });
-    });
-    return updatedWinners;
-  }
-
   private enableRouteChange(): void {
     window.addEventListener('hashchange', async () => {
       if (!this.raceMode) {
-        const hash: string = window.location.hash.slice(1);
-        const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-        const winners: WinnersUpdated = await this.getFullWinnersData();
-        this.renderNewPage(hash, cars, winners);
+        this.renderStartPage();
       }
     });
   }
@@ -88,7 +63,8 @@ class App {
   private async renderStartPage(): Promise<void> {
     const hash: string = window.location.hash.slice(1);
     const cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-    const winners: WinnersUpdated = await this.getFullWinnersData();
+    // eslint-disable-next-line max-len
+    const winners: WinnersUpdated = await this.api.getFullWinnersData(this.winners.currentPage, WINNERS_PER_PAGE);
     this.renderNewPage(hash, cars, winners);
   }
 
@@ -142,7 +118,7 @@ class App {
   }
 
   private async redrawWinnersSection() {
-    const winners = await this.getFullWinnersData();
+    const winners = await this.api.getFullWinnersData(this.winners.currentPage, WINNERS_PER_PAGE);
     this.winners.render(winners, this.winners.currentPage, WINNERS_PER_PAGE);
   }
 
@@ -153,6 +129,120 @@ class App {
     this.winners = new WinnersPage('winners');
     this.carId = 0;
     this.raceMode = false;
+  }
+
+  private async resetRace(): Promise<void> {
+    const carsPromises: Promise<CarEngine>[] = [];
+    const cars: HTMLElement[] = <HTMLElement[]>[...document.querySelectorAll('.car-controller')];
+    cars.forEach((car) => {
+      const id: string = <string>car.id;
+      carsPromises.push(this.api.engineStop(+id));
+    });
+    await Promise.all(carsPromises);
+    this.redrawRaceSection();
+    this.garage.raceButton.disabled = false;
+    this.garage.resetButton.disabled = true;
+    this.garage.winnerMessage.innerText = '';
+  }
+
+  private async race(): Promise<void> {
+    this.garage.raceButton.disabled = true;
+    this.raceMode = true;
+    const carsPromises: Promise<RaceResult>[] = [];
+    const cars: HTMLButtonElement[] = <HTMLButtonElement[]>[...document.querySelectorAll('.car-controller__start-btn')];
+    cars.forEach((car) => {
+      carsPromises.push(this.driveCar(car));
+    });
+    const receResult: RaceResult[] = await Promise.all(carsPromises);
+    const bestRes = receResult.filter((car) => car.finished).sort((a, b) => a.time - b.time)[0];
+    const winner = { id: bestRes.id, wins: 1, time: bestRes.time / 1000 };
+    const winnersData = await this.api.getWinners();
+    if (winnersData.items.map((w) => w.id).includes(winner.id)) {
+      const pastWinnersData = winnersData.items.filter((wi) => wi.id === winner.id)[0];
+      const newWinsNumber = pastWinnersData.wins + 1;
+      if (pastWinnersData.time < winner.time) winner.time = pastWinnersData.time;
+      winner.wins = newWinsNumber;
+      await this.api.updateWinner(winner);
+    } else {
+      await this.api.createWinner(winner);
+    }
+    this.garage.resetButton.disabled = false;
+    this.raceMode = false;
+  }
+
+  private async deleteCar(target: HTMLElement): Promise<void> {
+    const id: string = <string>target.closest('.car-controller')?.id;
+    await this.api.deleteCar(+id);
+    await this.api.deleteWinner(+id);
+    let cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
+    cars.items = cars.items.filter((car) => car.id !== +id);
+    if (cars.items.length === 0 && this.garage.currentPage !== 1) {
+      this.garage.currentPage -= 1;
+      cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
+    }
+    this.garage.renderRaceSection(cars, this.garage.currentPage, CARS_PER_PAGE);
+  }
+
+  private async editCar(target: HTMLElement): Promise<void> {
+    const id: string = <string>target.closest('.car-controller')?.id;
+    this.carId = +id;
+    const car = await this.api.getCar(+id);
+    this.garage.updateCarName.disabled = false;
+    this.garage.createCarName.disabled = true;
+    this.garage.updateCarName.placeholder = 'enter name';
+    this.garage.createCarName.placeholder = '';
+    this.garage.updateCarName.value = car.name;
+    this.garage.updateCarColor.value = car.color;
+    this.garage.updateCarButton.disabled = false;
+    this.garage.createCarButton.disabled = true;
+  }
+
+  private async driveCar(target: HTMLButtonElement) {
+    const trackElement: HTMLElement = <HTMLElement>target.parentNode?.parentNode;
+    const car: HTMLElement = <HTMLElement>trackElement.children[1];
+    const stopBtn: HTMLButtonElement = <HTMLButtonElement>target.parentNode?.children[1];
+    const trackLength: number = trackElement.clientWidth - 200;
+    const id: string = <string>target.closest('.car-controller')?.id;
+    target.disabled = true;
+    const engine: CarEngine = await this.api.engineStart(+id);
+    const time: number = Math.round(engine.distance / engine.velocity);
+    const carName = trackElement.parentNode?.children[0].children[2].textContent;
+    let position: number = 0;
+    const framesCount: number = (time / 1000) * 60;
+    const shift: number = trackLength / framesCount;
+    stopBtn.disabled = false;
+
+    function step() {
+      position += shift;
+      car.style.transform = `translateX(${position}px)`;
+      if (position < trackLength && engine.velocity) requestAnimationFrame(step);
+    }
+    step();
+
+    stopBtn.addEventListener('click', async () => {
+      stopBtn.disabled = true;
+      await this.api.engineStop(+id);
+      position = 0;
+      car.style.transform = 'translateX(0px)';
+      engine.velocity = 0;
+      target.disabled = false;
+    });
+
+    const res = await this.api.drive(+id);
+    if (res.success && engine.velocity) {
+      if (!this.garage.winnerMessage.innerText.length && this.raceMode) {
+        const convertedTime = time / 1000;
+        this.garage.winnerMessage.innerText = `${carName} won with a result of ${convertedTime}s`;
+        setTimeout(() => {
+          this.garage.winnerMessage.innerText = '';
+        }, 10000);
+      }
+    }
+    if (!res.success) {
+      engine.velocity = 0;
+    }
+
+    return { id: +id, time, finished: res.success };
   }
 
   async start() {
@@ -200,133 +290,22 @@ class App {
       }
     });
 
-    this.garage.raceButton.addEventListener('click', async () => {
-      this.garage.raceButton.disabled = true;
-      this.raceMode = true;
-      const carsPromises: Promise<RaceResult>[] = [];
-      const cars: HTMLButtonElement[] = <HTMLButtonElement[]>[
-        ...document.querySelectorAll('.car-controller__start-btn'),
-      ];
-      cars.forEach((car) => {
-        carsPromises.push(this.driveCar(car));
-      });
-      const receResult: RaceResult[] = await Promise.all(carsPromises);
-      const bestRes = receResult.filter((car) => car.finished).sort((a, b) => a.time - b.time)[0];
-      const winner = { id: bestRes.id, wins: 1, time: bestRes.time / 1000 };
-      const winnersData = await this.api.getWinners();
-      if (winnersData.items.map((w) => w.id).includes(winner.id)) {
-        const pastWinnersData = winnersData.items.filter((wi) => wi.id === winner.id)[0];
-        const newWinsNumber = pastWinnersData.wins + 1;
-        if (pastWinnersData.time < winner.time) winner.time = pastWinnersData.time;
-        winner.wins = newWinsNumber;
-        await this.api.updateWinner(winner);
-      } else {
-        await this.api.createWinner(winner);
-      }
-      this.garage.resetButton.disabled = false;
-      this.raceMode = false;
-    });
-
-    this.garage.resetButton.addEventListener('click', async () => {
-      const carsPromises: Promise<CarEngine>[] = [];
-      const cars: HTMLElement[] = <HTMLElement[]>[...document.querySelectorAll('.car-controller')];
-      cars.forEach((car) => {
-        const id: string = <string>car.id;
-        carsPromises.push(this.api.engineStop(+id));
-      });
-      await Promise.all(carsPromises);
-      this.redrawRaceSection();
-      this.garage.raceButton.disabled = false;
-      this.garage.resetButton.disabled = true;
-      this.garage.winnerMessage.innerText = '';
-    });
+    this.garage.raceButton.addEventListener('click', async () => this.race());
+    this.garage.resetButton.addEventListener('click', async () => this.resetRace());
 
     this.garage.main.addEventListener('click', async (e) => {
       const target: HTMLElement = <HTMLElement>e.target;
       if (target.classList.contains('car-controller__delete-btn')) {
-        // Delete
-        const id: string = <string>target.closest('.car-controller')?.id;
-        await this.api.deleteCar(+id);
-        await this.api.deleteWinner(+id);
-        let cars: Cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-        cars.items = cars.items.filter((car) => car.id !== +id);
-        if (cars.items.length === 0 && this.garage.currentPage !== 1) {
-          this.garage.currentPage -= 1;
-          cars = await this.api.getCars(this.garage.currentPage, CARS_PER_PAGE);
-        }
-        this.garage.renderRaceSection(cars, this.garage.currentPage, CARS_PER_PAGE);
+        this.deleteCar(target);
       } else if (target.classList.contains('car-controller__edit-btn')) {
-        // Edit
-        const id: string = <string>target.closest('.car-controller')?.id;
-        this.carId = +id;
-        const car = await this.api.getCar(+id);
-        this.garage.updateCarName.disabled = false;
-        this.garage.createCarName.disabled = true;
-        this.garage.updateCarName.placeholder = 'enter name';
-        this.garage.createCarName.placeholder = '';
-        this.garage.updateCarName.value = car.name;
-        this.garage.updateCarColor.value = car.color;
-        this.garage.updateCarButton.disabled = false;
-        this.garage.createCarButton.disabled = true;
+        this.editCar(target);
       } else if (target.classList.contains('car-controller__start-btn')) {
-        // Start
         await this.driveCar(<HTMLButtonElement>target);
       } else if (target.classList.contains('car-controller__stop-btn')) {
-        // Stop
         const id: string = <string>target.closest('.car-controller')?.id;
         await this.api.engineStop(+id);
       }
     });
-  }
-
-  private async driveCar(target: HTMLButtonElement) {
-    const trackElement: HTMLElement = <HTMLElement>target.parentNode?.parentNode;
-    const car: HTMLElement = <HTMLElement>trackElement.children[1];
-    const stopBtn: HTMLButtonElement = <HTMLButtonElement>target.parentNode?.children[1];
-    const trackLength: number = trackElement.clientWidth - 200;
-    const id: string = <string>target.closest('.car-controller')?.id;
-    target.disabled = true;
-    const engine: CarEngine = await this.api.engineStart(+id);
-    const time: number = Math.round(engine.distance / engine.velocity);
-    const carName = trackElement.parentNode?.children[0].children[2].textContent;
-
-    stopBtn.disabled = false;
-
-    let position: number = 0;
-    const framesCount: number = (time / 1000) * 60;
-    const shift: number = trackLength / framesCount;
-
-    function step() {
-      position += shift;
-      car.style.transform = `translateX(${position}px)`;
-      if (position < trackLength && engine.velocity) requestAnimationFrame(step);
-    }
-    step();
-
-    stopBtn.addEventListener('click', async () => {
-      stopBtn.disabled = true;
-      await this.api.engineStop(+id);
-      position = 0;
-      car.style.transform = 'translateX(0px)';
-      engine.velocity = 0;
-      target.disabled = false;
-    });
-
-    const res = await this.api.drive(+id);
-    if (res.success && engine.velocity) {
-      if (!this.garage.winnerMessage.innerText.length && this.raceMode) {
-        const convertedTime = time / 1000;
-        this.garage.winnerMessage.innerText = `${carName} won with a result of ${convertedTime}s`;
-        setTimeout(() => {
-          this.garage.winnerMessage.innerText = '';
-        }, 10000);
-      }
-    }
-    if (!res.success) {
-      engine.velocity = 0;
-    }
-
-    return { id: +id, time, finished: res.success };
   }
 }
 

@@ -1,5 +1,5 @@
 // eslint-disable-next-line object-curly-newline
-import { Car, Cars, CarEngine, CarDrive, Winner, Winners } from '../types/types';
+import { Car, Cars, CarEngine, CarDrive, Winner, Winners, WinnersUpdated } from '../types/types';
 
 class Api {
   private baseLink: string;
@@ -108,6 +108,28 @@ class Api {
 
   public async deleteWinner(id: number): Promise<void> {
     await fetch(`${this.baseLink}/winners/${id}`, { method: 'DELETE' });
+  }
+
+  public async getFullWinnersData(page?: number, limit?: number): Promise<WinnersUpdated> {
+    const winners = await this.getWinners(page, limit);
+    const updatedWinners: WinnersUpdated = { items: [], count: winners.count };
+    const promises: Promise<Car>[] = [];
+
+    winners.items.forEach((winner) => {
+      promises.push(this.getCar(winner.id));
+    });
+    const winnersAddData = await Promise.all(promises);
+
+    winners.items.forEach((winner, index) => {
+      updatedWinners.items.push({
+        id: winner.id,
+        wins: winner.wins,
+        time: winner.time,
+        name: winnersAddData[index].name,
+        color: winnersAddData[index].color,
+      });
+    });
+    return updatedWinners;
   }
 }
 
